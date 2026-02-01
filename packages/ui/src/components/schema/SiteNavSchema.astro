@@ -1,0 +1,17 @@
+---
+interface Props {
+  items: { name: string; url: string }[];
+}
+const { items } = Astro.props;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  name: "Main Navigation",
+  hasPart: items.map(item => ({
+    "@type": "WebPage",
+    name: item.name,
+    url: item.url,
+  })),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

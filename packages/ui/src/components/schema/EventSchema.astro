@@ -1,0 +1,30 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  startDate: string;
+  endDate?: string;
+  location: { name: string; address: string };
+  organizer?: string;
+  url?: string;
+  image?: string;
+}
+const { name, description, startDate, endDate, location, organizer, url, image } = Astro.props;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name,
+  description,
+  startDate,
+  ...(endDate && { endDate }),
+  location: {
+    "@type": "Place",
+    name: location.name,
+    address: location.address,
+  },
+  ...(organizer && { organizer: { "@type": "Organization", name: organizer } }),
+  ...(url && { url }),
+  ...(image && { image }),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

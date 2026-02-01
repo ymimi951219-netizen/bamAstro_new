@@ -1,0 +1,32 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  priceRange: string;
+  image?: string;
+  url?: string;
+  aggregateRating?: { ratingValue: number; reviewCount: number };
+}
+const { name, description, priceRange, image, url, aggregateRating } = Astro.props;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name,
+  description,
+  ...(image && { image }),
+  ...(url && { url }),
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "KRW",
+    priceRange,
+  },
+  ...(aggregateRating && {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: aggregateRating.ratingValue,
+      reviewCount: aggregateRating.reviewCount,
+    },
+  }),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

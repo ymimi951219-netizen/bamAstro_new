@@ -1,0 +1,21 @@
+---
+interface Props {
+  places: { name: string; address: string; lat: number; lng: number; description?: string }[];
+}
+const { places } = Astro.props;
+const schemas = places.map(p => ({
+  "@context": "https://schema.org",
+  "@type": "Place",
+  name: p.name,
+  address: p.address,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: p.lat,
+    longitude: p.lng,
+  },
+  ...(p.description && { description: p.description }),
+}));
+---
+{schemas.map(s => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
