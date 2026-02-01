@@ -56,13 +56,33 @@ export interface RegionConfig {
     // 업소 타입 (지역마다 다를 수 있음)
     venueTypes: VenueType[];
 
-    // 지역별 가이드 (선택)
+    /** @deprecated Use stationDetails instead. Will be removed in future version. */
     areaGuides?: AreaGuide[];
+
+    /** Station detail configs for programmatic station pages (OPTIONAL) */
+    stationDetails?: StationDetail[];
+
+    /** Seasonal content toggles (OPTIONAL) */
+    seasonalContent?: {
+        yearendParty: boolean;
+        companyDinner: boolean;
+        birthdayParty: boolean;
+    };
 }
 
 export interface AreaGuide {
     slug: string;       // bundang-seohyeon-guide
     name: string;       // 서현역 가이드
+}
+
+export interface StationDetail {
+    name: string;           // '서현역'
+    nameEn: string;         // 'Seohyeon'
+    slug: string;           // 'seohyeon'
+    exitCount: number;      // 8
+    landmarks: string[];    // ['로데오거리', '서현역 먹자골목']
+    description: string;    // Area description for SEO (200+ chars)
+    venueHighlights: string[]; // ['karaoke', 'highpublic'] - top venue types near this station
 }
 
 export interface VenueType {
@@ -115,7 +135,20 @@ export const region: RegionConfig = {
             '분당 셔츠룸',
             '분당 기모노룸',
             '분당 룸살롱',
-            '분당 호빠'
+            '분당 호빠',
+            '분당 퍼블릭',
+            '분당 일프로',
+            '분당 텐프로',
+            '분당 텐카페',
+            '분당 하이쩜오',
+            '분당 쩜오',
+            '분당 레깅스룸',
+            '분당 란제리룸',
+            '분당 노래빠',
+            '분당 보도노래방',
+            '분당 노래방보도',
+            '분당 착석바',
+            '분당 착석빠'
         ],
         description: '분당 유흥 가이드 | 서현역 로데오거리·야탑역 먹자골목 중심 하이퍼블릭·가라오케·셔츠룸 예약. 판교·서현 직장인 맞춤 코스 안내.',
         naverVerification: 'YOUR_NAVER_VERIFICATION_CODE',  // 네이버 웹마스터 도구에서 발급받은 코드로 교체
@@ -132,6 +165,45 @@ export const region: RegionConfig = {
         open: '18:00',
         close: '06:00',
     },
+
+    stationDetails: [
+        {
+            name: '서현역',
+            nameEn: 'Seohyeon',
+            slug: 'seohyeon',
+            exitCount: 8,
+            landmarks: ['로데오거리', '서현역 먹자골목', '서현 시범단지'],
+            description: '분당의 유흥 중심지. 로데오거리를 따라 다양한 하이퍼블릭, 가라오케, 룸살롱이 밀집해 있으며 직장인들의 회식과 모임 장소로 인기가 높습니다.',
+            venueHighlights: ['karaoke', 'highpublic', 'roomsalon'],
+        },
+        {
+            name: '야탑역',
+            nameEn: 'Yatap',
+            slug: 'yatap',
+            exitCount: 6,
+            landmarks: ['야탑역 먹자골목', '야탑 로데오'],
+            description: '서현역 대비 가성비 좋은 업소가 많은 지역. 셔츠룸과 호빠 위주의 캐주얼한 유흥 문화가 형성되어 있습니다.',
+            venueHighlights: ['shirtsroom', 'hostbar', 'karaoke'],
+        },
+        {
+            name: '미금역',
+            nameEn: 'Migeum',
+            slug: 'migeum',
+            exitCount: 4,
+            landmarks: ['미금역 상가', '정자동 카페거리'],
+            description: '조용하고 프라이빗한 분위기의 업소가 많은 지역. 소규모 모임이나 비즈니스 접대에 적합합니다.',
+            venueHighlights: ['roomsalon', 'kimonoroom'],
+        },
+        {
+            name: '판교역',
+            nameEn: 'Pangyo',
+            slug: 'pangyo',
+            exitCount: 6,
+            landmarks: ['판교테크노밸리', '판교 알파돔시티'],
+            description: 'IT 직장인 밀집 지역. 퇴근 후 회식이나 비즈니스 미팅을 위한 프리미엄 업소가 늘어나고 있습니다.',
+            venueHighlights: ['karaoke', 'highpublic', 'roomsalon'],
+        },
+    ],
 
     venueTypes: [
         {
@@ -194,11 +266,141 @@ export const region: RegionConfig = {
             minPrice: 150000,
             keywords: ['분당 호빠', '서현 호스트바'],
         },
+        {
+            id: 'public',
+            name: '퍼블릭',
+            slug: 'bundang-public-guide',
+            subtitle: '퍼블릭 라운지',
+            description: '캐주얼한 분위기에서 즐기는 퍼블릭 스타일 라운지',
+            image: '/images/venues/public_main.webp',
+            minPrice: 100000,
+            keywords: ['분당 퍼블릭', '분당 퍼블릭바', '서현 퍼블릭', '분당 퍼블릭 가격'],
+        },
+        {
+            id: 'ilpro',
+            name: '일프로',
+            slug: 'bundang-ilpro-guide',
+            subtitle: '1% 프리미엄',
+            description: '엄선된 1% 프리미엄 룸에서의 특별한 경험',
+            image: '/images/venues/ilpro_main.webp',
+            minPrice: 200000,
+            keywords: ['분당 일프로', '분당 1프로', '서현 일프로', '분당 일프로 가격'],
+        },
+        {
+            id: 'tenpro',
+            name: '텐프로',
+            slug: 'bundang-tenpro-guide',
+            subtitle: '10% 프리미엄',
+            description: '검증된 텐프로 시스템으로 운영되는 프리미엄 룸',
+            image: '/images/venues/tenpro_main.webp',
+            minPrice: 180000,
+            keywords: ['분당 텐프로', '분당 10프로', '서현 텐프로', '분당 텐프로 가격'],
+        },
+        {
+            id: 'tencafe',
+            name: '텐카페',
+            slug: 'bundang-tencafe-guide',
+            subtitle: '카페형 라운지',
+            description: '카페 같은 편안한 공간에서 즐기는 프리미엄 서비스',
+            image: '/images/venues/tencafe_main.webp',
+            minPrice: 120000,
+            keywords: ['분당 텐카페', '분당 10카페', '서현 텐카페', '분당 텐카페 가격'],
+        },
+        {
+            id: 'hi-jjumo',
+            name: '하이쩜오',
+            slug: 'bundang-hi-jjumo-guide',
+            subtitle: '하이 0.5 프리미엄',
+            description: '하이쩜오 시스템의 프리미엄 엔터테인먼트',
+            image: '/images/venues/hi-jjumo_main.webp',
+            minPrice: 160000,
+            keywords: ['분당 하이쩜오', '분당 하이 0.5', '서현 하이쩜오', '분당 하이쩜오 가격'],
+        },
+        {
+            id: 'jjumo',
+            name: '쩜오',
+            slug: 'bundang-jjumo-guide',
+            subtitle: '0.5 라운지',
+            description: '합리적인 가격의 쩜오 시스템 라운지',
+            image: '/images/venues/jjumo_main.webp',
+            minPrice: 120000,
+            keywords: ['분당 쩜오', '분당 0.5', '서현 쩜오', '분당 쩜오 가격'],
+        },
+        {
+            id: 'leggingsroom',
+            name: '레깅스룸',
+            slug: 'bundang-leggingsroom-guide',
+            subtitle: '테마 룸',
+            description: '레깅스 테마의 특별한 룸 엔터테인먼트',
+            image: '/images/venues/leggingsroom_main.webp',
+            minPrice: 150000,
+            keywords: ['분당 레깅스룸', '서현 레깅스룸', '분당 레깅스룸 가격', '분당 레깅스룸 후기'],
+        },
+        {
+            id: 'lingerieroom',
+            name: '란제리룸',
+            slug: 'bundang-lingerieroom-guide',
+            subtitle: '프리미엄 테마',
+            description: '란제리 테마의 프리미엄 룸 서비스',
+            image: '/images/venues/lingerieroom_main.webp',
+            minPrice: 170000,
+            keywords: ['분당 란제리룸', '서현 란제리룸', '분당 란제리룸 가격', '분당 란제리룸 후기'],
+        },
+        {
+            id: 'noraeppa',
+            name: '노래빠',
+            slug: 'bundang-noraeppa-guide',
+            subtitle: '노래 라운지',
+            description: '노래와 함께 즐기는 프리미엄 바 라운지',
+            image: '/images/venues/noraeppa_main.webp',
+            minPrice: 100000,
+            keywords: ['분당 노래빠', '분당 노래바', '서현 노래빠', '분당 노래빠 가격'],
+        },
+        {
+            id: 'bodo-noraebang',
+            name: '보도노래방',
+            slug: 'bundang-bodo-noraebang-guide',
+            subtitle: '보도 시스템',
+            description: '보도 시스템으로 운영되는 프리미엄 노래방',
+            image: '/images/venues/bodo-noraebang_main.webp',
+            minPrice: 80000,
+            keywords: ['분당 보도노래방', '서현 보도노래방', '분당 보도노래방 가격', '분당 보도노래방 후기'],
+        },
+        {
+            id: 'noraebang-bodo',
+            name: '노래방보도',
+            slug: 'bundang-noraebang-bodo-guide',
+            subtitle: '노래방 보도',
+            description: '노래방에서 즐기는 보도 서비스 시스템',
+            image: '/images/venues/noraebang-bodo_main.webp',
+            minPrice: 80000,
+            keywords: ['분당 노래방보도', '분당 노래방 보도', '서현 노래방보도', '분당 노래방보도 가격'],
+        },
+        {
+            id: 'chaksukbar',
+            name: '착석바',
+            slug: 'bundang-chaksukbar-guide',
+            subtitle: '착석 라운지',
+            description: '착석형 바에서 편안하게 즐기는 프리미엄 서비스',
+            image: '/images/venues/chaksukbar_main.webp',
+            minPrice: 100000,
+            keywords: ['분당 착석바', '서현 착석바', '분당 착석바 가격', '분당 착석바 추천'],
+        },
+        {
+            id: 'chaksukppa',
+            name: '착석빠',
+            slug: 'bundang-chaksukppa-guide',
+            subtitle: '착석 바',
+            description: '착석빠 스타일의 캐주얼 라운지 바',
+            image: '/images/venues/chaksukppa_main.webp',
+            minPrice: 100000,
+            keywords: ['분당 착석빠', '서현 착석빠', '분당 착석빠 가격', '분당 착석빠 후기'],
+        },
     ],
 
     areaGuides: [
-        { slug: 'bundang-seohyeon-guide', name: '서현역 가이드' },
-        { slug: 'bundang-yatap-guide', name: '야탑역 가이드' },
-        { slug: 'bundang-pangyo-guide', name: '판교역 가이드' },
+        { slug: '/station/seohyeon', name: '서현역 가이드' },
+        { slug: '/station/yatap', name: '야탑역 가이드' },
+        { slug: '/station/pangyo', name: '판교역 가이드' },
     ],
 };
