@@ -1,0 +1,274 @@
+---
+import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getVenueContent } from '../../content';
+import { Sparkles, Crown, Users, Star, HelpCircle, Phone, CheckCircle, ChevronRight, Gem } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [{ params: { region: region.id } }];
+}
+
+const venueId = 'ilpro';
+const venueType = region.venueTypes.find(v => v.id === venueId);
+if (!venueType) throw new Error(`Venue type '${venueId}' not found`);
+
+const content = getVenueContent(venueId)!;
+const venueName = venueType.name;
+
+const seoProps = {
+  title: `${region.name} 일프로 완벽 가이드 | 1% 프리미엄 가격·시스템·추천`,
+  description: `${region.name} 일프로 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 1% 프리미엄 룸, VIP 서비스, 가격, 예약, 이용 팁 상세 안내.`,
+  keywords: [
+    `${region.name} 일프로`,
+    `${region.name} 일프로 가격`,
+    `${region.name} 일프로 추천`,
+    `${region.name} 일프로 후기`,
+    `${region.name} 1% 프리미엄`
+  ],
+};
+
+const usageSteps = content.howToUse.steps.slice(0, 5).map(step => ({
+  name: step.title,
+  text: step.description
+}));
+
+const faqList = content.price.faqs.slice(0, 3).map(faq => ({
+  question: faq.q,
+  answer: faq.a
+}));
+
+const venues = [
+  {
+    id: 'ilp-1',
+    name: `${region.name} 프리미엄 일프로`,
+    type: '1% VIP Lounge',
+    location: `${region.nearbyStations[0]} 인근`,
+    price: '기본 20만원~, 1% 파트너 지명 10만원',
+    desc: `${region.nearbyStations[0]}에서 접근성 좋은 최상위 1% 프리미엄 룸. 비즈니스 접대와 VIP 고객 전용.`,
+    features: ['1% 등급 파트너', 'VIP 전용 룸', `${region.nearbyStations[0]} 인근`, '발렛 서비스'],
+    img: '/images/venues/ilpro_1.webp',
+  },
+  {
+    id: 'ilp-2',
+    name: `${region.nearbyStations[1]} 럭셔리 일프로`,
+    type: 'Premium VIP',
+    location: `${region.nearbyStations[1]} 인근`,
+    price: '기본 20만원~, 프리미엄 세트 50만원~',
+    desc: `${region.nearbyStations[1]} 중심 고급 인테리어와 최상의 서비스. 특별한 모임에 최적화.`,
+    features: ['럭셔리 인테리어', '전담 매니저', `${region.nearbyStations[1]} 중심`, '프라이빗 공간'],
+    img: '/images/venues/ilpro_2.webp',
+  }
+];
+
+const sections = [
+  { id: "features", title: `1. ${region.name} 일프로란?` },
+  { id: "recommendation", title: "2. 추천 업소 TOP 6" },
+  { id: "pricing", title: "3. 이용 가격 및 시스템" },
+  { id: "faq", title: "4. 이용 꿀팁 및 FAQ" }
+];
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    <BreadcrumbSchema region={region} />
+    <HowToSchema
+        name={`${region.name} 일프로 이용 방법`}
+        description="일프로 VIP 이용 가이드. 예약부터 결제까지 프리미엄 서비스 안내."
+        steps={usageSteps}
+    />
+    <FAQPageSchema items={faqList} />
+
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+        <div class="container mx-auto px-4 pb-12 max-w-6xl">
+            <div class="text-center mb-16 relative">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+                <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">1% 프리미엄</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 relative z-10 animate-fade-in-up delay-100 drop-shadow-sm">{region.name} 일프로 완벽 가이드</h1>
+                <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+            </div>
+
+            <div class="mb-20 text-center max-w-4xl mx-auto animate-fade-in-up delay-200">
+                <p class="text-xl text-slate-300 leading-relaxed font-light">
+                    {region.name} 일프로는 {region.nearbyStations.slice(0,2).join('·')} 중심 최상위 1% 프리미엄 룸 시스템입니다.<br />
+                    엄선된 VIP 파트너와 럭셔리한 서비스로 비즈니스 접대와 특별한 모임에 최적화되어 있습니다.
+                </p>
+            </div>
+
+            <TableOfContents sections={sections} />
+
+            <div id="features" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors animate-fade-in-up delay-300">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    1. {region.name} 일프로란?
+                </h2>
+                <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
+                    <p>
+                        <strong>{region.name} 일프로는 상위 1%에 해당하는 프리미엄 파트너만을 엄선하여 제공하는 최고급 엔터테인먼트 공간입니다.</strong> 외모, 서비스, 매너 모든 면에서 최상위 등급의 파트너와 함께 럭셔리한 인테리어, 전담 매니저 시스템으로 VIP 고객을 위한 프라이빗한 경험을 제공합니다.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                            <Crown class="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                            <span class="block text-white font-bold mb-1">1% Elite Partner</span>
+                            <span class="text-xs text-slate-400">최상위 1% 파트너 전용</span>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                            <Users class="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                            <span class="block text-white font-bold mb-1">VIP Service</span>
+                            <span class="text-xs text-slate-400">전담 매니저 배정</span>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                            <Gem class="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                            <span class="block text-white font-bold mb-1">Luxury Space</span>
+                            <span class="text-xs text-slate-400">프리미엄 인테리어</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors">
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                    <div class="w-1.5 h-6 bg-amber-500 rounded-full"></div>
+                    일프로 이용 흐름 (5단계)
+                </h3>
+                <ol class="list-decimal pl-6 space-y-3 text-slate-300">
+                    {content.howToUse.steps.slice(0, 5).map((step) => (
+                        <li><strong>{step.title}</strong> - {step.description}</li>
+                    ))}
+                </ol>
+            </div>
+
+            <div id="recommendation" class="mb-24 animate-fade-in-up delay-300">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    <h2 class="text-3xl font-bold text-white">2. {region.name} 일프로 추천 TOP 6</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                    {venues.map(venue => <VenueCard venue={venue} color="amber" />)}
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                        <Sparkles class="text-amber-500" /> {region.name} 일프로 갤러리
+                    </h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div class="aspect-[3/4] rounded-2xl overflow-hidden border border-slate-800 hover:border-amber-500/50 transition-all duration-300 group">
+                                <img src={`/images/venues/ilpro_${i}.webp`} alt={`${region.name} 일프로 1% 프리미엄 VIP 룸 ${i}`} loading="lazy" width="300" height="400"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div id="pricing" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors animate-fade-in-up delay-300">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    3. 이용 가격 및 시스템 안내
+                </h2>
+                <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
+                    <p>
+                        {region.name} 일프로는 투명한 정찰제로 운영됩니다.
+                        <strong>1% 프리미엄 파트너</strong> 지명이 핵심이며, {region.nearbyStations.slice(0,2).join('·')} 중심으로 VIP 서비스를 제공합니다.
+                    </p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">A. 기본 가격 가이드</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse mt-2">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-amber-400">
+                                    <th class="py-3 px-4">항목</th>
+                                    <th class="py-3 px-4">가격</th>
+                                    <th class="py-3 px-4">비고</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                {content.price.baseRates.slice(0, 5).map((rate) => (
+                                    <tr class="border-b border-slate-800">
+                                        <td class="py-3 px-4 font-bold text-white">{rate.label}</td>
+                                        <td class="py-3 px-4">{rate.amount}</td>
+                                        <td class="py-3 px-4 text-slate-400">{rate.note}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">* 위 가격은 평균적인 시세이며, 업소 상황에 따라 변동될 수 있습니다. 정확한 견적은 전화 문의 바랍니다.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 인원별 예상 비용</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse mt-2">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-amber-400">
+                                    <th class="py-3 px-4">인원</th>
+                                    <th class="py-3 px-4">예상 비용</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                {content.price.groupEstimates.map((est) => (
+                                    <tr class="border-b border-slate-800">
+                                        <td class="py-3 px-4 font-bold text-white">{est.size}</td>
+                                        <td class="py-3 px-4">{est.estimated}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <a href={`/${region.id}-ilpro-guide/price`} class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold transition-colors">
+                            상세 가격표 및 할인 혜택 보기 <ChevronRight size={18} />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="faq" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 animate-fade-in-up delay-300">
+                <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <Star class="text-amber-500" /> 일프로 이용 Tip
+                    </h3>
+                    <ul class="space-y-4 text-slate-300 font-light">
+                        {content.price.tips.slice(0, 3).map((tip) => (
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-amber-500 w-5 h-5 flex-shrink-0" />
+                                <span>{tip}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div class="bg-amber-900/10 p-8 rounded-2xl border border-amber-500/20">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <HelpCircle class="text-amber-500" /> 자주 묻는 질문 (FAQ)
+                    </h3>
+                    <div class="space-y-6">
+                        {faqList.map((faq) => (
+                            <div>
+                                <p class="font-bold text-amber-400 mb-1">Q. {faq.question}</p>
+                                <p class="text-slate-300 text-sm">A. {faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div class="mt-6 text-center">
+                        <a href={`/${region.id}-ilpro-guide/price`} class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-bold transition-colors">
+                            더 많은 질문과 답변 보기 <ChevronRight size={18} />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-amber-800 to-orange-900 rounded-3xl p-10 text-center relative overflow-hidden shadow-2xl animate-fade-in-up delay-300">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6 relative z-10">{region.name} 일프로 VIP 예약</h2>
+                <p class="text-amber-100 mb-8 max-w-2xl mx-auto relative z-10">
+                    최상위 1% 프리미엄 서비스를 경험하세요. 비즈니스 접대와 특별한 모임에 완벽한 선택입니다.
+                </p>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-white text-amber-900 font-bold py-4 px-12 rounded-full shadow-lg hover:scale-105 transition-transform relative z-10 flex items-center gap-2 mx-auto">
+                    <Phone fill="currentColor" size={20} /> {region.phone} 간편 예약
+                </button>
+            </div>
+
+            <RelatedServices region={region} />
+        </div>
+    </div>
+</PageLayout>
