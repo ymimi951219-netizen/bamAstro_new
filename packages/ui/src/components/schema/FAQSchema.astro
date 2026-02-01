@@ -1,17 +1,17 @@
 ---
 interface Props {
-  questions: Array<{
+  faqs: Array<{
     question: string;
     answer: string;
   }>;
 }
 
-const { questions } = Astro.props;
+const { faqs } = Astro.props;
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": questions.map(item => ({
+  "mainEntity": faqs.map(item => ({
     "@type": "Question",
     "name": item.question,
     "acceptedAnswer": {

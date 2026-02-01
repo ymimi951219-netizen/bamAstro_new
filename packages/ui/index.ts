@@ -30,3 +30,10 @@ export { default as HowToSchema } from './src/components/schema/HowToSchema.astr
 export { default as AggregateRatingSchema } from './src/components/schema/AggregateRatingSchema.astro';
 export { default as ReviewSchema } from './src/components/schema/ReviewSchema.astro';
 export { default as SnippetDefinition } from './src/components/common/SnippetDefinition.astro';
+export { default as ItemListSchema } from './src/components/schema/ItemListSchema.astro';
+export { default as ProductSchema } from './src/components/schema/ProductSchema.astro';
+export { default as EventSchema } from './src/components/schema/EventSchema.astro';
+export { default as WebSiteSchema } from './src/components/schema/WebSiteSchema.astro';
+export { default as DefinedTermSchema } from './src/components/schema/DefinedTermSchema.astro';
+export { default as PlaceSchema } from './src/components/schema/PlaceSchema.astro';
+export { default as SiteNavSchema } from './src/components/schema/SiteNavSchema.astro';

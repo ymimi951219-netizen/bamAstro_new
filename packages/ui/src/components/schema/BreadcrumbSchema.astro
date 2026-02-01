@@ -1,34 +1,50 @@
 ---
 import type { RegionConfig } from '../../types/region';
 
-interface Props {
-  region: RegionConfig;
+interface BreadcrumbItem {
+  name: string;
+  url: string;
 }
 
-const { region } = Astro.props;
+interface Props {
+  region: RegionConfig;
+  items?: BreadcrumbItem[];
+}
 
-const paths = Astro.url.pathname.split('/').filter(Boolean);
+const { region, items: customItems } = Astro.props;
 const domain = `https://${region.domain}`;
 
-const items = [
-  {
+let listItems;
+
+if (customItems && customItems.length > 0) {
+  listItems = customItems.map((item, index) => ({
     "@type": "ListItem",
-    "position": 1,
-    "name": "Home",
-    "item": domain
-  },
-  ...paths.map((path, index) => ({
-    "@type": "ListItem",
-    "position": index + 2,
-    "name": decodeURIComponent(path),
-    "item": `${domain}/${paths.slice(0, index + 1).join('/')}`
-  }))
-];
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url.startsWith('http') ? item.url : `${domain}${item.url}`
+  }));
+} else {
+  const paths = Astro.url.pathname.split('/').filter(Boolean);
+  listItems = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": domain
+    },
+    ...paths.map((path, index) => ({
+      "@type": "ListItem",
+      "position": index + 2,
+      "name": decodeURIComponent(path),
+      "item": `${domain}/${paths.slice(0, index + 1).join('/')}`
+    }))
+  ];
+}
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": items
+  "itemListElement": listItems
 };
 ---
 
