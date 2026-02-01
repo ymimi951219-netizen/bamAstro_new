@@ -100,20 +100,50 @@ const mainNavItems = [
                     </a>
                   </div>
 
+                  <div class="border-t border-slate-800 px-3 py-2 bg-slate-950/30 text-xs font-semibold text-slate-500">
+                    종합 가이드
+                  </div>
+                  <div class="p-2 grid gap-1">
+                    <a href={`/${region.id}-entertainment-hub`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-purple-500 text-xs font-bold">HUB</span>
+                      <span class="text-sm text-slate-300 hover:text-white">유흥 종합 가이드</span>
+                    </a>
+                    <a href={`/${region.id}-comparison-hub`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-amber-500 text-xs font-bold">CMP</span>
+                      <span class="text-sm text-slate-300 hover:text-white">업종 비교 가이드</span>
+                    </a>
+                    <a href={`/${region.id}-review-hub`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-blue-500 text-xs font-bold">REV</span>
+                      <span class="text-sm text-slate-300 hover:text-white">후기 & 리뷰</span>
+                    </a>
+                    <a href={`/${region.id}-entertainment-map`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-green-500 text-xs font-bold">MAP</span>
+                      <span class="text-sm text-slate-300 hover:text-white">위치 & 지도</span>
+                    </a>
+                  </div>
+
                   <div class="border-t border-slate-800 p-2 grid grid-cols-2 gap-2 bg-slate-950/20">
-                    <a href={`/${region.id}-entertainment-beginner-guide`} class="p-2 rounded hover:bg-slate-800 transition-colors">
-                       <div class="text-sm font-medium text-slate-200">초보 가이드</div>
-                       <div class="text-[10px] text-slate-500">처음이신가요?</div>
+                    <a href="/guide/first-timer" class="p-2 rounded hover:bg-slate-800 transition-colors">
+                      <div class="text-sm font-medium text-slate-200">초보 가이드</div>
+                      <div class="text-[10px] text-slate-500">처음이신가요?</div>
                     </a>
                     <a href={`/${region.id}-entertainment-price-guide`} class="p-2 rounded hover:bg-slate-800 transition-colors">
-                       <div class="text-sm font-medium text-slate-200">가격 안내</div>
-                       <div class="text-[10px] text-slate-500">합리적인 가격</div>
+                      <div class="text-sm font-medium text-slate-200">가격 안내</div>
+                      <div class="text-[10px] text-slate-500">합리적인 가격</div>
+                    </a>
+                    <a href="/glossary" class="p-2 rounded hover:bg-slate-800 transition-colors">
+                      <div class="text-sm font-medium text-slate-200">용어 사전</div>
+                      <div class="text-[10px] text-slate-500">유흥 용어 해설</div>
+                    </a>
+                    <a href="/guide" class="p-2 rounded hover:bg-slate-800 transition-colors">
+                      <div class="text-sm font-medium text-slate-200">상황별 가이드</div>
+                      <div class="text-[10px] text-slate-500">맞춤 추천</div>
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-          ) : item.hasDropdown === 'area' && region.areaGuides && region.areaGuides.length > 0 ? (
+          ) : item.hasDropdown === 'area' && ((region.areaGuides && region.areaGuides.length > 0) || (region.stationDetails && region.stationDetails.length > 0)) ? (
             <div class="relative group">
               <button class="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">
                 {item.label}
@@ -126,7 +156,19 @@ const mainNavItems = [
               <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0">
                 <div class="w-48 bg-slate-900 border border-slate-700/50 rounded-lg shadow-xl overflow-hidden">
                   <div class="p-1">
-                    {region.areaGuides.map((guide) => (
+                    {region.stationDetails && region.stationDetails.length > 0 && (
+                      <>
+                        <div class="px-3 py-1.5 text-xs font-semibold text-slate-500">역세권 가이드</div>
+                        {region.stationDetails.map((s) => (
+                          <a href={`/station/${s.slug}`} class="block px-3 py-2 rounded hover:bg-slate-800 text-sm text-slate-300 hover:text-white transition-colors">
+                            {s.name}
+                          </a>
+                        ))}
+                        <div class="border-t border-slate-800 my-1"></div>
+                        <div class="px-3 py-1.5 text-xs font-semibold text-slate-500">지역 가이드</div>
+                      </>
+                    )}
+                    {region.areaGuides && region.areaGuides.map((guide) => (
                       <a
                         href={`/${guide.slug}`}
                         class="block px-3 py-2 rounded hover:bg-slate-800 text-sm text-slate-300 hover:text-white transition-colors"
@@ -214,19 +256,45 @@ const mainNavItems = [
         </div>
       </div>
 
+      <div class="border-t border-slate-700/50 mt-3 pt-3">
+        <div class="text-[10px] font-bold text-slate-600 uppercase mb-2">종합 가이드</div>
+        <div class="grid grid-cols-2 gap-2">
+          <a href={`/${region.id}-entertainment-hub`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">종합 가이드</a>
+          <a href={`/${region.id}-comparison-hub`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">업종 비교</a>
+          <a href={`/${region.id}-review-hub`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">후기 모음</a>
+          <a href={`/${region.id}-entertainment-map`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">위치 안내</a>
+          <a href="/glossary" class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">용어 사전</a>
+          <a href="/guide" class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">상황별 가이드</a>
+        </div>
+      </div>
+
       <!-- Mobile Area Guides -->
-      {region.areaGuides && region.areaGuides.length > 0 && (
+      {((region.areaGuides && region.areaGuides.length > 0) || (region.stationDetails && region.stationDetails.length > 0)) && (
         <div>
           <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-4">
             지역별 가이드
           </div>
-          <div class="grid grid-cols-2 gap-2 px-4">
-            {region.areaGuides.map(guide => (
-              <a href={`/${guide.slug}`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
-                {guide.name}
-              </a>
-            ))}
-          </div>
+          {region.stationDetails && region.stationDetails.length > 0 && (
+            <>
+              <div class="text-[10px] font-bold text-slate-600 uppercase mb-1 px-4">역세권</div>
+              <div class="grid grid-cols-2 gap-2 px-4 mb-3">
+                {region.stationDetails.map(s => (
+                  <a href={`/station/${s.slug}`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+                    {s.name}
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+          {region.areaGuides && region.areaGuides.length > 0 && (
+            <div class="grid grid-cols-2 gap-2 px-4">
+              {region.areaGuides.map(guide => (
+                <a href={`/${guide.slug}`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+                  {guide.name}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       )}
       

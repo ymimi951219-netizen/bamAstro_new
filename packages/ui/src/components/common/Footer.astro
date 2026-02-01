@@ -82,19 +82,30 @@ const currentYear = new Date().getFullYear();
       <div>
         <h3 class="text-lg font-bold text-white mb-6">가이드</h3>
         <ul class="space-y-2 text-sm text-slate-400">
-          <li><a href={`/${region.id}-karaoke-vs-highpublic`} class="hover:text-purple-400 transition-colors">가라오케 vs 하이퍼블릭</a></li>
+          <li><a href={`/${region.id}-entertainment-hub`} class="hover:text-purple-400 transition-colors font-medium text-slate-300">종합 가이드</a></li>
+          <li><a href={`/${region.id}-entertainment-price-guide`} class="hover:text-purple-400 transition-colors">가격 총정리</a></li>
+          <li><a href={`/${region.id}-comparison-hub`} class="hover:text-purple-400 transition-colors">업종 비교</a></li>
+          <li><a href={`/${region.id}-review-hub`} class="hover:text-purple-400 transition-colors">후기 & 리뷰</a></li>
+          <li><a href={`/${region.id}-entertainment-map`} class="hover:text-purple-400 transition-colors">위치 안내</a></li>
+          <li class="pt-2 border-t border-white/5 mt-2">
+            <a href="/guide/first-timer" class="hover:text-purple-400 transition-colors">초보 가이드</a>
+          </li>
+          <li><a href="/guide" class="hover:text-purple-400 transition-colors">상황별 가이드</a></li>
+          <li><a href="/glossary" class="hover:text-purple-400 transition-colors">용어 사전</a></li>
+          <li class="pt-2 border-t border-white/5 mt-2">
+            <a href={`/${region.id}-karaoke-vs-highpublic`} class="hover:text-purple-400 transition-colors">가라오케 vs 하이퍼블릭</a>
+          </li>
           <li><a href={`/${region.id}-roomsalon-vs-hostbar`} class="hover:text-purple-400 transition-colors">룸살롱 vs 호빠</a></li>
           <li><a href={`/${region.id}-shirtsroom-vs-kimonoroom`} class="hover:text-purple-400 transition-colors">셔츠룸 vs 기모노룸</a></li>
-          <li class="pt-2 border-t border-white/5 mt-2">
-            <a href={`/${region.id}-entertainment-beginner-guide`} class="hover:text-purple-400 transition-colors">초보 가이드</a>
-          </li>
-          <li><a href={`/${region.id}-entertainment-price-guide`} class="hover:text-purple-400 transition-colors">가격 가이드</a></li>
         </ul>
-        {region.areaGuides && region.areaGuides.length > 0 && (
+        {((region.stationDetails && region.stationDetails.length > 0) || (region.areaGuides && region.areaGuides.length > 0)) && (
           <>
-            <h3 class="text-lg font-bold text-white mt-8 mb-4">지역별 가이드</h3>
+            <h3 class="text-lg font-bold text-white mt-8 mb-4">지역 & 역별 가이드</h3>
             <ul class="space-y-2 text-sm text-slate-400">
-              {region.areaGuides.map(guide => (
+              {region.stationDetails && region.stationDetails.map(s => (
+                <li><a href={`/station/${s.slug}`} class="hover:text-purple-400 transition-colors">{s.name} 가이드</a></li>
+              ))}
+              {region.areaGuides && region.areaGuides.map(guide => (
                 <li><a href={`/${guide.slug}`} class="hover:text-purple-400 transition-colors">{guide.name}</a></li>
               ))}
             </ul>
