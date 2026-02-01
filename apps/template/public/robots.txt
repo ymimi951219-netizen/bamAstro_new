@@ -3,6 +3,10 @@
 
 User-agent: *
 Allow: /
+Allow: /station/
+Allow: /guide/
+Allow: /glossary/
+Allow: /compare/
 
 # Disallow admin/internal pages
 Disallow: /api/

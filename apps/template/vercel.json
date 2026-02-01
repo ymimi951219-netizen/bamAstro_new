@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/bundang-seohyeon-guide", "destination": "/station/seohyeon", "permanent": true },
+    { "source": "/bundang-yatap-guide", "destination": "/station/yatap", "permanent": true },
+    { "source": "/bundang-pangyo-guide", "destination": "/station/pangyo", "permanent": true },
+    { "source": "/:region-entertainment-beginner-guide", "destination": "/guide/:region-first-timer", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

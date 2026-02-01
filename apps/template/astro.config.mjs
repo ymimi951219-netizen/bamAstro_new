@@ -15,50 +15,48 @@ export default defineConfig({
       lastmod: new Date(),
       // 페이지별 SEO 우선순위 및 크롤링 빈도 설정
       serialize(item) {
-        // 홈페이지 - 최우선
         if (item.url.endsWith('/') || item.url.endsWith('.com')) {
           item.priority = 1.0;
           item.changefreq = 'daily';
-        }
-        // 메인 가이드 페이지 (Pillar) - 높은 우선순위
-        else if (item.url.includes('-guide') && !item.url.includes('/faq')) {
+        } else if (item.url.match(/-guide\/?$/) && !item.url.includes('/faq') && !item.url.includes('/station/')) {
           item.priority = 0.9;
           item.changefreq = 'weekly';
-        }
-        // FAQ 페이지 - 중간 우선순위
-        else if (item.url.includes('/faq')) {
+        } else if (item.url.match(/\/station\/[^/]+\/?$/) && !item.url.includes('/karaoke') && !item.url.includes('/highpublic') && !item.url.includes('/nightlife')) {
+          item.priority = 0.85;
+          item.changefreq = 'weekly';
+        } else if (item.url.includes('/station/') && (item.url.includes('/karaoke') || item.url.includes('/highpublic') || item.url.includes('/nightlife'))) {
+          item.priority = 0.75;
+          item.changefreq = 'monthly';
+        } else if (item.url.match(/-guide\/(price|how-to-use|etiquette|ranking|review)/)) {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('/faq')) {
           item.priority = 0.7;
           item.changefreq = 'monthly';
-        }
-        // 블로그 페이지 - 높은 우선순위
-        else if (item.url.includes('/blog/') && !item.url.includes('/page/')) {
+        } else if (item.url.includes('/guide/')) {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('-hub') || item.url.includes('-map')) {
+          item.priority = 0.85;
+          item.changefreq = 'weekly';
+        } else if (item.url.includes('/glossary')) {
+          item.priority = 0.6;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('-vs-') || item.url.includes('/compare/')) {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        } else if (item.url.includes('/blog/') && !item.url.includes('/page/')) {
           item.priority = 0.8;
           item.changefreq = 'weekly';
-        }
-        // 블로그 목록/페이지네이션
-        else if (item.url.includes('/blog')) {
+        } else if (item.url.includes('/blog')) {
           item.priority = 0.6;
           item.changefreq = 'weekly';
-        }
-        // 비교 페이지 (vs 페이지)
-        else if (item.url.includes('-vs-')) {
+        } else if (item.url.includes('-price-guide')) {
           item.priority = 0.8;
           item.changefreq = 'monthly';
-        }
-        // 지역 가이드 페이지
-        else if (item.url.includes('-seohyeon') || item.url.includes('-yatap') || item.url.includes('-pangyo')) {
-          item.priority = 0.8;
-          item.changefreq = 'monthly';
-        }
-        // 연락처 페이지
-        else if (item.url.includes('/contact')) {
+        } else {
           item.priority = 0.5;
           item.changefreq = 'monthly';
-        }
-        // 법적 페이지 (개인정보, 이용약관)
-        else if (item.url.includes('/privacy') || item.url.includes('/terms')) {
-          item.priority = 0.3;
-          item.changefreq = 'yearly';
         }
         return item;
       },
