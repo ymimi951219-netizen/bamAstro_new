@@ -1,0 +1,170 @@
+---
+import { PageLayout, BreadcrumbSchema, ItemListSchema } from '@bamastro/ui';
+import { region } from '../config/region';
+import InternalLinkSection from '../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../utils/internal-links';
+
+const seoProps = {
+  title: `${region.name} 유흥 업소 후기 & 리뷰 모음 | 실제 이용자 평가`,
+  description: `${region.name} 지역 가라오케, 하이퍼블릭, 셔츠룸, 룸살롱, 호빠 실제 이용 후기 모음. 가격 대비 만족도, 서비스 품질, 분위기 평가를 확인하세요.`,
+  keywords: [
+    `${region.name} 유흥 후기`,
+    `${region.name} 가라오케 리뷰`,
+    `${region.name} 하이퍼블릭 후기`,
+    `${region.name} 업소 평가`,
+    `${region.name} 유흥 추천`,
+  ],
+};
+
+const reviewListItems = region.venueTypes.map((v) => ({
+  name: `${region.name} ${v.name} 후기`,
+  url: `/${v.slug}/review`,
+}));
+
+const relatedLinks = getRelatedLinks({ pageType: 'review-hub' }, region);
+---
+
+<PageLayout {...seoProps} region={region}>
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: '후기 모음', url: `/${region.id}-review-hub` },
+  ]} />
+  <ItemListSchema items={reviewListItems} />
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Reviews & Ratings</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {region.name} 유흥 업소 후기 & 리뷰 모음
+        </h1>
+        <p class="text-slate-400 mt-4 text-lg">실제 이용자들의 솔직한 평가를 확인하세요</p>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Intro -->
+      <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-12">
+        <h2 class="text-2xl font-bold text-white mb-4">왜 후기가 중요할까요?</h2>
+        <div class="grid md:grid-cols-3 gap-6 text-slate-300">
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-2">💯 실제 경험 기반</h3>
+            <p class="text-sm text-slate-400">광고가 아닌, 실제 이용자들의 생생한 경험담을 통해 업소의 진짜 모습을 알 수 있습니다.</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-2">⚖️ 합리적 선택</h3>
+            <p class="text-sm text-slate-400">가격 대비 만족도, 서비스 품질, 분위기 등을 비교하여 나에게 맞는 업소를 선택할 수 있습니다.</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-2">🎯 실패 방지</h3>
+            <p class="text-sm text-slate-400">다른 사람들의 실수와 팁을 통해 시행착오를 줄이고 만족스러운 경험을 할 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Venue Reviews Grid -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-white mb-8 text-center">업종별 후기</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {region.venueTypes.map((venue) => (
+            <div class="bg-slate-900/30 rounded-2xl border border-slate-800/50 overflow-hidden">
+              <div class="relative h-40 overflow-hidden">
+                <img src={venue.image} alt={venue.name} class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4">
+                  <h3 class="text-2xl font-bold text-white">{venue.name}</h3>
+                  <p class="text-sm text-purple-400">{venue.subtitle}</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-slate-300 text-sm mb-4">{venue.description}</p>
+
+                <!-- Mock Rating -->
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="flex text-amber-400">
+                    <span>⭐⭐⭐⭐</span><span class="text-slate-600">⭐</span>
+                  </div>
+                  <span class="text-sm text-slate-400">평균 4.2 / 5.0</span>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-3 gap-3 mb-4 text-center text-xs">
+                  <div class="bg-slate-800/50 p-2 rounded">
+                    <div class="text-purple-400 font-bold">가격</div>
+                    <div class="text-slate-300">4.0</div>
+                  </div>
+                  <div class="bg-slate-800/50 p-2 rounded">
+                    <div class="text-purple-400 font-bold">서비스</div>
+                    <div class="text-slate-300">4.5</div>
+                  </div>
+                  <div class="bg-slate-800/50 p-2 rounded">
+                    <div class="text-purple-400 font-bold">분위기</div>
+                    <div class="text-slate-300">4.3</div>
+                  </div>
+                </div>
+
+                <!-- Links -->
+                <div class="grid grid-cols-2 gap-2">
+                  <a href={`/${venue.slug}/review`} class="bg-purple-600/20 border border-purple-500/30 text-purple-400 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-purple-600/30 transition-colors text-center">
+                    후기 전체보기
+                  </a>
+                  <a href={`/${venue.slug}/ranking`} class="bg-slate-800/50 border border-slate-700/50 text-slate-300 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-colors text-center">
+                    TOP 5 추천
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Review Tips -->
+      <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6">후기 활용 팁</h2>
+        <div class="space-y-4 text-slate-300">
+          <div class="flex gap-4">
+            <div class="text-2xl">1️⃣</div>
+            <div>
+              <h3 class="font-semibold text-white mb-1">여러 후기를 종합적으로 확인</h3>
+              <p class="text-sm text-slate-400">한두 개의 후기만 보지 말고, 다양한 의견을 비교해보세요. 공통적으로 언급되는 장단점이 신뢰도가 높습니다.</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-2xl">2️⃣</div>
+            <div>
+              <h3 class="font-semibold text-white mb-1">최근 후기 우선 확인</h3>
+              <p class="text-sm text-slate-400">업소의 서비스와 시스템은 시간이 지나면서 변할 수 있습니다. 가능한 최근 후기를 참고하세요.</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-2xl">3️⃣</div>
+            <div>
+              <h3 class="font-semibold text-white mb-1">나와 비슷한 상황 찾기</h3>
+              <p class="text-sm text-slate-400">혼자 방문인지, 단체 모임인지, 예산은 얼마인지 등 나와 비슷한 상황에서 방문한 후기를 참고하면 더 유용합니다.</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-2xl">4️⃣</div>
+            <div>
+              <h3 class="font-semibold text-white mb-1">극단적 평가 주의</h3>
+              <p class="text-sm text-slate-400">지나치게 긍정적이거나 부정적인 후기는 특수한 상황일 수 있습니다. 중립적이고 구체적인 후기에 더 집중하세요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="text-center bg-gradient-to-r from-purple-900/20 to-amber-900/20 p-8 rounded-2xl border border-purple-500/20">
+        <h2 class="text-2xl font-bold text-white mb-4">나만의 후기를 남겨주세요</h2>
+        <p class="text-slate-300 mb-6">여러분의 경험이 다른 이용자들에게 큰 도움이 됩니다.</p>
+        <a href={`tel:${region.phone}`} class="inline-block bg-purple-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-purple-700 transition-colors">
+          예약 문의하기
+        </a>
+      </div>
+
+      <div class="mt-12">
+        <InternalLinkSection links={relatedLinks} />
+      </div>
+    </div>
+  </div>
+</PageLayout>

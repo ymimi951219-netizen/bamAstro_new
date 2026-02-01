@@ -1,0 +1,192 @@
+---
+import { PageLayout, BreadcrumbSchema } from '@bamastro/ui';
+import { region } from '../config/region';
+import InternalLinkSection from '../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../utils/internal-links';
+
+const seoProps = {
+  title: `${region.name} 유흥가 위치 안내 & 지도 | 역세권별 업소 분포`,
+  description: `${region.name} 유흥 업소 위치 정보. ${region.nearbyStations.join(', ')} 등 주요 역 주변 유흥가 분포와 랜드마크를 확인하세요.`,
+  keywords: [
+    `${region.name} 유흥가 위치`,
+    `${region.name} 유흥가 지도`,
+    ...region.nearbyStations.map(s => `${s} 유흥`),
+    ...region.landmarks,
+  ],
+};
+
+const stations = region.stationDetails ?? [];
+const relatedLinks = getRelatedLinks({ pageType: 'map' }, region);
+---
+
+<PageLayout {...seoProps} region={region}>
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: '위치 안내', url: `/${region.id}-entertainment-map` },
+  ]} />
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Location Guide</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {region.name} 유흥가 위치 안내 & 지도
+        </h1>
+        <p class="text-slate-400 mt-4 text-lg">주요 역세권과 랜드마크를 중심으로 한 업소 분포도</p>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Region Overview -->
+      <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6">{region.name} 유흥 중심지</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">📍 주요 위치</h3>
+            <div class="space-y-2 text-sm text-slate-300">
+              <div class="flex justify-between">
+                <span class="text-slate-400">지역:</span>
+                <span>{region.address.region} {region.address.city}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">중심지:</span>
+                <span>{region.address.street}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">좌표:</span>
+                <span class="font-mono text-xs">{region.geo.lat}, {region.geo.lng}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">🚇 주요 역</h3>
+            <div class="flex flex-wrap gap-2">
+              {region.nearbyStations.map((station) => (
+                <span class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg text-sm border border-slate-700">
+                  {station}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Landmarks -->
+      <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6">🏛️ 주요 랜드마크</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          {region.landmarks.map((landmark) => (
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700/50">
+              <div class="text-lg text-white font-semibold mb-1">{landmark}</div>
+              <div class="text-xs text-slate-400">유흥 업소 밀집 지역</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Station Details -->
+      {stations.length > 0 && (
+        <div class="mb-16">
+          <h2 class="text-3xl font-bold text-white mb-8 text-center">역세권별 상세 안내</h2>
+          <div class="space-y-6">
+            {stations.map((station, index) => (
+              <div class="bg-slate-900/30 rounded-2xl border border-slate-800/50 overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-900/30 to-transparent p-6 border-b border-slate-800/50">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h3 class="text-2xl font-bold text-white mb-2">{station.name}</h3>
+                      <p class="text-sm text-slate-400">{station.nameEn} Station · 출구 {station.exitCount}개</p>
+                    </div>
+                    <a href={`/station/${station.slug}`} class="bg-purple-600/20 border border-purple-500/30 text-purple-400 text-sm font-semibold py-2 px-6 rounded-lg hover:bg-purple-600/30 transition-colors">
+                      상세 보기
+                    </a>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <p class="text-slate-300 mb-6">{station.description}</p>
+
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 class="text-sm font-semibold text-purple-400 mb-3">주변 랜드마크</h4>
+                      <div class="flex flex-wrap gap-2">
+                        {station.landmarks.map((landmark) => (
+                          <span class="bg-slate-800 text-slate-300 px-3 py-1 rounded text-sm">
+                            {landmark}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-sm font-semibold text-purple-400 mb-3">주요 업종</h4>
+                      <div class="flex flex-wrap gap-2">
+                        {station.venueHighlights.map((venueId) => {
+                          const venue = region.venueTypes.find(v => v.id === venueId);
+                          return venue ? (
+                            <span class="bg-purple-900/30 text-purple-400 px-3 py-1 rounded text-sm border border-purple-500/20">
+                              {venue.name}
+                            </span>
+                          ) : null;
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- How to Get There -->
+      <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6">🚗 오시는 방법</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">대중교통 이용</h3>
+            <div class="space-y-3 text-sm text-slate-300">
+              {region.nearbyStations.slice(0, 3).map((station) => (
+                <div class="bg-slate-800/50 p-3 rounded-lg">
+                  <div class="font-semibold text-white mb-1">{station}</div>
+                  <div class="text-slate-400">지하철 이용 후 도보 5~10분</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">자가용 이용</h3>
+            <div class="bg-slate-800/50 p-4 rounded-lg text-sm text-slate-300">
+              <p class="mb-2">• 네비게이션: "{region.address.street}" 검색</p>
+              <p class="mb-2">• 주차: 대부분 업소에서 발레파킹 제공</p>
+              <p class="text-amber-400">• 음주 예정 시 대리운전 이용 권장</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="bg-gradient-to-r from-amber-900/20 to-purple-900/20 p-8 rounded-2xl border border-amber-500/20 mb-12">
+        <h2 class="text-2xl font-bold text-white mb-4">💡 위치 선택 팁</h2>
+        <div class="space-y-3 text-slate-300 text-sm">
+          <div class="flex gap-3">
+            <span class="text-amber-400">✓</span>
+            <p><strong>역세권 중심:</strong> 대중교통 접근성이 좋고 업소 선택의 폭이 넓습니다.</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-amber-400">✓</span>
+            <p><strong>랜드마크 기준:</strong> 익숙한 랜드마크 근처 업소를 선택하면 찾아가기 쉽습니다.</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-amber-400">✓</span>
+            <p><strong>사전 예약:</strong> 인기 업소는 사전 예약이 필수입니다. 위치 확인 후 미리 연락하세요.</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-amber-400">✓</span>
+            <p><strong>2차 계획:</strong> 여러 업소를 이용할 계획이라면 도보 이동 가능한 거리인지 확인하세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <InternalLinkSection links={relatedLinks} />
+    </div>
+  </div>
+</PageLayout>
