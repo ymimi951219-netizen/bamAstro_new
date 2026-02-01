@@ -1,0 +1,77 @@
+---
+import { PageLayout, BreadcrumbSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'kimonoroom';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '기모노룸';
+const content = getVenueContent(venueId)!.etiquette;
+const title = `${region.name} ${venueName} 에티켓 가이드 - 매너, 복장, 팁`;
+const description = `${region.name} ${venueName} 에티켓 안내. 매너, 복장, 팁 등 처음 방문하시는 분을 위한 필수 정보입니다.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'etiquette' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 에티켓 가이드</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">복장 규정</h2>
+      <div class="bg-gray-800/50 rounded-lg p-6">
+        <p class="text-gray-300 leading-relaxed">{content.dressCode}</p>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">주문 매너</h2>
+      <div class="bg-gray-800/50 rounded-lg p-6">
+        <p class="text-gray-300 leading-relaxed">{content.orderingManners}</p>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">팁 문화</h2>
+      <div class="bg-gray-800/50 rounded-lg p-6">
+        <p class="text-gray-300 leading-relaxed">{content.tipping}</p>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">해도 되는 것 / 하면 안 되는 것</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-semibold text-green-400 mb-4">해도 되는 것</h3>
+          <ul class="space-y-2">
+            {content.dos.map(item => (
+              <li class="flex items-start gap-2 text-gray-300">
+                <span class="text-green-400 mt-1">○</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-red-400 mb-4">하면 안 되는 것</h3>
+          <ul class="space-y-2">
+            {content.donts.map(item => (
+              <li class="flex items-start gap-2 text-gray-300">
+                <span class="text-red-400 mt-1">✗</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-kimono-room-guide` },
+    { name: '에티켓 가이드', url: '' }
+  ]} />
+</PageLayout>

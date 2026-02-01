@@ -1,0 +1,276 @@
+---
+import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { Sparkles, Shirt, Briefcase, CheckCircle, Star, HelpCircle, Phone } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const { region: regionId } = Astro.params;
+const venueType = region.venueTypes.find(v => v.id === 'shirtsroom');
+
+if (!venueType) {
+  throw new Error(`Venue type 'shirtsroom' not found in region config`);
+}
+
+const seoProps = {
+  title: `${region.name} 셔츠룸(화이트룸) 완벽 가이드 | 캐주얼 프리미엄 라운지`,
+  description: `${region.name} 셔츠룸(화이트룸) 완벽 가이드. 캐주얼하면서 세련된 프리미엄 라운지. ${region.nearbyStations.slice(0,2).join('·')} 중심, 깔끔한 응대, 합리적 가격. 시스템, 예약 상세 안내.`,
+  keywords: [
+    `${region.name} 셔츠룸`,
+    `${region.name} 화이트룸`,
+    `${region.name} 셔츠룸 예약`,
+    `${region.name} 셔츠룸 가격`,
+    `${region.name} 캐주얼 라운지`
+  ],
+};
+
+const venues = [
+    {
+        id: 's-1',
+        name: `${region.name} 프리미엄 셔츠룸`,
+        type: 'Original Shirts',
+        location: `${region.name} 인근`,
+        price: '주대 18만원 이상, TC 10만원 이상',
+        desc: `${region.name} 중심 클래식 셔츠룸. 깔끔한 응대와 흐트러짐 없는 동선.`,
+        features: ['클래식 무드', '빠른 세팅', '접근성 우수', '기본에 충실'],
+        img: '/images/venues/shirts_4.webp',
+    },
+    {
+        id: 's-2',
+        name: `${region.name} 모델 셔츠룸`,
+        type: 'Model Line',
+        location: `${region.name} 중심상권`,
+        price: '주대 18만원 이상, TC 10만원 이상',
+        desc: `${region.name} 핫플레이스 모던 셔츠룸. 도시형 인테리어와 빠른 초이스.`,
+        features: ['모던 인테리어', '초이스 중심', '핫플레이스', '경쾌한 분위기'],
+        img: '/images/venues/shirts_5.webp',
+    }
+];
+
+const faqList = [
+    {
+        question: `${region.name} 셔츠룸 1인 방문도 가능한가요?`,
+        answer: "네, 가능합니다. 도심 비즈니스 방문객 이용이 많아 도시형 응대로 1:1 시작도 부담 없이 안내합니다."
+    },
+    {
+        question: `${region.name} 셔츠룸 픽업은 어디까지 지원되나요?`,
+        answer: `픽업은 ${region.name} 주요 역 및 중심 상권에서 운영됩니다. 정확한 동선은 예약 시 조율해 드립니다.`
+    },
+    {
+        question: `${region.name} 셔츠룸 주대/TC 기준이 궁금해요.`,
+        answer: "주대 18만원 이상, TC 10만원 이상 기준이며 시간·코스·인원에 따라 달라질 수 있습니다. 상세는 문의 부탁드립니다."
+    }
+];
+
+const sections = [
+    { id: "definition", title: "1. 셔츠룸이란?" },
+    { id: "recommendation", title: "2. 추천 업소" },
+    { id: "system", title: "3. 이용 시스템 및 가격" },
+    { id: "faq", title: "4. 이용 꿀팁 및 FAQ" }
+];
+
+// HowTo Schema steps - 셔츠룸 이용 흐름
+const usageSteps = [
+  { name: "예약", text: "원하는 시간, 인원, 방문 목적을 서우실장에게 전달합니다." },
+  { name: "룸 배정", text: "예약 시간에 맞춰 셔츠룸 컨셉의 프라이빗 룸이 준비됩니다." },
+  { name: "초이스", text: "매니저들이 흰 셔츠 차림으로 입장하여 초이스가 진행됩니다." },
+  { name: "타임 진행", text: "기본 80-90분 타임이 진행되며, 연장이 가능합니다." }
+];
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    <BreadcrumbSchema region={region} />
+    <HowToSchema
+        name={`${region.name} 셔츠룸 이용 방법`}
+        description="4단계로 완료하는 셔츠룸 이용 가이드. 예약부터 타임 진행까지 완벽 안내."
+        steps={usageSteps}
+    />
+    <FAQPageSchema items={faqList} />
+
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+        <div class="container mx-auto px-4 pb-12 max-w-6xl">
+            <!-- Section Title -->
+            <div class="text-center mb-16 relative">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl"></div>
+                <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">White Shirt Fantasy</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-300 relative z-10 animate-fade-in-up delay-100 drop-shadow-sm">{region.name} 셔츠룸(화이트룸) 완벽 가이드</h1>
+                <div class="w-1 h-12 bg-gradient-to-b from-blue-500 to-transparent mx-auto mt-6"></div>
+            </div>
+
+            <!-- Intro Text -->
+            <div class="mb-20 text-center max-w-4xl mx-auto animate-fade-in-up delay-200">
+                <p class="text-xl text-slate-300 leading-relaxed font-light">
+                    {region.name} 셔츠룸은 도시형 분위기와 빠른 초이스를 선호하시는 분께 적합합니다.<br />
+                    주대 18만원 이상·TC 10만원 이상 기준이며 상세 견적은 문의 부탁드립니다.
+                </p>
+            </div>
+
+            <TableOfContents sections={sections} />
+
+            <!-- 1. Definition -->
+            <div id="definition" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-blue-500/20 transition-colors animate-fade-in-up delay-300">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-blue-500 rounded-full"></div>
+                    1. 셔츠룸이란?
+                </h2>
+                <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
+                    <p>
+                        셔츠룸은 일반적인 룸싸롱의 홀복 대신, <strong>흰색 와이셔츠</strong>만을 입은 매니저들이 서빙하는 컨셉 룸입니다.
+                        초이스 후 룸 안에서 셔츠로 환복하는 퍼포먼스(인사 타임)가 시그니처이며, 핏된 셔츠 라인이 주는 시각적인 즐거움이 특징입니다.
+                    </p>
+                    <p>
+                        {region.name} 셔츠룸은 강남의 '란제리', '레깅스' 룸보다 진입 장벽이 낮으면서도, 퍼블릭보다 훨씬 과감하고 화끈한 노는 분위기를 형성합니다.
+                        <span class="text-blue-400 font-bold">비즈니스 접대</span>와 <span class="text-blue-400 font-bold">화끈한 뒷풀이</span> 양쪽 모두를 만족시키는 최고의 하이브리드 업종입니다.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center gap-3">
+                            <Shirt class="text-blue-500 w-8 h-8 flex-shrink-0" />
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Visual Concept</h4>
+                                <p class="text-sm text-slate-400">남자의 로망, 넉넉한 핏의 화이트 셔츠 룩</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex items-center gap-3">
+                            <Briefcase class="text-blue-500 w-8 h-8 flex-shrink-0" />
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Business Friendly</h4>
+                                <p class="text-sm text-slate-400">어색한 접대 자리를 순식간에 화기애애하게</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Recommendations -->
+            <div id="recommendation" class="mb-24 animate-fade-in-up delay-300">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-1.5 h-8 bg-blue-500 rounded-full"></div>
+                    <h2 class="text-3xl font-bold text-white">2. {region.name} 셔츠룸 추천 업소</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    {venues.map(venue => <VenueCard venue={venue} color="blue" />)}
+                </div>
+            </div>
+
+            <!-- Gallery -->
+            <div class="mt-16 mb-24 animate-fade-in-up delay-300">
+                <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <Sparkles class="text-blue-500" /> {region.name} 셔츠룸 갤러리
+                </h3>
+                <div class="grid grid-cols-3 gap-4">
+                    {[1, 2, 3].map((i) => (
+                        <div class="aspect-[3/4] rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+                            <img src={`/images/venues/shirts_${i}.webp`} alt={`${region.name} 셔츠룸 화이트룸 캐주얼 라운지 인테리어 ${i}`} loading="lazy" width="300" height="400"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- 3. System -->
+            <div id="system" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-blue-500/20 transition-colors animate-fade-in-up delay-300">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-blue-500 rounded-full"></div>
+                    3. 이용 시스템 및 가격 안내
+                </h2>
+                <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
+                    <p>
+                        셔츠룸의 가장 큰 장점은 **'투명한 정찰제 가격'**입니다.
+                        강남권보다 저렴하면서도 서비스 퀄리티는 유지하여 가성비를 중요시하는 분들께 인기가 많습니다.
+                    </p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">A. 주대 및 TC (예상)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse mt-2">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-blue-400">
+                                    <th class="py-3 px-4">항목</th>
+                                    <th class="py-3 px-4">가격</th>
+                                    <th class="py-3 px-4">비고</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-slate-800">
+                                    <td class="py-3 px-4 font-bold text-white">기본 주대</td>
+                                    <td class="py-3 px-4">주대 18만원 이상</td>
+                                    <td class="py-3 px-4">12년산 양주 + 과일/마른안주 + 음료</td>
+                                </tr>
+                                <tr class="border-b border-slate-800">
+                                    <td class="py-3 px-4 font-bold text-white">매니저 TC</td>
+                                    <td class="py-3 px-4">TC 10만원 이상</td>
+                                    <td class="py-3 px-4">업소 및 시간 타임별 상이</td>
+                                </tr>
+                                <tr class="border-b border-slate-800">
+                                    <td class="py-3 px-4 font-bold text-white">룸 티 (RT)</td>
+                                    <td class="py-3 px-4">현장 안내</td>
+                                    <td class="py-3 px-4">룸 이용료 및 웨이터 봉사료 포함</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 진행 순서</h4>
+                    <ol class="list-decimal pl-5 space-y-2 marker:text-blue-500">
+                        <li><strong>초이스</strong>: 미러 초이스 또는 룸 초이스로 파트너를 선택합니다.</li>
+                        <li><strong>인사 (Greeting)</strong>: 파트너가 룸에 입장하여 셔츠로 환복하며 인사 시간을 갖습니다. (셔츠룸의 하이라이트)</li>
+                        <li><strong>음주가무</strong>: 파트너 옆에 착석하여 1시간~1시간 30분 동안 즐거운 술자리를 갖습니다. 터치 마인드가 매우 오픈되어 있습니다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 4. FAQ -->
+            <div id="faq" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 animate-fade-in-up delay-300">
+                <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <Star class="text-blue-500" /> 서우실장의 이용 Tip
+                    </h3>
+                    <ul class="space-y-4 text-slate-300 font-light">
+                        <li class="flex gap-3">
+                            <CheckCircle class="text-blue-500 w-5 h-5 flex-shrink-0" />
+                            <span><strong>이른 시간 방문</strong>: 저녁 7시~9시 사이에 방문하시면 '주대 할인 이벤트'가 적용되는 경우가 많습니다. 가성비를 노리신다면 일찍 오세요!</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <CheckCircle class="text-blue-500 w-5 h-5 flex-shrink-0" />
+                            <span><strong>비즈니스 접대</strong>: 미리 "중요한 손님이다"라고 언질만 주시면, 에이스급 매니저들을 최우선으로 배정하여 분위기를 확실하게 띄워드립니다.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-900/10 p-8 rounded-2xl border border-blue-500/20">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <HelpCircle class="text-blue-500" /> 자주 묻는 질문 (FAQ)
+                    </h3>
+                    <div class="space-y-6">
+                        {faqList.map((faq) => (
+                            <div>
+                                <p class="font-bold text-blue-400 mb-1">Q. {faq.question}</p>
+                                <p class="text-slate-300 text-sm">A. {faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-blue-800 to-cyan-900 rounded-3xl p-10 text-center relative overflow-hidden shadow-2xl animate-fade-in-up delay-300">
+                <div class="absolute inset-0 bg-opacity-30"></div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6 relative z-10">{region.name} 비즈니스의 확실한 파트너</h2>
+                <p class="text-blue-100 mb-8 max-w-2xl mx-auto relative z-10">
+                    접대 자리 때문에 고민하지 마세요.<br />
+                    서우실장이 센스 있게 준비해 놓겠습니다.
+                </p>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-white text-blue-900 font-bold py-4 px-12 rounded-full shadow-lg hover:scale-105 transition-transform relative z-10 flex items-center gap-2 mx-auto">
+                    <Phone fill="currentColor" size={20} /> {region.phone} VIP 접대 예약
+                </button>
+            </div>
+
+            <RelatedServices region={region} />
+
+        </div>
+    </div>
+</PageLayout>

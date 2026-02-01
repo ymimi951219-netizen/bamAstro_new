@@ -1,0 +1,90 @@
+---
+import { PageLayout, BreadcrumbSchema, ItemListSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'hostbar';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '호스트바';
+const content = getVenueContent(venueId)!.ranking;
+const title = `${region.name} ${venueName} 순위 - 추천 업소 랭킹`;
+const description = `${region.name} ${venueName} 추천 순위. 가격, 서비스, 분위기 등 종합 평가를 바탕으로 한 업소 랭킹.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'ranking' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 순위</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">평가 기준</h2>
+      <div class="flex flex-wrap gap-2">
+        {content.criteria.map(criterion => (
+          <span class="bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full text-sm">
+            {criterion}
+          </span>
+        ))}
+      </div>
+    </section>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-6 text-white">추천 순위</h2>
+      <div class="space-y-6">
+        {content.items.map((item, index) => (
+          <div class="bg-gray-800/50 rounded-lg p-6">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-xl">
+                {index + 1}
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-semibold text-white mb-2">{item.name}</h3>
+                <p class="text-gray-300 mb-3 leading-relaxed">{item.description}</p>
+                <div class="flex flex-wrap gap-2">
+                  {item.highlights.map(highlight => (
+                    <span class="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-sm">
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">비교표</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead><tr class="border-b border-gray-700">
+            <th class="text-left py-3 px-4 text-gray-400">항목</th>
+            {content.items.map(item => (
+              <th class="text-left py-3 px-4 text-gray-400">{item.name}</th>
+            ))}
+          </tr></thead>
+          <tbody>
+            {content.comparisonTable.map(row => (
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-amber-400 font-bold">{row.feature}</td>
+                {row.values.map(val => (
+                  <td class="py-3 px-4 text-gray-300">{val}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <ItemListSchema items={content.items.map((item, idx) => ({
+    position: idx + 1,
+    name: item.name,
+    description: item.description
+  }))} />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-hostbar-guide` },
+    { name: '순위', url: '' }
+  ]} />
+</PageLayout>

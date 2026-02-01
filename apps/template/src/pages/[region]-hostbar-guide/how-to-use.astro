@@ -1,0 +1,74 @@
+---
+import { PageLayout, BreadcrumbSchema, FAQSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'hostbar';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '호스트바';
+const content = getVenueContent(venueId)!.howToUse;
+const title = `${region.name} ${venueName} 이용 방법 - 초보자 가이드`;
+const description = `${region.name} ${venueName} 이용 방법을 단계별로 안내합니다. 예약부터 퇴실까지 모든 과정을 상세히 설명합니다.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'how-to-use' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 이용 방법</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-6 text-white">이용 절차</h2>
+      <div class="space-y-6">
+        {content.steps.map((step, index) => (
+          <div class="bg-gray-800/50 rounded-lg p-6">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold">
+                {index + 1}
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-semibold text-white mb-2">{step.title}</h3>
+                <p class="text-gray-300 mb-3 leading-relaxed">{step.description}</p>
+                {step.tip && (
+                  <div class="bg-amber-500/10 border border-amber-500/30 rounded p-3">
+                    <p class="text-amber-300 text-sm"><strong>팁:</strong> {step.tip}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">주의사항</h2>
+      <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-6">
+        <ul class="space-y-2">
+          {content.warnings.map(warning => (
+            <li class="flex items-start gap-2 text-red-300">
+              <span class="text-red-400 mt-1">⚠</span><span>{warning}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">자주 묻는 질문</h2>
+      <div class="space-y-4">
+        {content.faqs.map(faq => (
+          <details class="bg-gray-800/50 rounded-lg p-4">
+            <summary class="text-white font-medium cursor-pointer">{faq.q}</summary>
+            <p class="text-gray-300 mt-3 leading-relaxed">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <FAQSchema faqs={content.faqs.map(f => ({ question: f.q, answer: f.a }))} />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-hostbar-guide` },
+    { name: '이용 방법', url: '' }
+  ]} />
+</PageLayout>

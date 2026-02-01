@@ -1,0 +1,68 @@
+---
+import { PageLayout, BreadcrumbSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'hostbar';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '호스트바';
+const content = getVenueContent(venueId)!.review;
+const title = `${region.name} ${venueName} 후기 - 실제 이용 리뷰`;
+const description = `${region.name} ${venueName} 실제 이용 후기 모음. 가격, 서비스, 분위기 등 종합 평가.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'review' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 후기</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">종합 평가</h2>
+      <div class="bg-gray-800/50 rounded-lg p-6">
+        <div class="flex items-center gap-4 mb-3">
+          <div class="text-5xl font-bold text-amber-400">{content.aggregateRating.value.toFixed(1)}</div>
+          <div>
+            <div class="flex gap-1 mb-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span class={i < Math.floor(content.aggregateRating.value) ? 'text-amber-400' : 'text-gray-600'}>
+                  ★
+                </span>
+              ))}
+            </div>
+            <p class="text-gray-400 text-sm">5점 만점</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-6 text-white">이용 후기</h2>
+      <div class="space-y-6">
+        {content.reviews.map(review => (
+          <div class="bg-gray-800/50 rounded-lg p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-white font-medium">{review.author}</span>
+                <div class="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span class={i < review.rating ? 'text-amber-400' : 'text-gray-600'} style="font-size: 0.875rem;">
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <span class="text-gray-400 text-sm">{review.date}</span>
+            </div>
+            <p class="text-gray-300 leading-relaxed">{review.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-hostbar-guide` },
+    { name: '후기', url: '' }
+  ]} />
+</PageLayout>
