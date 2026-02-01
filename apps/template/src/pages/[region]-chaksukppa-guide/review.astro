@@ -1,0 +1,61 @@
+---
+import { PageLayout, BreadcrumbSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'chaksukppa';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '착석빠';
+const content = getVenueContent(venueId)!.review;
+const title = `${region.name} ${venueName} 리뷰 및 후기 - 실제 방문 후기`;
+const description = `${region.name} ${venueName} 실제 방문 후기 모음. 분위기, 서비스, 가격 등 생생한 리뷰를 확인하세요.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'review' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 리뷰 및 후기</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+
+    <section class="mb-10">
+      <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6 text-center">
+        <div class="text-4xl font-bold text-amber-400 mb-1">{content.aggregateRating.value}</div>
+        <div class="flex justify-center gap-1 mb-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={i < Math.round(content.aggregateRating.value) ? 'text-amber-400' : 'text-gray-600'}>★</span>
+          ))}
+        </div>
+        <p class="text-gray-400">{content.aggregateRating.count}개의 리뷰 기반</p>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-6 text-white">방문자 후기</h2>
+      <div class="space-y-4">
+        {content.reviews.map(review => (
+          <div class="bg-gray-800/50 rounded-lg p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <span class="text-white font-medium">{review.author}</span>
+                <span class="text-gray-500 text-sm ml-2">{review.date}</span>
+              </div>
+              <div class="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span class={i < review.rating ? 'text-amber-400' : 'text-gray-600'}>★</span>
+                ))}
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed">{review.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-chaksukppa-guide` },
+    { name: '리뷰 및 후기', url: '' }
+  ]} />
+</PageLayout>

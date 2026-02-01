@@ -1,0 +1,101 @@
+---
+import { PageLayout, BreadcrumbSchema, FAQSchema, ProductSchema } from '@bamastro/ui';
+import { region } from '../../config/region';
+import InternalLinkSection from '../../components/InternalLinkSection.astro';
+import { getRelatedLinks } from '../../utils/internal-links';
+import { getVenueContent } from '../../content';
+
+const venueId = 'noraebang-bodo';
+const venue = region.venueTypes.find(v => v.id === venueId);
+const venueName = venue?.name || '노래방보도';
+const content = getVenueContent(venueId)!.price;
+const title = `${region.name} ${venueName} 가격 안내 - 요금표 및 시간대별 가격`;
+const description = `${region.name} ${venueName} 가격 정보. 기본 요금, 시간대별 가격, 인원별 예상 비용을 상세히 안내합니다.`;
+const links = getRelatedLinks({ type: 'venue-subpage', venueId, subpage: 'price' }, region);
+---
+<PageLayout title={title} description={description} region={region}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6 text-white">{region.name} {venueName} 가격 안내</h1>
+    <p class="text-gray-300 mb-8 leading-relaxed">{content.intro}</p>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">기본 요금표</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead><tr class="border-b border-gray-700">
+            <th class="text-left py-3 px-4 text-gray-400">항목</th>
+            <th class="text-left py-3 px-4 text-gray-400">금액</th>
+            <th class="text-left py-3 px-4 text-gray-400">비고</th>
+          </tr></thead>
+          <tbody>
+            {content.baseRates.map(rate => (
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white">{rate.label}</td>
+                <td class="py-3 px-4 text-amber-400 font-semibold">{rate.amount}</td>
+                <td class="py-3 px-4 text-gray-400">{rate.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">시간대별 요금</h2>
+      <div class="grid gap-4">
+        {content.timeSlots.map(slot => (
+          <div class="bg-gray-800/50 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-white font-medium">{slot.time}</span>
+              <span class="text-amber-400 font-bold">{slot.priceMultiplier}</span>
+            </div>
+            <p class="text-gray-400 text-sm">{slot.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">인원별 예상 비용</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {content.groupEstimates.map(group => (
+          <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+            <div class="text-gray-400 text-sm mb-1">{group.size}</div>
+            <div class="text-white font-semibold">{group.estimated}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">가격 절약 팁</h2>
+      <ul class="space-y-2">
+        {content.tips.map(tip => (
+          <li class="flex items-start gap-2 text-gray-300">
+            <span class="text-amber-400 mt-1">✓</span>
+            <span>{tip}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-white">자주 묻는 질문</h2>
+      <div class="space-y-4">
+        {content.faqs.map(faq => (
+          <details class="bg-gray-800/50 rounded-lg p-4 group">
+            <summary class="text-white font-medium cursor-pointer">{faq.q}</summary>
+            <p class="text-gray-300 mt-3 leading-relaxed">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <InternalLinkSection links={links} heading="관련 페이지" />
+  <FAQSchema faqs={content.faqs.map(f => ({ question: f.q, answer: f.a }))} />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${venueName} 가이드`, url: `/${region.id}-noraebang-bodo-guide` },
+    { name: '가격 안내', url: '' }
+  ]} />
+</PageLayout>
