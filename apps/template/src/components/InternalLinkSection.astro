@@ -1,0 +1,21 @@
+---
+interface Props {
+  links: { href: string; title: string; description?: string }[];
+  heading?: string;
+}
+
+const { links, heading = '관련 가이드' } = Astro.props;
+---
+{links.length > 0 && (
+  <section class="mt-12 border-t border-gray-700/50 pt-8">
+    <h2 class="text-2xl font-bold mb-6 text-white">{heading}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {links.map(link => (
+        <a href={link.href} class="block p-4 rounded-lg border border-gray-700 hover:border-purple-500 bg-gray-800/50 hover:bg-gray-800 transition-all duration-200">
+          <span class="font-medium text-purple-400 hover:text-purple-300">{link.title}</span>
+          {link.description && <p class="text-sm text-gray-400 mt-1">{link.description}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
+)}
