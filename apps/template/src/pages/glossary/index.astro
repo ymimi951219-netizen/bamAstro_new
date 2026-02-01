@@ -1,0 +1,68 @@
+---
+import { PageLayout, ItemListSchema, BreadcrumbSchema, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getAllGlossaryTerms } from '@/content/glossary-terms';
+
+export const prerender = true;
+
+const terms = getAllGlossaryTerms();
+
+const seoProps = {
+  title: `${region.name} 유흥 용어 사전 | 초보자를 위한 용어 해설`,
+  description: `${region.name} 유흥 용어 사전. 주대, TC, 초이스, 런닝타임 등 유흥업소 이용 시 알아야 할 필수 용어를 쉽게 설명합니다.`,
+  keywords: [
+    `유흥 용어`,
+    `유흥 용어 사전`,
+    `${region.name} 유흥 초보`,
+    `주대 뜻`,
+    `TC 뜻`,
+  ],
+};
+
+const listItems = terms.map((t) => ({
+  name: t.term,
+  url: `/glossary/${t.term}`,
+}));
+---
+
+<PageLayout {...seoProps} region={region}>
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: '용어 사전', url: '/glossary/' },
+  ]} />
+  <ItemListSchema items={listItems} />
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">용어 사전</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {region.name} 유흥 용어 사전
+        </h1>
+        <p class="text-slate-400 mt-4 text-lg">처음이라도 걱정 마세요. 필수 용어를 쉽게 설명합니다.</p>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Terms Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {terms.map((term) => (
+          <a href={`/glossary/${encodeURIComponent(term.term)}`} class="bg-slate-900/30 p-5 rounded-xl border border-slate-800/50 hover:border-purple-500/30 transition-colors group">
+            <div class="flex items-baseline gap-2 mb-2">
+              <h2 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">{term.term}</h2>
+              {term.reading && <span class="text-xs text-slate-500">({term.reading})</span>}
+            </div>
+            <p class="text-sm text-slate-400 line-clamp-2">{term.definition.slice(0, 80)}...</p>
+            <div class="mt-3 flex flex-wrap gap-1">
+              {term.relatedVenues.slice(0, 3).map((v) => (
+                <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">{v}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <RelatedServices region={region} />
+    </div>
+  </div>
+</PageLayout>

@@ -1,0 +1,116 @@
+---
+import { PageLayout, BreadcrumbSchema, PlaceSchema, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getStationVenueContent } from '@/content/station-guides';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  const stations = region.stationDetails ?? [];
+  const paths: { params: { station: string; venue: string }; props: { station: typeof stations[0]; venueType: string } }[] = [];
+
+  for (const s of stations) {
+    for (const v of region.venueTypes) {
+      if (getStationVenueContent(s.slug, v.id)) {
+        paths.push({
+          params: { station: s.slug, venue: v.id },
+          props: { station: s, venueType: v.id },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { station, venueType } = Astro.props;
+const content = getStationVenueContent(station.slug, venueType);
+const venue = region.venueTypes.find((v) => v.id === venueType);
+
+if (!content || !venue) {
+  throw new Error(`Station venue content not found: ${station.slug}/${venueType}`);
+}
+
+const seoProps = {
+  title: `${region.name} ${station.name} ${venue.name} 가이드 | 가격·추천·특징`,
+  description: `${region.name} ${station.name} ${venue.name} 완벽 가이드. 가격, 특징, 추천 업소 정보를 한눈에 확인하세요.`,
+  keywords: [
+    `${station.name} ${venue.name}`,
+    `${region.name} ${station.name} ${venue.name}`,
+    `${station.name} ${venue.name} 가격`,
+    `${station.name} ${venue.name} 추천`,
+  ],
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+  <PlaceSchema
+    places={[{
+      name: `${station.name} ${venue.name}`,
+      description: content.intro.slice(0, 200),
+      lat: region.geo.lat,
+      lng: region.geo.lng,
+      address: `${region.address.city} ${station.name} 일대`,
+    }]}
+  />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: `${station.name} 가이드`, url: `/station/${station.slug}` },
+    { name: `${venue.name}`, url: `/station/${station.slug}/${venueType}` },
+  ]} />
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">{station.name} &times; {venue.name}</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {region.name} {station.name} {venue.name} 가이드
+        </h1>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Intro -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <p class="text-lg text-slate-300 leading-relaxed font-light">{content.intro}</p>
+      </div>
+
+      <!-- Features -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          주요 특징
+        </h2>
+        <ul class="space-y-2 text-slate-300">
+          {content.features.map((f) => (
+            <li class="flex gap-2"><span class="text-purple-400">&#10003;</span> {f}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Price Range -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          가격대
+        </h2>
+        <p class="text-xl text-amber-400 font-bold">{content.priceRange}</p>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          추천 업소
+        </h2>
+        <ul class="space-y-3 text-slate-300">
+          {content.recommendations.map((r) => (
+            <li class="flex gap-2"><span class="text-amber-400">&#9733;</span> {r}</li>
+          ))}
+        </ul>
+      </div>
+
+      <RelatedServices region={region} />
+    </div>
+  </div>
+</PageLayout>

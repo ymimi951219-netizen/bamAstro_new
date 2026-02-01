@@ -1,0 +1,131 @@
+---
+import { PageLayout, FAQPageSchema, BreadcrumbSchema, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getSituationalGuideContent, SITUATIONAL_GUIDE_SLUGS } from '@/content/situational-guides';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return SITUATIONAL_GUIDE_SLUGS.map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const guide = getSituationalGuideContent(slug);
+
+if (!guide) {
+  throw new Error(`Situational guide not found for slug: ${slug}`);
+}
+
+const title = guide.titleTemplate.replace('{지역}', region.name);
+
+const seoProps = {
+  title,
+  description: `${title}. ${guide.intro.slice(0, 120)}...`,
+  keywords: [
+    `${region.name} ${slug.replace(/-/g, ' ')}`,
+    `${region.name} 유흥 가이드`,
+  ],
+};
+
+const faqItems = guide.bookingTips.map((tip, i) => ({
+  question: `팁 ${i + 1}: ${tip.slice(0, 30)}...`,
+  answer: tip,
+}));
+---
+
+<PageLayout {...seoProps} region={region}>
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: '가이드 모음', url: '/guide/' },
+    { name: title, url: `/guide/${slug}` },
+  ]} />
+  <FAQPageSchema items={faqItems} />
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">상황별 가이드</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {title}
+        </h1>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Intro -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <p class="text-lg text-slate-300 leading-relaxed font-light whitespace-pre-line">{guide.intro}</p>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          추천 업종
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {guide.recommendations.map((rec) => (
+            <div class="bg-slate-900/30 p-6 rounded-xl border border-slate-800/50">
+              <h3 class="text-white font-bold mb-2">{rec.venueType}</h3>
+              <p class="text-sm text-slate-400 mb-2">{rec.reason}</p>
+              <span class="text-amber-400 text-sm font-bold">{rec.priceRange}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Course Suggestion -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          추천 코스
+        </h2>
+        <ol class="space-y-3 text-slate-300">
+          {guide.courseSuggestion.map((c) => (
+            <li class="flex gap-3">
+              <span class="text-purple-400 font-bold whitespace-nowrap">{c.step}</span>
+              <span>{c.venue} ({c.duration})</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <!-- Budget Guide -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          예산 가이드
+        </h2>
+        <p class="text-slate-300 leading-relaxed font-light whitespace-pre-line">{guide.budgetGuide}</p>
+      </div>
+
+      <!-- Booking Tips -->
+      <div class="mb-12 bg-purple-900/10 p-8 rounded-2xl border border-purple-500/20">
+        <h2 class="text-2xl font-bold text-white mb-6">예약 팁</h2>
+        <ul class="space-y-3 text-slate-300">
+          {guide.bookingTips.map((tip) => (
+            <li class="flex gap-2"><span class="text-amber-400">&#10003;</span> {tip}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Related Guides -->
+      {guide.relatedGuidesSlugs.length > 0 && (
+        <div class="mb-12">
+          <h2 class="text-xl font-bold text-white mb-4">관련 가이드</h2>
+          <div class="flex flex-wrap gap-3">
+            {guide.relatedGuidesSlugs.map((s) => (
+              <a href={`/guide/${s}`} class="bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm hover:bg-purple-900/30 hover:text-purple-400 transition-colors">
+                {s.replace(/-/g, ' ')}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <RelatedServices region={region} />
+    </div>
+  </div>
+</PageLayout>

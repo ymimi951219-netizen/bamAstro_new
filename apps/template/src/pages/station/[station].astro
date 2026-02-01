@@ -1,0 +1,155 @@
+---
+import { PageLayout, PlaceSchema, BreadcrumbSchema, FAQPageSchema, RelatedServices } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getStationGuideContent } from '@/content/station-guides';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  const stations = region.stationDetails ?? [];
+  return stations.map((s) => ({
+    params: { station: s.slug },
+    props: { station: s },
+  }));
+}
+
+const { station } = Astro.props;
+const content = getStationGuideContent(station.slug);
+
+if (!content) {
+  throw new Error(`Station guide content not found for slug: ${station.slug}`);
+}
+
+const seoProps = {
+  title: `${region.name} ${station.name} 유흥 가이드 | 업소 추천·가격·코스`,
+  description: `${region.name} ${station.name} 유흥 완벽 가이드. ${station.landmarks.slice(0, 2).join('·')} 중심 하이퍼블릭·가라오케·룸살롱 추천, 가격, 코스, FAQ 안내.`,
+  keywords: [
+    `${region.name} ${station.name} 유흥`,
+    `${station.name} 하이퍼블릭`,
+    `${station.name} 가라오케`,
+    `${station.name} 유흥 가이드`,
+  ],
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+  <PlaceSchema
+    places={[{
+      name: `${region.name} ${station.name} 유흥가`,
+      description: station.description,
+      lat: region.geo.lat,
+      lng: region.geo.lng,
+      address: `${region.address.city} ${station.name} 일대`,
+    }]}
+  />
+  <BreadcrumbSchema region={region} items={[
+    { name: '홈', url: '/' },
+    { name: '역별 가이드', url: '/station/' },
+    { name: `${station.name} 가이드`, url: `/station/${station.slug}` },
+  ]} />
+  {content.faqs.length > 0 && (
+    <FAQPageSchema items={content.faqs.map((f) => ({ question: f.q, answer: f.a }))} />
+  )}
+
+  <div class="pt-24 md:pt-32 min-h-screen bg-transparent">
+    <div class="container mx-auto px-4 pb-12 max-w-6xl">
+      <!-- Title -->
+      <div class="text-center mb-16 relative">
+        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">역세권 가이드</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
+          {region.name} {station.name} 유흥 가이드
+        </h1>
+        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+      </div>
+
+      <!-- Intro -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <p class="text-lg text-slate-300 leading-relaxed font-light">{content.intro}</p>
+      </div>
+
+      <!-- Area Description -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          {station.name} 주변 환경
+        </h2>
+        <p class="text-slate-300 leading-relaxed font-light">{content.areaDescription}</p>
+      </div>
+
+      <!-- Access Info -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          교통·접근성
+        </h2>
+        <p class="text-slate-300 leading-relaxed font-light">{content.accessInfo}</p>
+      </div>
+
+      <!-- Venue Overview -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          업종별 안내
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {content.venueOverview.map((v) => (
+            <div class={`p-6 rounded-xl border ${v.recommended ? 'border-amber-500/30 bg-amber-900/10' : 'border-slate-800/50 bg-slate-900/30'}`}>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-white font-bold">{v.venueType}</span>
+                {v.recommended && <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">추천</span>}
+              </div>
+              <p class="text-sm text-slate-400">{v.description}</p>
+              <a href={`/station/${station.slug}/${v.venueType}`} class="text-purple-400 text-sm mt-2 inline-block hover:text-purple-300">상세 보기 &rarr;</a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Hotspots -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          핫스팟
+        </h2>
+        <ul class="space-y-2 text-slate-300">
+          {content.hotspots.map((h) => (
+            <li class="flex gap-2"><span class="text-amber-400">&#9679;</span> {h}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Course Suggestion -->
+      <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          추천 코스
+        </h2>
+        <ol class="space-y-3 text-slate-300">
+          {content.courseSuggestion.map((c) => (
+            <li class="flex gap-3">
+              <span class="text-purple-400 font-bold whitespace-nowrap">{c.step}</span>
+              <span>({c.venue}, {c.duration})</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <!-- FAQ -->
+      {content.faqs.length > 0 && (
+        <div class="mb-12 bg-purple-900/10 p-8 rounded-2xl border border-purple-500/20">
+          <h2 class="text-2xl font-bold text-white mb-6">자주 묻는 질문 (FAQ)</h2>
+          <div class="space-y-6">
+            {content.faqs.map((faq) => (
+              <div>
+                <p class="font-bold text-purple-400 mb-1">Q. {faq.q}</p>
+                <p class="text-slate-300 text-sm">A. {faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <RelatedServices region={region} />
+    </div>
+  </div>
+</PageLayout>
