@@ -1,0 +1,86 @@
+---
+/**
+ * SnippetDefinition Component
+ * Featured Snippet optimized definition block
+ * Formats content for paragraph snippet eligibility
+ *
+ * Usage:
+ * <SnippetDefinition
+ *   term="룸살롱"
+ *   definition="룸살롱은 프라이빗 룸 중심의 비즈니스 접대 클럽입니다..."
+ *   keyPoints={["VVIP 접대", "보안", "최상위 매니저"]}
+ *   color="amber"
+ * />
+ */
+
+interface Props {
+  term: string;
+  definition: string; // 40-60 words for snippet optimization
+  keyPoints: string[]; // 3-4 bullet points
+  color?: 'amber' | 'purple';
+  id?: string;
+}
+
+const { term, definition, keyPoints, color = 'amber', id } = Astro.props;
+
+// Validate snippet length (40-60 words)
+const wordCount = definition.split(/\s+/).length;
+const isOptimal = wordCount >= 40 && wordCount <= 60;
+
+// Style mappings
+const colorClasses = {
+  amber: {
+    accent: 'bg-amber-500',
+    border: 'border-amber-500/20',
+    hover: 'hover:border-amber-500/20',
+    text: 'text-amber-500'
+  },
+  purple: {
+    accent: 'bg-purple-500',
+    border: 'border-purple-500/20',
+    hover: 'hover:border-purple-500/20',
+    text: 'text-purple-500'
+  }
+};
+
+const colors = colorClasses[color];
+---
+
+<div
+  {id}
+  class={`mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 ${colors.hover} transition-colors backdrop-blur-sm`}
+>
+  <!-- Warning if not optimized for snippet -->
+  {!isOptimal && (
+    <div class="mb-4 text-xs bg-yellow-900/20 border border-yellow-500/30 text-yellow-400 px-3 py-2 rounded">
+      ⚠️ Definition is {wordCount} words. Featured snippets work best with 40-60 words.
+    </div>
+  )}
+
+  <!-- Term Title -->
+  <h3 class={`text-2xl font-bold text-white mb-6 flex items-center gap-3`}>
+    <div class={`w-1.5 h-8 ${colors.accent} rounded-full`}></div>
+    {term}이란?
+  </h3>
+
+  <!-- Definition (snippet-friendly format) -->
+  <p class="text-slate-300 leading-relaxed text-lg mb-6 font-light">
+    {definition}
+  </p>
+
+  <!-- Key Points Grid -->
+  {keyPoints.length > 0 && (
+    <div class={`grid grid-cols-1 md:grid-cols-${keyPoints.length > 2 ? '3' : '2'} gap-4 mt-6`}>
+      {keyPoints.map((point) => (
+        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-center hover:border-slate-600 transition-colors">
+          <div class="font-bold text-white text-sm leading-snug">{point}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <!-- Word count metadata for SEO validation -->
+  <div class="mt-4 text-xs text-slate-500">
+    {wordCount} words {isOptimal ? '✓' : '• Optimize to 40-60 words'}
+  </div>
+</div>

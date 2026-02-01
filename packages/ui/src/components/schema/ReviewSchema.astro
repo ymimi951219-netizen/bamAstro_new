@@ -1,0 +1,60 @@
+---
+/**
+ * ReviewSchema Component
+ * 고객 후기를 위한 JSON-LD 스키마
+ * 리치 스니펫에서 리뷰 표시 가능
+ */
+
+import type { RegionConfig } from '../../types/region';
+
+interface Review {
+  author: string;
+  datePublished: string;  // ISO 8601 형식 (YYYY-MM-DD)
+  reviewBody: string;
+  ratingValue: number;    // 1-5
+}
+
+interface Props {
+  region: RegionConfig;
+  itemName?: string;
+  reviews: Review[];
+}
+
+const {
+  region,
+  itemName = `${region.name} 하이퍼블릭`,
+  reviews
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": itemName,
+  "url": `https://${region.domain}/`,
+  "telephone": region.phone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": region.address.street,
+    "addressLocality": region.address.city,
+    "addressRegion": region.address.region,
+    "addressCountry": "KR"
+  },
+  "review": reviews.map(review => ({
+    "@type": "Review",
+    "author": {
+      "@type": "Person",
+      "name": review.author
+    },
+    "datePublished": review.datePublished,
+    "reviewBody": review.reviewBody,
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": review.ratingValue,
+      "bestRating": 5,
+      "worstRating": 1
+    }
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

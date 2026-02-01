@@ -1,0 +1,74 @@
+---
+import { ArrowRight, Star, Mic2, Shirt, Flower2, Crown, GlassWater } from 'lucide-astro';
+import { region } from '@/config/region'; // This might be tricky in a shared UI package if it depends on app-specific config alias.
+// Wait, 'packages/ui' shouldn't depend on '@/config/region' if it's a shared package. 
+// However, the previous components in 'ui' like 'VenuePreviewSection' seemed to import specific types.
+// But 'region' data usually comes from props.
+// For RelatedServices, the list of services seems hardcoded in the reference but points to paths.
+// We should probably accept the current path as a prop, and maybe the list of services as a prop OR hardcode standard venue types.
+// Given strict "composition match", I will copy the logic but make it dynamic or configurable if possible, 
+// OR just hardcode the standard types if that's what the user wants. 
+// Actually, better to use the region config passed in, or just replicate the hardcoded list but using dynamic slugs.
+
+interface Props {
+  region: any; // RegionConfig
+  currentPath?: string;
+}
+
+const { region: regionConfig, currentPath = Astro.url.pathname } = Astro.props;
+
+// Map venue type IDs to icons and colors
+const venueMeta: Record<string, { icon: any; color: string; desc: string }> = {
+    hyperpub: { icon: Star, color: 'text-purple-400', desc: '합리적인 가격의 프리미엄' },
+    karaoke: { icon: Mic2, color: 'text-fuchsia-400', desc: '최신 음향 시설 완비' },
+    shirtsroom: { icon: Shirt, color: 'text-white', desc: '화이트 셔츠의 매력' },
+    kimonoroom: { icon: Flower2, color: 'text-pink-400', desc: '이색적인 코스튬 테마' },
+    roomsalon: { icon: Crown, color: 'text-purple-500', desc: '비즈니스 접대의 정석' },
+    hostbar: { icon: GlassWater, color: 'text-violet-400', desc: '여성 전용 프리미엄' },
+};
+
+// Generate services list from region config if available, otherwise fallback
+const services = regionConfig.venueTypes.map((v: any) => {
+    const meta = venueMeta[v.id] || { icon: Star, color: 'text-slate-400', desc: v.description };
+    return {
+        id: v.id,
+        name: v.name,
+        desc: meta.desc,
+        path: `/${v.slug}`,
+        icon: meta.icon,
+        color: meta.color
+    };
+});
+
+const otherServices = services.filter((s: any) => s.path !== currentPath && s.path + '/' !== currentPath);
+---
+
+<section class="py-20 bg-transparent border-t border-white/5 relative">
+    <div class="absolute inset-0 bg-slate-900/30 -z-10"></div>
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-white mb-2">다른 서비스 둘러보기</h3>
+            <p class="text-slate-400">{regionConfig.name} 최고의 밤문화 코스를 확인해보세요.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {otherServices.map((service: any) => (
+                <a
+                    href={service.path}
+                    class="group bg-slate-800/20 hover:bg-slate-800/50 border border-white/5 hover:border-purple-500/50 p-6 rounded-xl transition-all duration-300 hover:-translate-y-1 flex items-center justify-between backdrop-blur-sm"
+                >
+                    <div class="flex items-center gap-4">
+                        <div class={`w-12 h-12 rounded-lg bg-slate-900/50 flex items-center justify-center ${service.color} group-hover:scale-110 transition-transform`}>
+                            <service.icon size={24} />
+                        </div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-white group-hover:text-purple-400 transition-colors">{regionConfig.name} {service.name}</h4>
+                            <p class="text-xs text-slate-400">{service.desc}</p>
+                        </div>
+                    </div>
+                    <ArrowRight size={18} class="text-slate-600 group-hover:text-purple-500 group-hover:translate-x-1 transition-transform" />
+                </a>
+            ))}
+        </div>
+    </div>
+</section>

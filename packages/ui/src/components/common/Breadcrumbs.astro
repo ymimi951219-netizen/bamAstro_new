@@ -1,0 +1,64 @@
+---
+// Simple breadcrumb implementation
+const paths = Astro.url.pathname.split('/').filter(Boolean);
+
+const dictionary: Record<string, string> = {
+  'faq': '자주 묻는 질문',
+  'highpublic': '하이퍼블릭',
+  'highpub': '하이퍼블릭',
+  'hyperpub': '하이퍼블릭',
+  'karaoke': '가라오케',
+  'roomsalon': '룸살롱',
+  'shirtsroom': '셔츠룸',
+  'kimonoroom': '기모노룸',
+  'hostbar': '호스트바',
+  'guide': '가이드',
+  'price': '가격',
+  'beginner': '초보자',
+  'entertainment': '유흥',
+  'bundang': '분당',
+  'gangnam': '강남',
+  'suwon': '수원',
+  'contact': '문의하기',
+  'privacy': '개인정보처리방침',
+  'terms': '이용약관',
+};
+
+function translatePath(path: string) {
+    const decoded = decodeURIComponent(path);
+    // Split by hyphen and map
+    return decoded.split('-').map(part => {
+        const key = part.toLowerCase();
+        return dictionary[key] || part.charAt(0).toUpperCase() + part.slice(1);
+    }).join(' ');
+}
+---
+
+{paths.length > 0 && (
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-4 text-sm text-slate-400" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <a href="/" class="inline-flex items-center hover:text-indigo-400 transition-colors">
+          <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+          </svg>
+          홈
+        </a>
+      </li>
+      {paths.map((path, index) => (
+        <li>
+          <div class="flex items-center">
+            <svg class="w-3 h-3 text-slate-600 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            {index === paths.length - 1 ? (
+                 <span class="ml-1 font-medium text-slate-200 md:ml-2" aria-current="page">{translatePath(path)}</span>
+            ) : (
+                <a href={`/${paths.slice(0, index + 1).join('/')}`} class="ml-1 font-medium text-slate-400 hover:text-white md:ml-2">{translatePath(path)}</a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

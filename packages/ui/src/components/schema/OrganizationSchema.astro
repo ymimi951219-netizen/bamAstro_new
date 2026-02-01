@@ -1,0 +1,41 @@
+---
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": `${region.name} 서우실장`,
+  "url": `https://${region.domain}/`,
+  "logo": `https://${region.domain}/logo.webp`,
+  "description": region.seo.description,
+  "telephone": region.phone,
+  "email": region.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": region.address.street,
+    "addressLocality": region.address.city,
+    "addressRegion": region.address.region,
+    "addressCountry": "KR"
+  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": region.phone,
+      "contactType": "customer service",
+      "availableLanguage": "Korean"
+    }
+  ],
+  "sameAs": [
+    region.kakaoLink,
+    region.telegramLink
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

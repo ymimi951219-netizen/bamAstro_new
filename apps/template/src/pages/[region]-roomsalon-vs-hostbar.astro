@@ -1,0 +1,184 @@
+---
+import { PageLayout, LocalBusinessSchema, FAQSchema } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { Phone, Briefcase, Heart, CheckCircle } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const seoProps = {
+  title: `${region.name} 룸살롱 vs 호빠 | 남녀별 완벽 선택 가이드`,
+  description: `${region.name} 룸살롱 vs 호빠 완벽 비교. 남성·여성 고객별 맞춤 추천. 가격·분위기·서비스 차이점 상세 정리. 당신에게 맞는 선택은?`,
+  keywords: [`${region.name} 룸살롱 vs 호빠`, `${region.name} 룸살롱 비교`, `${region.name} 호빠 비교`, `${region.name} 유흥 비교`],
+};
+
+const comparisonFaq = [
+    {
+        question: "룸살롱과 호빠의 가장 큰 차이점은 무엇인가요?",
+        answer: "가장 큰 차이는 대상 고객입니다. 룸살롱은 남성 고객, 호빠는 여성 고객을 위한 공간입니다. 각각 이성 매니저가 서비스를 제공합니다."
+    },
+    {
+        question: "여성인데 룸살롱 갈 수 있나요?",
+        answer: "일반적으로 룸살롱은 남성 고객 전용입니다. 여성분은 호빠(호스트바)를 이용해 주세요."
+    },
+    {
+        question: "가격대는 비슷한가요?",
+        answer: "주대와 TC 기준은 비슷합니다. 다만 업소별, 시간별로 차이가 있으니 예약 시 확인해 주세요."
+    }
+];
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    <FAQSchema questions={comparisonFaq} />
+
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent px-4 pb-20">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <span class="text-amber-400 font-bold tracking-[0.2em] text-sm uppercase mb-3 block">VS 비교 가이드</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6">
+                    {region.name} <span class="text-emerald-400">룸살롱</span> vs <span class="text-rose-400">호빠</span>
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                    남성을 위한 룸살롱, 여성을 위한 호빠. 두 업종의 차이점을 비교해 드립니다.
+                </p>
+            </div>
+
+            <!-- Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <!-- 룸살롱 -->
+                <div class="bg-gradient-to-br from-emerald-900/30 to-slate-900/50 p-8 rounded-3xl border border-emerald-500/30">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+                            <Briefcase class="text-emerald-400" size={24} />
+                        </div>
+                        <h2 class="text-2xl font-bold text-emerald-400">룸살롱</h2>
+                    </div>
+                    <p class="text-slate-300 mb-6">남성 고객을 위한 프리미엄 라운지. 비즈니스 접대와 특별한 자리에 적합.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-emerald-400" size={18} />
+                            남성 고객 전용
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-emerald-400" size={18} />
+                            여성 매니저 서비스
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-emerald-400" size={18} />
+                            비즈니스 접대에 최적화
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-emerald-400" size={18} />
+                            프라이빗한 동선 제공
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 호빠 -->
+                <div class="bg-gradient-to-br from-rose-900/30 to-slate-900/50 p-8 rounded-3xl border border-rose-500/30">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center">
+                            <Heart class="text-rose-400" size={24} />
+                        </div>
+                        <h2 class="text-2xl font-bold text-rose-400">호빠 (호스트바)</h2>
+                    </div>
+                    <p class="text-slate-300 mb-6">여성 고객을 위한 프리미엄 라운지. 스트레스 해소와 특별한 시간에 적합.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-rose-400" size={18} />
+                            여성 고객 전용
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-rose-400" size={18} />
+                            남성 호스트 서비스
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-rose-400" size={18} />
+                            무한 초이스 가능
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-rose-400" size={18} />
+                            생일/기념일 이벤트
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="bg-slate-900/50 rounded-3xl border border-slate-800 overflow-hidden mb-16">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-4 px-6 text-left text-slate-400">비교 항목</th>
+                                <th class="py-4 px-6 text-center text-emerald-400">룸살롱</th>
+                                <th class="py-4 px-6 text-center text-rose-400">호빠</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">대상 고객</td>
+                                <td class="py-4 px-6 text-center">남성</td>
+                                <td class="py-4 px-6 text-center">여성</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">매니저</td>
+                                <td class="py-4 px-6 text-center">여성 매니저</td>
+                                <td class="py-4 px-6 text-center">남성 호스트</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">가격대</td>
+                                <td class="py-4 px-6 text-center">주대 18만원 이상</td>
+                                <td class="py-4 px-6 text-center">주대 18만원 이상</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">TC</td>
+                                <td class="py-4 px-6 text-center">TC 10만원 이상</td>
+                                <td class="py-4 px-6 text-center">TC 10만원 이상</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">분위기</td>
+                                <td class="py-4 px-6 text-center">비즈니스 & 고급</td>
+                                <td class="py-4 px-6 text-center">로맨틱 & 감성</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-bold">추천 상황</td>
+                                <td class="py-4 px-6 text-center">비즈니스 접대, 남성 모임</td>
+                                <td class="py-4 px-6 text-center">스트레스 해소, 생일 파티</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-gradient-to-b from-emerald-500 to-rose-500 rounded-full"></div>
+                    자주 묻는 질문
+                </h2>
+                <div class="grid gap-6">
+                    {comparisonFaq.map((item) => (
+                        <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                            <h3 class="text-lg font-bold text-white mb-3">Q. {item.question}</h3>
+                            <p class="text-slate-300">A. {item.answer}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-emerald-800 to-rose-800 rounded-3xl p-10 text-center">
+                <h2 class="text-3xl font-extrabold text-white mb-4">맞춤 추천이 필요하신가요?</h2>
+                <p class="text-slate-200 mb-8">서우실장이 상황에 맞는 최적의 장소를 추천해 드립니다.</p>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-white text-slate-900 font-bold py-4 px-12 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
+                    <Phone fill="currentColor" size={20} /> {region.phone} 맞춤 상담
+                </button>
+            </div>
+        </div>
+    </div>
+</PageLayout>

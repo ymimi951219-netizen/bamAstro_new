@@ -1,0 +1,226 @@
+---
+import { PageLayout } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getBlogPostsPaginated } from '@/lib/supabase';
+import { Clock, ArrowRight, BookOpen, ChevronLeft, ChevronRight } from 'lucide-astro';
+
+// SSR 모드 - 스케줄링된 글이 시간에 맞춰 자동 노출됨
+export const prerender = false;
+
+// Get page number from params (this route handles pages 2+)
+const { page: pageParam } = Astro.params;
+const currentPage = parseInt(pageParam as string, 10);
+
+// Redirect invalid pages to /blog
+if (isNaN(currentPage) || currentPage < 2) {
+  return Astro.redirect('/blog');
+}
+
+const PAGE_SIZE = 9;
+
+// Fetch paginated posts
+const { data: posts, count, totalPages } = await getBlogPostsPaginated(currentPage, PAGE_SIZE);
+
+// Redirect if page exceeds total pages
+if (currentPage > totalPages) {
+  return Astro.redirect('/blog');
+}
+
+// No featured post on pages 2+
+const regularPosts = posts;
+
+// Format date helper
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// Generate page numbers to display
+function getPageNumbers(current: number, total: number): (number | '...')[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  if (current <= 3) {
+    return [1, 2, 3, 4, 5, '...', total];
+  }
+
+  if (current >= total - 2) {
+    return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+  }
+
+  return [1, '...', current - 1, current, current + 1, '...', total];
+}
+
+const pageNumbers = getPageNumbers(currentPage, totalPages);
+
+const seoProps = {
+  title: `블로그 & 가이드 - ${currentPage}페이지 | ${region.name}`,
+  description: `${region.name} 유흥 이용 팁, 에티켓 가이드, 트렌드 리포트 등 유용한 정보를 확인하세요.`,
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+  <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <!-- Hero Section -->
+    <div class="relative pt-32 pb-16 overflow-hidden">
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center">
+          <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-5 py-2 rounded-full mb-6 backdrop-blur-sm">
+            <BookOpen class="w-4 h-4 text-purple-400" />
+            <span class="text-purple-300 text-sm font-medium tracking-wide">인사이더 팁 & 가이드</span>
+          </div>
+          <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+            블로그 &
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-400 to-violet-500">
+              가이드
+            </span>
+          </h1>
+          <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+            15년 업계 경험을 바탕으로 한 실전 가이드와 최신 트렌드를 공유합니다.
+          </p>
+          <p class="text-slate-500 text-sm mt-4">페이지 {currentPage} / {totalPages}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog List -->
+    <div class="container mx-auto px-4 pb-32">
+      <!-- Regular Posts Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {regularPosts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="block group">
+            <article class="h-full rounded-2xl border border-slate-800/50 bg-slate-900/40 backdrop-blur-sm hover:border-purple-500/30 hover:bg-slate-800/40 transition-all duration-300 hover:shadow-lg overflow-hidden flex flex-col">
+              <!-- Thumbnail Image -->
+              {post.featured_image && (
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src={post.featured_image}
+                    alt={post.title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                </div>
+              )}
+
+              <div class="p-6 flex-1 flex flex-col">
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="text-xs font-bold tracking-wider text-purple-400 uppercase bg-purple-500/10 px-3 py-1 rounded-full">
+                    {post.category}
+                  </span>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors leading-snug">
+                  {post.title}
+                </h3>
+                <p class="text-slate-400 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
+                  {post.excerpt}
+                </p>
+
+                <div class="flex items-center justify-between pt-4 border-t border-slate-800/50">
+                  <div class="flex items-center gap-3 text-slate-500 text-xs">
+                    <span>{formatDate(post.published_at || post.created_at)}</span>
+                    <span class="flex items-center gap-1">
+                      <Clock class="w-3 h-3" />
+                      {post.read_time}
+                    </span>
+                  </div>
+                  <ArrowRight class="w-4 h-4 text-slate-600 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" />
+                </div>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      {posts.length === 0 && (
+        <div class="text-center py-20">
+          <BookOpen class="w-16 h-16 text-slate-700 mx-auto mb-4" />
+          <h3 class="text-xl font-semibold text-slate-400 mb-2">아직 작성된 글이 없습니다</h3>
+          <p class="text-slate-500">곧 유용한 가이드를 준비해 드릴게요.</p>
+        </div>
+      )}
+
+      <!-- Pagination -->
+      {totalPages > 1 && (
+        <nav class="mt-16 flex justify-center" aria-label="페이지네이션">
+          <ul class="flex items-center gap-2">
+            <!-- Previous Button -->
+            <li>
+              {currentPage > 1 ? (
+                <a
+                  href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:border-purple-500/50 hover:text-purple-300 transition-all"
+                  aria-label="이전 페이지"
+                >
+                  <ChevronLeft class="w-5 h-5" />
+                </a>
+              ) : (
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-800 bg-slate-900/30 text-slate-600 cursor-not-allowed">
+                  <ChevronLeft class="w-5 h-5" />
+                </span>
+              )}
+            </li>
+
+            <!-- Page Numbers -->
+            {pageNumbers.map((pageNum) => (
+              <li>
+                {pageNum === '...' ? (
+                  <span class="inline-flex items-center justify-center w-10 h-10 text-slate-500">...</span>
+                ) : pageNum === currentPage ? (
+                  <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-purple-600 text-white font-semibold">
+                    {pageNum}
+                  </span>
+                ) : (
+                  <a
+                    href={pageNum === 1 ? '/blog' : `/blog/page/${pageNum}`}
+                    class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:border-purple-500/50 hover:text-purple-300 transition-all"
+                  >
+                    {pageNum}
+                  </a>
+                )}
+              </li>
+            ))}
+
+            <!-- Next Button -->
+            <li>
+              {currentPage < totalPages ? (
+                <a
+                  href={`/blog/page/${currentPage + 1}`}
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 bg-slate-800/50 text-slate-400 hover:border-purple-500/50 hover:text-purple-300 transition-all"
+                  aria-label="다음 페이지"
+                >
+                  <ChevronRight class="w-5 h-5" />
+                </a>
+              ) : (
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-800 bg-slate-900/30 text-slate-600 cursor-not-allowed">
+                  <ChevronRight class="w-5 h-5" />
+                </span>
+              )}
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      <!-- Post Count Info -->
+      {count > 0 && (
+        <p class="text-center text-slate-500 text-sm mt-6">
+          총 {count}개의 게시글
+        </p>
+      )}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+/**
+ * BackToPillar Component
+ * SEO 내부 링크 강화를 위한 Cluster → Pillar 역링크 컴포넌트
+ * FAQ 페이지 등에서 메인 가이드로 돌아가는 링크 제공
+ */
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  accentColor?: 'amber' | 'purple' | 'pink' | 'emerald' | 'blue' | 'rose' | 'red';
+}
+
+const {
+  href,
+  title,
+  description,
+  accentColor = 'amber'
+} = Astro.props;
+
+const colorClasses = {
+  amber: {
+    border: 'border-amber-500/30 hover:border-amber-500/50',
+    text: 'text-amber-500',
+    bg: 'bg-amber-500/10',
+    gradient: 'from-amber-500/20 to-transparent'
+  },
+  purple: {
+    border: 'border-purple-500/30 hover:border-purple-500/50',
+    text: 'text-purple-500',
+    bg: 'bg-purple-500/10',
+    gradient: 'from-purple-500/20 to-transparent'
+  },
+  pink: {
+    border: 'border-pink-500/30 hover:border-pink-500/50',
+    text: 'text-pink-500',
+    bg: 'bg-pink-500/10',
+    gradient: 'from-pink-500/20 to-transparent'
+  },
+  emerald: {
+    border: 'border-emerald-500/30 hover:border-emerald-500/50',
+    text: 'text-emerald-500',
+    bg: 'bg-emerald-500/10',
+    gradient: 'from-emerald-500/20 to-transparent'
+  },
+  blue: {
+    border: 'border-blue-500/30 hover:border-blue-500/50',
+    text: 'text-blue-500',
+    bg: 'bg-blue-500/10',
+    gradient: 'from-blue-500/20 to-transparent'
+  },
+  rose: {
+    border: 'border-rose-500/30 hover:border-rose-500/50',
+    text: 'text-rose-500',
+    bg: 'bg-rose-500/10',
+    gradient: 'from-rose-500/20 to-transparent'
+  },
+  red: {
+    border: 'border-red-500/30 hover:border-red-500/50',
+    text: 'text-red-500',
+    bg: 'bg-red-500/10',
+    gradient: 'from-red-500/20 to-transparent'
+  }
+};
+
+const colors = colorClasses[accentColor];
+---
+
+<div class="my-8">
+  <a
+    href={href}
+    class={`group flex items-center gap-4 p-5 bg-slate-900/50 rounded-xl border ${colors.border} transition-all duration-300 hover:bg-slate-900/80`}
+  >
+    <div class={`flex-shrink-0 w-12 h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
+      <svg class={`w-6 h-6 ${colors.text}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+    </div>
+    <div class="flex-1">
+      <span class={`text-xs font-semibold ${colors.text} uppercase tracking-wider`}>
+        메인 가이드로 돌아가기
+      </span>
+      <h3 class="text-lg font-bold text-white group-hover:text-slate-200 transition-colors">
+        {title}
+      </h3>
+      {description && (
+        <p class="text-sm text-slate-400 mt-1">
+          {description}
+        </p>
+      )}
+    </div>
+    <div class={`flex-shrink-0 ${colors.text} group-hover:translate-x-1 transition-transform`}>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </a>
+</div>

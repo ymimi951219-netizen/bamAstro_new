@@ -1,0 +1,48 @@
+name: Daily Sitemap Ping
+
+on:
+  schedule:
+    # 매일 오전 6시 KST (UTC 21:00 전날)
+    - cron: '0 21 * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  ping-sitemaps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Google with sitemaps
+        run: |
+          echo "🚀 Starting sitemap ping to Google..."
+
+          # 모든 지역 사이트 도메인
+          DOMAINS=(
+            "high-karaoke.com"      # 강남
+            "hikaraoke.com"         # 분당
+            "best-karaoke.com"      # 동탄
+            "public-karaoke.net"    # 인계동
+            "public-karaoke.com"    # 수원
+            "korea-karaoke.com"     # 평택
+            "nextkaraoke.com"       # 안양
+            "hot-karaoke.com"       # 수지
+            "hot-karaoke.net"       # 안산
+            "new-karaoke.com"       # 판교
+            "new-karaoke.net"       # 성남
+            "new-hipublic.com"      # 용인
+          )
+
+          for domain in "${DOMAINS[@]}"; do
+            sitemap_url="https://${domain}/sitemap-index.xml"
+            ping_url="https://www.google.com/ping?sitemap=${sitemap_url}"
+
+            echo "📍 Pinging: ${domain}"
+
+            response=$(curl -s -o /dev/null -w "%{http_code}" "${ping_url}")
+
+            if [ "$response" = "200" ]; then
+              echo "✅ ${domain} - Success (HTTP ${response})"
+            else
+              echo "❌ ${domain} - Failed (HTTP ${response})"
+            fi
+          done
+
+          echo "🏁 Sitemap ping completed!"

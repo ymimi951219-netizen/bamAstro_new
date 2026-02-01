@@ -1,0 +1,118 @@
+---
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  keywords?: string[];
+  noindex?: boolean;
+  region: RegionConfig;
+  // Article-specific props
+  datePublished?: string;
+  dateModified?: string;
+  author?: string;
+  // Cross-regional linking
+  alternateRegions?: Array<{
+    domain: string;
+    lang: string;
+  }>;
+  // Pagination props (for blog pages)
+  currentPage?: number;
+  totalPages?: number;
+}
+
+const {
+  title,
+  region,
+  description = region.seo.description,
+  canonical = Astro.url.href,
+  ogImage = `/og-home.jpg`,
+  ogType = 'website',
+  keywords = region.seo.mainKeywords,
+  noindex = false,
+  datePublished,
+  dateModified,
+  author = '서우실장',
+  alternateRegions = [],
+  currentPage,
+  totalPages,
+} = Astro.props;
+
+// Generate pagination URLs
+const baseUrl = `https://${region.domain}`;
+const pathWithoutPage = Astro.url.pathname.replace(/\/page\/\d+\/?$/, '');
+const getPrevUrl = () => {
+  if (!currentPage || currentPage <= 1) return null;
+  if (currentPage === 2) return `${baseUrl}${pathWithoutPage}`;
+  return `${baseUrl}${pathWithoutPage}/page/${currentPage - 1}`;
+};
+const getNextUrl = () => {
+  if (!currentPage || !totalPages || currentPage >= totalPages) return null;
+  return `${baseUrl}${pathWithoutPage}/page/${currentPage + 1}`;
+};
+const prevUrl = getPrevUrl();
+const nextUrl = getNextUrl();
+
+const fullTitle = title;
+const fullOgImage = `https://${region.domain}${ogImage}`;
+const currentPath = Astro.url.pathname;
+---
+
+<!-- Search Engine Verification -->
+{region.seo.naverVerification && region.seo.naverVerification !== 'YOUR_NAVER_VERIFICATION_CODE' && (
+  <meta name="naver-site-verification" content={region.seo.naverVerification} />
+)}
+{region.seo.googleVerification && region.seo.googleVerification !== 'YOUR_GOOGLE_VERIFICATION_CODE' && (
+  <meta name="google-site-verification" content={region.seo.googleVerification} />
+)}
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(', ')} />
+<meta name="author" content="서우실장" />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullOgImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:site_name" content={`${region.name} 유흥 가이드`} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullOgImage} />
+
+<!-- Article Meta (for guide/blog pages) -->
+{ogType === 'article' && datePublished && (
+  <>
+    <meta property="article:published_time" content={datePublished} />
+    {dateModified && <meta property="article:modified_time" content={dateModified} />}
+    <meta property="article:author" content={author} />
+    <meta property="article:section" content="유흥 가이드" />
+    <meta property="article:tag" content={keywords.slice(0, 5).join(', ')} />
+  </>
+)}
+
+<!-- Hreflang for cross-regional linking -->
+<link rel="alternate" hreflang="ko-KR" href={canonical} />
+{alternateRegions.map((alt) => (
+  <link rel="alternate" hreflang={alt.lang} href={`https://${alt.domain}${currentPath}`} />
+))}
+<link rel="alternate" hreflang="x-default" href={canonical} />
+
+<!-- Pagination rel tags for paginated content -->
+{prevUrl && <link rel="prev" href={prevUrl} />}
+{nextUrl && <link rel="next" href={nextUrl} />}

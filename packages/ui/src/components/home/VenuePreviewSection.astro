@@ -1,0 +1,165 @@
+---
+import type { RegionConfig } from '../../types/region';
+import { ArrowRight } from 'lucide-astro';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+// We will use the venueTypes from region config
+const venues = region.venueTypes.map(v => ({
+    ...v,
+    // Ensure we have properties needed for the card, fallback to config values
+    sub: v.subtitle || 'Premium',
+    img: v.image || '/images/venues/karaoke_main.webp', // Default fallback
+    desc: v.description
+}));
+---
+
+<section class="py-24 container mx-auto px-4 relative z-10">
+    <div class="text-center mb-16 relative">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
+        <span class="text-purple-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">{region.name} 유흥 핫플레이스</span>
+        <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 relative z-10">제휴 업소 안내</h2>
+        <div class="w-1 h-12 bg-gradient-to-b from-purple-500 to-transparent mx-auto mt-6"></div>
+    </div>
+
+    <!-- Desktop: Horizontal Accordion, Mobile: Vertical Grid -->
+    <div class="flex flex-col lg:flex-row h-[1200px] lg:h-[600px] gap-4" id="venue-accordion">
+        {venues.map((venue, idx) => (
+            <a
+                href={`/${venue.slug}`}
+                class="venue-card relative rounded-[2rem] overflow-hidden cursor-pointer transition-all duration-500 ease-in-out group flex-1 flex flex-col justify-end"
+                data-index={idx}
+            >
+                {/* Background Image */}
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style={`background-image: url('${venue.img || '/images/pattern.svg'}')`}
+                    role="img"
+                    aria-label={`${region.name} ${venue.name} 이미지`}>
+                </div>
+
+                {/* Overlay */}
+                <div class="venue-overlay absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent transition-opacity duration-300 opacity-70 group-hover:opacity-80">
+                </div>
+
+                {/* Content */}
+                <div class="relative z-10 p-8 transform transition-transform duration-500">
+                    <div class="venue-sub flex items-center gap-3 mb-2 transition-all duration-300 opacity-100 lg:opacity-0 lg:translate-y-4">
+                        <div class="w-10 h-0.5 bg-purple-500"></div>
+                        <span class="text-purple-500 font-bold uppercase tracking-wider text-sm">{venue.sub}</span>
+                    </div>
+
+                    <h3 class="venue-title font-bold text-white transition-all duration-300 text-2xl lg:mb-0 mb-4 lg:rotate-[-90deg] lg:origin-bottom-left lg:absolute lg:bottom-12 lg:left-8 lg:w-[300px] lg:text-3xl">
+                        {venue.name}
+                    </h3>
+
+                    <div class="venue-details overflow-hidden transition-all duration-500 max-h-[100px] lg:max-h-0 lg:opacity-0 opacity-100">
+                        <p class="text-slate-300 text-lg mb-6 leading-relaxed max-w-md">
+                            {venue.desc}
+                        </p>
+                        <span class="inline-flex items-center gap-2 text-white border border-white/30 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-slate-950 transition-colors">
+                            자세히 보기
+                        </span>
+                    </div>
+                </div>
+            </a>
+        ))}
+    </div>
+</section>
+
+<script>
+    // Lazy initialization with IntersectionObserver for INP improvement
+    const accordion = document.getElementById('venue-accordion');
+    let venueInitialized = false;
+
+    function initVenueAccordion() {
+        if (venueInitialized) return;
+        venueInitialized = true;
+
+        const cards = document.querySelectorAll('.venue-card');
+
+        // Set first card active by default on desktop init
+        if (cards.length > 0 && window.innerWidth >= 1024) {
+            setActive(cards[0]);
+        }
+
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (window.innerWidth >= 1024) {
+                    setActive(card);
+                }
+            }, { passive: true });
+        });
+
+        function setActive(activeCard: Element) {
+            cards.forEach(card => {
+                const isTarget = card === activeCard;
+
+                // Flex grow
+                if (isTarget) {
+                    card.classList.remove('lg:flex-[1]');
+                    card.classList.add('lg:flex-[3]');
+                } else {
+                    card.classList.remove('lg:flex-[3]');
+                    card.classList.add('lg:flex-[1]');
+                }
+
+                // Subtitle animation
+                const sub = card.querySelector('.venue-sub');
+                if (isTarget) {
+                     sub?.classList.remove('lg:opacity-0', 'lg:translate-y-4');
+                     sub?.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                     sub?.classList.add('lg:opacity-0', 'lg:translate-y-4');
+                }
+
+                // Title animation
+                const title = card.querySelector('.venue-title');
+                if (isTarget) {
+                    title?.classList.remove('lg:rotate-[-90deg]', 'lg:origin-bottom-left', 'lg:absolute', 'lg:bottom-12', 'lg:left-8', 'lg:w-[300px]', 'lg:text-3xl');
+                    title?.classList.add('text-4xl', 'mb-4');
+                } else {
+                    title?.classList.add('lg:rotate-[-90deg]', 'lg:origin-bottom-left', 'lg:absolute', 'lg:bottom-12', 'lg:left-8', 'lg:w-[300px]', 'lg:text-3xl');
+                    title?.classList.remove('text-4xl', 'mb-4');
+                }
+
+                // Details animation
+                const details = card.querySelector('.venue-details');
+                if (isTarget) {
+                    details?.classList.remove('lg:max-h-0', 'lg:opacity-0');
+                    details?.classList.add('max-h-[200px]', 'opacity-100');
+                } else {
+                    details?.classList.add('lg:max-h-0', 'lg:opacity-0');
+                }
+
+                // Overlay opacity
+                const overlay = card.querySelector('.venue-overlay');
+                if (isTarget) {
+                    overlay?.classList.remove('opacity-70');
+                    overlay?.classList.add('opacity-90');
+                } else {
+                    overlay?.classList.add('opacity-70');
+                    overlay?.classList.remove('opacity-90');
+                }
+            });
+        }
+    }
+
+    // Use IntersectionObserver to delay initialization
+    if (accordion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                initVenueAccordion();
+                observer.disconnect();
+            }
+        }, { rootMargin: '200px' });
+
+        observer.observe(accordion);
+    } else if (accordion) {
+        // Fallback for older browsers
+        initVenueAccordion();
+    }
+</script>

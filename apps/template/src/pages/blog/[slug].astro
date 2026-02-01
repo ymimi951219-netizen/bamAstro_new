@@ -1,0 +1,141 @@
+---
+import { PageLayout, ArticleSchema } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { getBlogPostBySlug } from '@/lib/supabase';
+import { Clock, ArrowLeft, Calendar, Tag } from 'lucide-astro';
+
+// SSR 모드 - 스케줄링된 글이 시간에 맞춰 자동 노출됨
+export const prerender = false;
+
+const { slug } = Astro.params;
+const post = await getBlogPostBySlug(slug as string);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const heroImage = post.featured_image;
+
+// Format date helper
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// Ensure post title is not too long for SEO
+const postTitle = post.title.length > 50 ? post.title.substring(0, 50) + '...' : post.title;
+// Ensure excerpt is optimal length (120-160 chars)
+const optimizedExcerpt = post.excerpt.length > 160
+  ? post.excerpt.substring(0, 157) + '...'
+  : post.excerpt;
+
+const seoProps = {
+  title: `${postTitle} | ${region.seo.mainKeyword}`,
+  description: optimizedExcerpt,
+  keywords: [
+    region.seo.mainKeyword,
+    ...region.seo.mainKeywords.slice(0, 2),
+    post.category,
+    `${region.name} ${post.category}`,
+  ],
+  ogType: 'article' as const,
+  datePublished: post.published_at || post.created_at,
+  dateModified: post.updated_at || post.created_at,
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+  <ArticleSchema
+    title={post.title}
+    description={post.excerpt}
+    datePublished={post.published_at || post.created_at}
+    dateModified={post.updated_at || post.created_at}
+    author="서우실장"
+    url={Astro.url.href}
+  />
+  <article class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <!-- Hero Image -->
+    {heroImage && (
+      <div class="relative h-[50vh] min-h-[400px] max-h-[600px] overflow-hidden">
+        <img
+          src={heroImage}
+          alt={post.title}
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/30"></div>
+      </div>
+    )}
+
+    <!-- Hero Section -->
+    <div class={`relative ${heroImage ? '-mt-32 pt-0' : 'pt-32'} pb-20 overflow-hidden`}>
+      <!-- Background decorations -->
+      {!heroImage && (
+        <>
+          <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        </>
+      )}
+
+      <div class="container mx-auto px-4 relative z-10">
+        <!-- Back button -->
+        <a href="/" class="inline-flex items-center gap-2 text-slate-400 hover:text-purple-400 transition-colors mb-8 group">
+          <ArrowLeft class="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>홈으로 돌아가기</span>
+        </a>
+
+        <!-- Category & Meta -->
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <span class="inline-flex items-center gap-2 bg-purple-500/20 border border-purple-500/30 text-purple-300 px-4 py-1.5 rounded-full text-sm font-medium">
+            <Tag class="w-3.5 h-3.5" />
+            {post.category}
+          </span>
+          <div class="flex items-center gap-4 text-slate-500 text-sm">
+            <span class="flex items-center gap-1.5">
+              <Calendar class="w-4 h-4" />
+              {formatDate(post.created_at)}
+            </span>
+            <span class="flex items-center gap-1.5">
+              <Clock class="w-4 h-4" />
+              {post.read_time} 읽기
+            </span>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-8 leading-tight max-w-4xl">
+          {post.title}
+        </h1>
+
+        <!-- Excerpt -->
+        <p class="text-xl text-slate-400 max-w-3xl leading-relaxed">
+          {post.excerpt}
+        </p>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="container mx-auto px-4 pb-32">
+      <div class="max-w-3xl mx-auto">
+        <div class="prose prose-invert prose-lg prose-purple max-w-none
+          prose-headings:font-bold prose-headings:text-white
+          prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+          prose-p:text-slate-300 prose-p:leading-relaxed
+          prose-strong:text-white prose-strong:font-semibold
+          prose-ul:text-slate-300 prose-li:marker:text-purple-400
+          prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline">
+          <Fragment set:html={post.content.replace(/\n/g, '<br>').replace(/## /g, '</p><h2>').replace(/### /g, '</p><h3>').replace(/<h2>/g, '</h3><h2>').replace(/<h3>/g, '</h2><h3>')} />
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-16 p-8 bg-gradient-to-r from-purple-900/30 to-fuchsia-900/30 rounded-3xl border border-purple-500/20">
+          <h3 class="text-2xl font-bold text-white mb-4">더 궁금한 점이 있으신가요?</h3>
+          <p class="text-slate-400 mb-6">전문 상담사가 친절하게 안내해 드립니다.</p>
+          <a href="/contact" class="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition-colors">
+            상담 문의하기
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</PageLayout>

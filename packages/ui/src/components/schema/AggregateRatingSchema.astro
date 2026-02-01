@@ -1,0 +1,51 @@
+---
+/**
+ * AggregateRatingSchema Component
+ * 업소 평점 표시를 위한 JSON-LD 스키마
+ * Google Rich Results에서 별점 표시 가능
+ */
+
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  region: RegionConfig;
+  itemName?: string;
+  ratingValue: number;    // 평균 평점 (1-5)
+  reviewCount: number;    // 총 리뷰 수
+  bestRating?: number;    // 최고 점수 (기본: 5)
+  worstRating?: number;   // 최저 점수 (기본: 1)
+}
+
+const {
+  region,
+  itemName = `${region.name} 하이퍼블릭`,
+  ratingValue,
+  reviewCount,
+  bestRating = 5,
+  worstRating = 1
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": itemName,
+  "url": `https://${region.domain}/`,
+  "telephone": region.phone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": region.address.street,
+    "addressLocality": region.address.city,
+    "addressRegion": region.address.region,
+    "addressCountry": "KR"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": ratingValue.toFixed(1),
+    "reviewCount": reviewCount,
+    "bestRating": bestRating,
+    "worstRating": worstRating
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

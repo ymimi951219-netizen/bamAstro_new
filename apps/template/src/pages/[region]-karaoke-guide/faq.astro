@@ -1,0 +1,124 @@
+---
+import { PageLayout, LocalBusinessSchema, FAQPageSchema, BreadcrumbSchema, BackToPillar, RelatedPosts } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { Phone, ChevronRight } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const { region: regionId } = Astro.params;
+
+const faqList = [
+    {
+        question: `${region.name} 가라오케는 어떤 흐름으로 이용하나요?`,
+        answer: "예약 후 룸 배정 → 기본 세팅 → 노래 및 파티 진행 순으로 안내됩니다."
+    },
+    {
+        question: "단체나 회식도 가능한가요?",
+        answer: "가능합니다. 도심 비즈니스 방문객 회식 수요가 많아 단체 룸도 준비되어 있습니다."
+    },
+    {
+        question: "픽업 가능 지역은 어디인가요?",
+        answer: `${region.name} 주요 역 및 중심 상권에서 운영됩니다.`
+    },
+    {
+        question: "주대/TC 기준이 어떻게 되나요?",
+        answer: "주대 18만원 이상, TC 10만원 이상 기준이며 상세는 상담 시 안내드립니다."
+    },
+    {
+        question: "예약 없이 방문해도 되나요?",
+        answer: `가능은 하지만 ${region.name} 상권 기준은 대기 발생 가능성이 있어 예약을 추천드립니다.`
+    },
+    {
+        question: "기기나 음향 퀄리티는 어떤가요?",
+        answer: "최신 음향과 대형 스크린을 기준으로 관리하며, 룸별로 세팅이 다를 수 있습니다."
+    }
+];
+
+const seoProps = {
+  title: `${region.name} 가라오케 FAQ | 자주 묻는 질문과 답변`,
+  description: `${region.name} 가라오케 자주 묻는 질문 완벽 해답. 예약·가격·단체회식·픽업·시스템 기본 정보. 전문가가 답변합니다. 초보자 필독!`,
+  keywords: [`${region.name} 가라오케 FAQ`, `${region.name} 가라오케 자주 묻는 질문`, `${region.name} 가라오케 예약`, `${region.name} 가라오케 가격`],
+};
+
+const relatedItems = [
+  {
+    title: `${region.name} 가라오케 완벽 가이드`,
+    href: `/${region.id}-karaoke-guide`,
+    description: '가라오케 시스템, 가격, 추천 업소 정보',
+    category: '가라오케'
+  },
+  {
+    title: `${region.name} 하이퍼블릭 가이드`,
+    href: `/${region.id}-highpublic-guide`,
+    description: '프라이빗 펍, 비즈니스 접대에 최적',
+    category: '하이퍼블릭'
+  },
+  {
+    title: `${region.name} 룸살롱 가이드`,
+    href: `/${region.id}-room-salon-guide`,
+    description: '고급 비즈니스 접대, 룸살롱 완벽 가이드',
+    category: '룸살롱'
+  },
+];
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    <BreadcrumbSchema region={region} />
+    <FAQPageSchema items={faqList} />
+
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent px-4 pb-20">
+        <div class="container mx-auto max-w-4xl">
+            <BackToPillar
+                href={`/${region.id}-karaoke-guide`}
+                title={`${region.name} 가라오케 완벽 가이드`}
+                description="가격, 시스템, 추천 업소 정보 모두 보기"
+                accentColor="purple"
+            />
+
+            <div class="text-center mb-16">
+                <div class="flex justify-center mb-4">
+                    <div class="w-1.5 h-12 bg-purple-500 rounded-full"></div>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-purple-500 mb-6">
+                    가라오케 A to Z (FAQ)
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                    노래, 술, 파티가 있는 곳. <strong class="text-white">{region.name} 가라오케</strong>를 200% 즐기는 방법을 알려드립니다.
+                </p>
+            </div>
+
+            <div class="grid gap-6">
+                {faqList.map((item) => (
+                    <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 hover:border-purple-500/30 transition-all duration-300">
+                        <h3 class="text-lg md:text-xl font-bold text-purple-400 mb-3 flex items-start gap-2">
+                            <span class="bg-purple-500/10 p-1 rounded text-sm mt-1">Q</span>
+                            {item.question}
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed pl-8">
+                            <span class="font-bold text-slate-500 mr-2">A.</span>
+                            {item.answer}
+                        </p>
+                    </div>
+                ))}
+            </div>
+
+            <div class="mt-16 text-center">
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-purple-500/25">
+                        <Phone size={20} /> 실시간 예약 문의
+                    </button>
+                    <a href={`/${region.id}-karaoke-guide`} class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-all">
+                        <ChevronRight size={20} /> 가라오케 메인으로
+                    </a>
+                </div>
+            </div>
+
+            <RelatedPosts items={relatedItems} title="다른 업종도 확인해보세요" accentColor="purple" />
+        </div>
+    </div>
+</PageLayout>

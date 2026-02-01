@@ -1,0 +1,275 @@
+---
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+// 간소화된 네비게이션 구조
+const mainNavItems = [
+  { label: '홈', href: '/' },
+  { label: '업종 가이드', href: '#', hasDropdown: 'venue' },
+  { label: '유흥 가이드', href: '#', hasDropdown: 'guide' },
+  { label: '지역별 가이드', href: '#', hasDropdown: 'area' },
+  { label: '블로그', href: '/blog' },
+  { label: '마케팅 문의', href: '/marketing' },
+];
+---
+
+<header class="fixed top-0 w-full z-50 transition-colors duration-200" id="main-header">
+  <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-md border-b border-white/5"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a href="/" class="group flex items-center gap-2.5">
+        <div class="relative w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
+             <img src="/logo.webp" alt={`${region.name} 로고`} class="w-5 h-5 object-contain" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-base font-bold text-white tracking-tight leading-none mb-0.5">{region.name} 유흥 라운지</span>
+          <span class="text-[10px] text-slate-400 font-medium">Premium Nightlife Guide</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1">
+        {mainNavItems.map(item => (
+          item.hasDropdown === 'venue' ? (
+            <div class="relative group">
+              <button class="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">
+                {item.label}
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <!-- Venue Dropdown Menu -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0">
+                <div class="w-[280px] bg-slate-900 border border-slate-700/50 rounded-lg shadow-xl overflow-hidden">
+                  <div class="p-2 grid gap-1">
+                    {region.venueTypes.map((type) => (
+                      <a
+                        href={`/${type.slug}`}
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors group/item"
+                      >
+                        <span class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-slate-400 text-sm font-medium group-hover/item:text-white group-hover/item:bg-slate-700 transition-colors">
+                          {type.name.charAt(0)}
+                        </span>
+                        <div>
+                           <div class="text-sm font-medium text-slate-200 group-hover/item:text-white">{type.name}</div>
+                           <div class="text-[11px] text-slate-500">{type.subtitle}</div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : item.hasDropdown === 'guide' ? (
+            <div class="relative group">
+              <button class="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">
+                {item.label}
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <!-- Guide Dropdown Menu -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0">
+                <div class="w-[340px] bg-slate-900 border border-slate-700/50 rounded-lg shadow-xl overflow-hidden flex flex-col">
+                  <!-- Section Header -->
+                  <div class="px-3 py-2 bg-slate-950/30 border-b border-slate-800 text-xs font-semibold text-slate-500">
+                    시스템 비교 & 가이드
+                  </div>
+                  
+                  <div class="p-2 grid gap-1">
+                    <a href={`/${region.id}-karaoke-vs-highpublic`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-emerald-500 text-xs font-bold">VS</span>
+                      <span class="text-sm text-slate-300 hover:text-white">가라오케 vs 하이퍼블릭</span>
+                    </a>
+                    <a href={`/${region.id}-roomsalon-vs-hostbar`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-emerald-500 text-xs font-bold">VS</span>
+                      <span class="text-sm text-slate-300 hover:text-white">룸살롱 vs 호빠</span>
+                    </a>
+                    <a href={`/${region.id}-shirtsroom-vs-kimonoroom`} class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors">
+                      <span class="text-emerald-500 text-xs font-bold">VS</span>
+                      <span class="text-sm text-slate-300 hover:text-white">셔츠룸 vs 기모노룸</span>
+                    </a>
+                  </div>
+
+                  <div class="border-t border-slate-800 p-2 grid grid-cols-2 gap-2 bg-slate-950/20">
+                    <a href={`/${region.id}-entertainment-beginner-guide`} class="p-2 rounded hover:bg-slate-800 transition-colors">
+                       <div class="text-sm font-medium text-slate-200">초보 가이드</div>
+                       <div class="text-[10px] text-slate-500">처음이신가요?</div>
+                    </a>
+                    <a href={`/${region.id}-entertainment-price-guide`} class="p-2 rounded hover:bg-slate-800 transition-colors">
+                       <div class="text-sm font-medium text-slate-200">가격 안내</div>
+                       <div class="text-[10px] text-slate-500">합리적인 가격</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : item.hasDropdown === 'area' && region.areaGuides && region.areaGuides.length > 0 ? (
+            <div class="relative group">
+              <button class="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">
+                {item.label}
+                <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <!-- Area Guide Dropdown Menu -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 ease-out translate-y-1 group-hover:translate-y-0">
+                <div class="w-48 bg-slate-900 border border-slate-700/50 rounded-lg shadow-xl overflow-hidden">
+                  <div class="p-1">
+                    {region.areaGuides.map((guide) => (
+                      <a
+                        href={`/${guide.slug}`}
+                        class="block px-3 py-2 rounded hover:bg-slate-800 text-sm text-slate-300 hover:text-white transition-colors"
+                      >
+                        {guide.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : !item.hasDropdown ? (
+            <a href={item.href} class="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">
+              {item.label}
+            </a>
+          ) : null
+        ))}
+      </nav>
+
+      <!-- CTA Button -->
+      <div class="flex items-center gap-3">
+        <a href={`tel:${region.phone}`} class="hidden sm:flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-purple-900/20">
+          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          예약문의
+        </a>
+
+        <!-- Mobile Menu Button - 48px touch target -->
+        <button id="mobile-menu-btn" class="lg:hidden p-3 min-h-[48px] min-w-[48px] flex items-center justify-center text-slate-400 hover:text-white transition-colors -mr-2" aria-label="메뉴">
+          <svg id="menu-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-2xl h-[calc(100vh-4rem)] overflow-y-auto">
+    <nav class="px-4 py-6 space-y-6">
+      <div class="space-y-1">
+          <a href="/" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors font-medium">
+            홈
+          </a>
+      </div>
+
+      <!-- Mobile Venue Types -->
+      <div>
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-4">
+            업종 가이드
+        </div>
+        <div class="grid grid-cols-2 gap-2 px-4">
+          {region.venueTypes.map(type => (
+            <a href={`/${type.slug}`} class="flex flex-col gap-1 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors">
+              <span class="text-sm font-medium text-slate-200">{type.name}</span>
+              <span class="text-[10px] text-slate-500 line-clamp-1">{type.subtitle}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Mobile Guide Section -->
+      <div>
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-4">
+            유흥 가이드
+        </div>
+        <div class="space-y-1 px-4">
+           <a href={`/${region.id}-karaoke-vs-highpublic`} class="flex items-center gap-2 px-3 py-3 bg-slate-800/30 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+              <span class="text-emerald-500 text-xs font-bold">VS</span> 가라오케 vs 하이퍼블릭
+           </a>
+           <a href={`/${region.id}-roomsalon-vs-hostbar`} class="flex items-center gap-2 px-3 py-3 bg-slate-800/30 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+              <span class="text-emerald-500 text-xs font-bold">VS</span> 룸살롱 vs 호빠
+           </a>
+           <a href={`/${region.id}-shirtsroom-vs-kimonoroom`} class="flex items-center gap-2 px-3 py-3 bg-slate-800/30 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+              <span class="text-emerald-500 text-xs font-bold">VS</span> 셔츠룸 vs 기모노룸
+           </a>
+           <div class="grid grid-cols-2 gap-2 mt-2">
+              <a href={`/${region.id}-entertainment-beginner-guide`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">초보 가이드</a>
+              <a href={`/${region.id}-entertainment-price-guide`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800">가격 가이드</a>
+           </div>
+        </div>
+      </div>
+
+      <!-- Mobile Area Guides -->
+      {region.areaGuides && region.areaGuides.length > 0 && (
+        <div>
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-4">
+            지역별 가이드
+          </div>
+          <div class="grid grid-cols-2 gap-2 px-4">
+            {region.areaGuides.map(guide => (
+              <a href={`/${guide.slug}`} class="block p-3 bg-slate-800/30 rounded-lg text-center text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+                {guide.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      <div class="border-t border-slate-800 pt-4 space-y-1 px-4">
+          <a href="/blog" class="block py-3 text-slate-300 hover:text-white font-medium">
+            블로그
+          </a>
+          <a href="/marketing" class="block py-3 text-slate-300 hover:text-white font-medium">
+            마케팅 문의
+          </a>
+      </div>
+
+      <!-- Mobile CTA -->
+      <div class="pb-8 px-4">
+        <a href={`tel:${region.phone}`} class="flex items-center justify-center gap-2 w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          전화 예약하기
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden', !isOpen);
+    closeIcon?.classList.toggle('hidden', isOpen);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!btn?.contains(e.target as Node) && !menu?.contains(e.target as Node)) {
+      menu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  });
+</script>

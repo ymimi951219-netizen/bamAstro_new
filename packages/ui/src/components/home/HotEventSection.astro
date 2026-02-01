@@ -1,0 +1,194 @@
+---
+---
+
+<section class="py-24 bg-transparent relative overflow-hidden flex items-center justify-center">
+  <!-- Dynamic Background - Optimized blur for performance -->
+  <div class="absolute inset-0 w-full h-full pointer-events-none background-container">
+    <div class="background-orb absolute top-[10%] left-[20%] w-[300px] h-[300px] bg-purple-600/20 rounded-full blur-[60px] animate-pulse"></div>
+    <div class="background-orb absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[60px] animate-pulse delay-1000"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10 perspective-container group" id="event-card-container">
+    
+    <!-- Floating Notifications Dummy -->
+    <div class="absolute -top-12 right-0 md:right-10 flex flex-col gap-2 pointer-events-none z-20" id="notifications-container">
+       <!-- Populated by JS -->
+    </div>
+
+    <div
+      id="event-card"
+      class="max-w-5xl mx-auto bg-slate-900/60 backdrop-blur-2xl border border-slate-700/50 rounded-[2rem] p-8 md:p-14 shadow-[0_0_60px_rgba(0,0,0,0.5)] relative overflow-hidden transition-transform duration-200 ease-out"
+      style="transform-style: preserve-3d;"
+    >
+      <!-- Top Gradient Line -->
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50"></div>
+
+      <!-- Content Grid -->
+      <div class="grid md:grid-cols-2 gap-12 items-center relative z-10">
+        <!-- Left: Text & Offer -->
+        <div class="text-center md:text-left space-y-6">
+          <div class="inline-flex items-center gap-2 border border-purple-500 text-purple-500 px-4 py-1 rounded-full text-xs font-bold tracking-[0.2em] uppercase hover:bg-purple-500 hover:text-white transition-colors cursor-default">
+            공식 이벤트
+          </div>
+
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1]">
+            오늘의 <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-200 via-purple-400 to-violet-600 drop-shadow-sm">특별 혜택</span>
+          </h2>
+
+          <p class="text-lg text-slate-300 font-light leading-relaxed">
+            오늘 밤 방문 고객을 위한 단독 혜택.<br />
+            프리미엄 양주 세트 할인과 접대 코스 맞춤 안내가 포함됩니다.
+          </p>
+
+          <div class="flex items-center justify-center md:justify-start gap-4 pt-4">
+            <div class="text-center">
+              <div class="text-sm text-slate-400 mb-1">현재 대기자</div>
+              <div class="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-lg border border-slate-700">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-ping"></div>
+                <span id="visitor-count" class="text-xl font-bold text-white tabular-nums">12,840</span>
+              </div>
+            </div>
+            <div class="h-10 w-px bg-slate-700"></div>
+            <div class="text-center">
+              <div class="text-sm text-slate-400 mb-1">남은 쿠폰</div>
+              <div class="text-xl font-bold text-purple-500">3장 <span class="text-xs text-slate-500 font-normal">/ 50장</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Timer & Interactive Card -->
+        <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-3xl p-8 border border-slate-700/50 relative group">
+          <div class="absolute inset-0 bg-purple-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+          <div class="text-center mb-8">
+            <h3 class="text-slate-400 text-sm font-bold uppercase tracking-widest mb-4">Limited Time Remaining</h3>
+            <div class="flex justify-center gap-3">
+              <div class="flex flex-col items-center bg-slate-900/60 border border-slate-700 rounded-xl p-3 w-16 md:w-20 backdrop-blur-md shadow-inner relative overflow-hidden">
+                <span id="timer-h" class="text-2xl md:text-3xl font-black text-white font-mono">23</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider">시간</span>
+              </div>
+              <span class="text-3xl font-bold text-slate-600 self-center pb-4">:</span>
+              <div class="flex flex-col items-center bg-slate-900/60 border border-slate-700 rounded-xl p-3 w-16 md:w-20 backdrop-blur-md shadow-inner relative overflow-hidden">
+                <span id="timer-m" class="text-2xl md:text-3xl font-black text-white font-mono">59</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider">분</span>
+              </div>
+              <span class="text-3xl font-bold text-slate-600 self-center pb-4">:</span>
+              <div class="flex flex-col items-center bg-slate-900/60 border border-slate-700 rounded-xl p-3 w-16 md:w-20 backdrop-blur-md shadow-inner relative overflow-hidden">
+                <span id="timer-s" class="text-2xl md:text-3xl font-black text-white font-mono">59</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider">초</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            id="claim-btn"
+            class="w-full py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]"
+          >
+            <span>지금 혜택 받기</span>
+          </button>
+          <p class="text-center text-xs text-slate-500 mt-4">
+            * 버튼 클릭 시 자동으로 예약 전화로 연결됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Lazy initialization with IntersectionObserver for INP improvement
+  const container = document.getElementById('event-card-container');
+  let initialized = false;
+
+  function initAnimations() {
+    if (initialized) return;
+    initialized = true;
+
+    // 1. Visitors
+    const visitorCount = document.getElementById('visitor-count');
+    if (visitorCount) {
+        let count = 12840;
+        setInterval(() => {
+            count += Math.floor(Math.random() * 5) - 1;
+            visitorCount.innerText = count.toLocaleString();
+        }, 2000);
+    }
+
+    // 2. Timer
+    const timerH = document.getElementById('timer-h');
+    const timerM = document.getElementById('timer-m');
+    const timerS = document.getElementById('timer-s');
+
+    if (timerH && timerM && timerS) {
+        let totalSeconds = 23 * 3600 + 59 * 60 + 59;
+        setInterval(() => {
+            if (totalSeconds > 0) totalSeconds--;
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            timerH.innerText = String(h).padStart(2, '0');
+            timerM.innerText = String(m).padStart(2, '0');
+            timerS.innerText = String(s).padStart(2, '0');
+        }, 1000);
+    }
+
+    // 3. Notifications
+    const notifContainer = document.getElementById('notifications-container');
+    if (notifContainer) {
+        const names = ['김O수', '이O진', '박O훈', '최O영', '정O우'];
+        const actions = ['예약완료', '문의중', '입장', '이벤트 참여'];
+
+        const spawn = () => {
+            const text = `${names[Math.floor(Math.random() * names.length)]}님 ${actions[Math.floor(Math.random() * actions.length)]}`;
+            const el = document.createElement('div');
+            el.className = 'animate-fade-in-up bg-slate-900/60 border border-purple-500/30 text-white text-xs py-2 px-4 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-md';
+            el.innerHTML = `<span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span> ${text} <span class="text-slate-500 text-[10px] ml-1">방금 전</span>`;
+            notifContainer.appendChild(el);
+
+            if (notifContainer.children.length > 2) {
+                notifContainer.removeChild(notifContainer.children[0]);
+            }
+        };
+
+        setInterval(spawn, 3500);
+    }
+  }
+
+  // Use IntersectionObserver to delay initialization until section is in viewport
+  if (container && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        initAnimations();
+        observer.disconnect();
+      }
+    }, { rootMargin: '100px' });
+
+    observer.observe(container);
+  } else if (container) {
+    // Fallback for older browsers
+    initAnimations();
+  }
+
+  // 4. Tilt Effect - Only on desktop, initialized separately
+  const card = document.getElementById('event-card');
+
+  if (card && container && window.innerWidth >= 1024) {
+      container.addEventListener('mousemove', (e) => {
+          const mouseEvent = e as MouseEvent;
+          const rect = card.getBoundingClientRect();
+          const x = mouseEvent.clientX - rect.left;
+          const y = mouseEvent.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -3;
+          const rotateY = ((x - centerX) / centerX) * 3;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      }, { passive: true });
+
+      container.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      }, { passive: true });
+  }
+</script>

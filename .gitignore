@@ -1,0 +1,33 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+.vercel
+.output
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MCP
+.mcp.json
+.playwright-mcp
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.env*.local
+# trigger deploy

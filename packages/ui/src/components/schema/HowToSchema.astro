@@ -1,0 +1,57 @@
+---
+/**
+ * HowToSchema Component
+ * Implements HowTo rich results markup for step-by-step guides
+ * Improves visibility for "How to..." queries
+ *
+ * Usage:
+ * <HowToSchema
+ *   name="룸살롱 예약 방법"
+ *   description="5분 안에 완료하는 룸살롱 예약 가이드"
+ *   steps={[...]}
+ * />
+ */
+
+interface HowToStep {
+  name: string;
+  text: string;
+  image?: string; // Optional image URL
+  number?: number;
+}
+
+interface Props {
+  name: string;
+  description?: string;
+  steps: HowToStep[];
+  image?: string;
+  estimatedTime?: string; // e.g., "PT5M" for 5 minutes
+}
+
+const { name, description, steps, image, estimatedTime } = Astro.props;
+
+// Build schema
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: name,
+  ...(description && { description: description }),
+  ...(image && { image: image }),
+  ...(estimatedTime && { totalTime: estimatedTime }),
+  step: steps.map((step, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: step.name,
+    text: step.text,
+    ...(step.image && {
+      image: {
+        '@type': 'ImageObject',
+        url: step.image,
+        height: 400,
+        width: 600
+      }
+    })
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

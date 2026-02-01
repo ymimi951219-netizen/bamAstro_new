@@ -1,0 +1,113 @@
+---
+import SEO from '../components/common/SEO.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  keywords?: string[];
+  noindex?: boolean;
+  // Pagination props
+  currentPage?: number;
+  totalPages?: number;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Preconnect & DNS Prefetch for performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://rrzeapykmyrsiqmkwjcf.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://rrzeapykmyrsiqmkwjcf.supabase.co" />
+
+    <!-- Third-party services DNS prefetch -->
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://t.kakao.com" />
+
+    <!-- Preload critical font -->
+    <link
+      rel="preload"
+      href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Preload LCP image for homepage -->
+    <link rel="preload" href="/og-home.jpg" as="image" type="image/jpeg" />
+
+    <!-- Favicon & PWA -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#7c3aed" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="generator" content={Astro.generator} />
+    <SEO {...props} />
+
+    <!-- Premium Fonts: Pretendard - Async loading for FCP improvement -->
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    </noscript>
+
+    <style>
+      /* Critical font-face for immediate rendering */
+      @font-face {
+        font-family: 'Pretendard Variable';
+        src: url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2');
+        font-weight: 45 920;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      body {
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      }
+    </style>
+    <slot name="head" />
+  </head>
+  <body class="bg-slate-950 text-slate-50 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
+    <!-- Background Gradients & Patterns - Optimized for performance -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none background-container">
+      <!-- Dynamic Orbs - Reduced blur for better performance (120px -> 60px) -->
+      <div class="background-orb absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/30 blur-[60px] animate-float will-change-transform"></div>
+      <div class="background-orb absolute top-[20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-fuchsia-600/20 blur-[50px] animate-float-delayed will-change-transform"></div>
+      <div class="background-orb absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] rounded-full bg-violet-600/20 blur-[50px] animate-pulse-slow will-change-transform"></div>
+
+      <!-- Grid Pattern -->
+      <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05]"></div>
+
+      <!-- Subtle gradient overlay for texture -->
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/5 to-transparent opacity-50"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10">
+      <slot />
+    </div>
+  </body>
+</html>

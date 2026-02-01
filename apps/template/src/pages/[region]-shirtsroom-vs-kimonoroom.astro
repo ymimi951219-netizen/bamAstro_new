@@ -1,0 +1,184 @@
+---
+import { PageLayout, LocalBusinessSchema, FAQSchema } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { Phone, Shirt, Flower2, CheckCircle } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const seoProps = {
+  title: `${region.name} 셔츠룸 vs 기모노룸 | 테마룸 완벽 비교`,
+  description: `${region.name} 셔츠룸 vs 기모노룸 완벽 비교. 화끈한 분위기 vs 이색 체험 - 컨셉·가격·분위기 차이점. 당신에게 맞는 테마룸 선택 가이드.`,
+  keywords: [`${region.name} 셔츠룸 vs 기모노룸`, `${region.name} 셔츠룸 비교`, `${region.name} 기모노룸 비교`, `${region.name} 테마룸`],
+};
+
+const comparisonFaq = [
+    {
+        question: "셔츠룸과 기모노룸 중 어디가 더 화끈한가요?",
+        answer: "일반적으로 셔츠룸이 더 화끈한 분위기입니다. 기모노룸은 이색적이고 고급스러운 의전 분위기가 특징입니다."
+    },
+    {
+        question: "처음 방문하는데 어디가 좋을까요?",
+        answer: "화끈한 분위기를 원하시면 셔츠룸, 이색적인 체험을 원하시면 기모노룸을 추천드립니다."
+    },
+    {
+        question: "비즈니스 접대에는 어디가 적합한가요?",
+        answer: "두 곳 모두 적합하지만, 이색적인 경험을 제공하고 싶다면 기모노룸이 더 기억에 남을 수 있습니다."
+    }
+];
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    <FAQSchema questions={comparisonFaq} />
+
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent px-4 pb-20">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <span class="text-amber-400 font-bold tracking-[0.2em] text-sm uppercase mb-3 block">테마룸 비교 가이드</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6">
+                    {region.name} <span class="text-blue-400">셔츠룸</span> vs <span class="text-red-400">기모노룸</span>
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                    두 테마룸의 매력을 비교하고, 나에게 맞는 선택을 해보세요.
+                </p>
+            </div>
+
+            <!-- Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <!-- 셔츠룸 -->
+                <div class="bg-gradient-to-br from-blue-900/30 to-slate-900/50 p-8 rounded-3xl border border-blue-500/30">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                            <Shirt class="text-blue-400" size={24} />
+                        </div>
+                        <h2 class="text-2xl font-bold text-blue-400">셔츠룸</h2>
+                    </div>
+                    <p class="text-slate-300 mb-6">화이트 셔츠 컨셉의 화끈한 룸. 비즈니스 접대와 신나는 뒷풀이에 최적.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-blue-400" size={18} />
+                            화이트 셔츠 시각적 매력
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-blue-400" size={18} />
+                            화끈한 분위기 & 터치
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-blue-400" size={18} />
+                            인사 타임 퍼포먼스
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-blue-400" size={18} />
+                            비즈니스 접대에 인기
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 기모노룸 -->
+                <div class="bg-gradient-to-br from-red-900/30 to-slate-900/50 p-8 rounded-3xl border border-red-500/30">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
+                            <Flower2 class="text-red-400" size={24} />
+                        </div>
+                        <h2 class="text-2xl font-bold text-red-400">기모노룸</h2>
+                    </div>
+                    <p class="text-slate-300 mb-6">일본 전통 의상 컨셉의 이색 룸. 특별한 경험과 포토 타임에 최적.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-red-400" size={18} />
+                            기모노/유카타 의상 매력
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-red-400" size={18} />
+                            이색적인 분위기
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-red-400" size={18} />
+                            일본식 의전 서비스
+                        </li>
+                        <li class="flex items-center gap-2 text-slate-300">
+                            <CheckCircle class="text-red-400" size={18} />
+                            고급 사케 제공
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="bg-slate-900/50 rounded-3xl border border-slate-800 overflow-hidden mb-16">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-4 px-6 text-left text-slate-400">비교 항목</th>
+                                <th class="py-4 px-6 text-center text-blue-400">셔츠룸</th>
+                                <th class="py-4 px-6 text-center text-red-400">기모노룸</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">컨셉</td>
+                                <td class="py-4 px-6 text-center">화이트 셔츠</td>
+                                <td class="py-4 px-6 text-center">기모노/유카타</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">분위기</td>
+                                <td class="py-4 px-6 text-center">화끈함 & 활발</td>
+                                <td class="py-4 px-6 text-center">이색적 & 고급</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">가격대</td>
+                                <td class="py-4 px-6 text-center">주대 18만원 이상</td>
+                                <td class="py-4 px-6 text-center">주대 18만원 이상</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">특별 서비스</td>
+                                <td class="py-4 px-6 text-center">인사 타임 (환복)</td>
+                                <td class="py-4 px-6 text-center">기모노 쇼, 사케</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4 px-6 font-bold">터치 마인드</td>
+                                <td class="py-4 px-6 text-center">매우 오픈</td>
+                                <td class="py-4 px-6 text-center">오픈</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-bold">추천 상황</td>
+                                <td class="py-4 px-6 text-center">뒷풀이, 화끈한 자리</td>
+                                <td class="py-4 px-6 text-center">특별한 접대, 기념일</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-gradient-to-b from-blue-500 to-red-500 rounded-full"></div>
+                    자주 묻는 질문
+                </h2>
+                <div class="grid gap-6">
+                    {comparisonFaq.map((item) => (
+                        <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                            <h3 class="text-lg font-bold text-white mb-3">Q. {item.question}</h3>
+                            <p class="text-slate-300">A. {item.answer}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-blue-800 to-red-800 rounded-3xl p-10 text-center">
+                <h2 class="text-3xl font-extrabold text-white mb-4">어떤 테마룸이 좋을지 고민되시나요?</h2>
+                <p class="text-slate-200 mb-8">서우실장이 상황에 맞는 최적의 장소를 추천해 드립니다.</p>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-white text-slate-900 font-bold py-4 px-12 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
+                    <Phone fill="currentColor" size={20} /> {region.phone} 맞춤 상담
+                </button>
+            </div>
+        </div>
+    </div>
+</PageLayout>

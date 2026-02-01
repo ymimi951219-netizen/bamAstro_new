@@ -1,0 +1,7 @@
+# Template app - 배포 제외 (다른 지역 앱의 기반 템플릿용)
+apps/template
+
+# Development files
+.playwright-mcp
+*.md
+!README.md

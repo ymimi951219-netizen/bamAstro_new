@@ -1,0 +1,102 @@
+---
+import { List, ChevronRight } from 'lucide-astro';
+
+interface Section {
+  id: string;
+  title: string;
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+
+if (!sections || sections.length === 0) return null;
+---
+
+<nav class="toc-nav mb-12 p-6 bg-slate-900/50 rounded-2xl border border-slate-800 backdrop-blur-sm">
+    <h4 class="text-lg font-bold text-white mb-4 flex items-center gap-2 border-b border-slate-800 pb-2">
+        <List class="text-purple-500 w-5 h-5" />
+        목차
+    </h4>
+    <ul class="space-y-2">
+        {sections.map(({ id, title }) => (
+            <li>
+                <a
+                    href={`#${id}`}
+                    data-id={id}
+                    class="toc-link flex items-center gap-2 text-sm transition-colors duration-200 group text-slate-400 hover:text-white hover:translate-x-1"
+                >
+                    <ChevronRight size={14} class="toc-icon transition-transform duration-200 opacity-0 group-hover:opacity-100" />
+                    {title}
+                </a>
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<script>
+    const links = document.querySelectorAll('.toc-link');
+    const icons = document.querySelectorAll('.toc-icon');
+    
+    // Smooth scroll
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+            if (!id) return;
+            
+            const element = document.getElementById(id);
+            if (element) {
+                const headerOffset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
+    // Intersection Observer for highlighting
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    links.forEach(link => {
+                        const linkId = (link as HTMLElement).dataset.id;
+                        const icon = link.querySelector('.toc-icon');
+                        
+                        if (linkId === id) {
+                            link.classList.add('text-purple-400', 'font-medium', 'translate-x-1');
+                            link.classList.remove('text-slate-400');
+                            icon?.classList.add('text-purple-500', 'opacity-100');
+                            icon?.classList.remove('opacity-0');
+                        } else {
+                            link.classList.remove('text-purple-400', 'font-medium', 'translate-x-1');
+                            link.classList.add('text-slate-400');
+                            icon?.classList.remove('text-purple-500', 'opacity-100');
+                            icon?.classList.add('opacity-0');
+                        }
+                    });
+                }
+            });
+        },
+        { rootMargin: "-20% 0px -35% 0px" }
+    );
+
+    // Observe specific sections passed in via data or by finding common IDs?
+    // In Astro, we can just find elements by ID if we know them. 
+    // Or we can rely on the ids in the links.
+    links.forEach(link => {
+        const id = (link as HTMLElement).dataset.id;
+        if (id) {
+            const element = document.getElementById(id);
+            if (element) observer.observe(element);
+        }
+    });
+</script>

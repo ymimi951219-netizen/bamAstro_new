@@ -1,0 +1,192 @@
+---
+import { PageLayout, LocalBusinessSchema } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { Phone, Users, CheckCircle, ArrowRight, Wallet, GlassWater } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const { region: regionId } = Astro.params;
+
+// JSON-LD for HowTo
+const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `${region.name} 유흥업소(룸) 처음 이용하는 방법 가이드`,
+    "description": `${region.name} 하이퍼블릭, 룸살롱 등 유흥업소를 처음 방문하는 초보자를 위한 단계별 이용 가이드입니다. 예약부터 결제까지 상세 과정을 안내합니다.`,
+    "step": [
+        {
+            "@type": "HowToStep",
+            "name": "전화 예약 및 견적 문의",
+            "text": "방문 전 담당 실장에게 전화를 걸어 인원수, 방문 시간, 원하는 스타일(업종)을 말하고 견적을 확인합니다.",
+            "url": `https://${Astro.site?.hostname}/${region.id}-entertainment-beginner-guide#step1`
+        },
+        {
+            "@type": "HowToStep",
+            "name": "업소 방문 및 룸 배정",
+            "text": "약속된 시간에 업소에 도착하여 담당 실장을 찾습니다. 인원에 맞는 룸으로 안내받습니다.",
+            "url": `https://${Astro.site?.hostname}/${region.id}-entertainment-beginner-guide#step2`
+        },
+        {
+            "@type": "HowToStep",
+            "name": "초이스(Choice) 진행",
+            "text": "담당 실장이 매니저들을 보여드립니다(미러 또는 조별 입장). 마음에 드는 파트너를 선택합니다.",
+            "url": `https://${Astro.site?.hostname}/${region.id}-entertainment-beginner-guide#step3`
+        },
+        {
+            "@type": "HowToStep",
+            "name": "음주가무 및 파트너 케어",
+            "text": "정해진 시간 동안 술과 노래를 즐기며 파트너와 즐거운 시간을 보냅니다.",
+            "url": `https://${Astro.site?.hostname}/${region.id}-entertainment-beginner-guide#step4`
+        },
+        {
+            "@type": "HowToStep",
+            "name": "계산 및 귀가",
+            "text": "시간이 종료되면 계산서를 확인하고 결제합니다. 대리운전이나 픽업 차량을 요청하여 안전하게 귀가합니다.",
+            "url": `https://${Astro.site?.hostname}/${region.id}-entertainment-beginner-guide#step5`
+        }
+    ]
+};
+
+const seoProps = {
+  title: `${region.name} 유흥 초보자 완벽 가이드 2026 | 처음이라면 필독`,
+  description: `${region.name} 유흥 처음 방문자 필독 가이드 - 예약부터 결제까지 모든 것. 바가지 걱정 NO, 초보자 환영. 예산·팁·에티켓 완벽 안내. 무료 상담 24시간.`,
+  keywords: [
+    `${region.name} 유흥 초보자`,
+    `${region.name} 유흥 처음 방문`,
+    `${region.name} 유흥 예약 방법`,
+    `${region.name} 유흥 예산`,
+    `${region.name} 유흥 에티켓`
+  ],
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+    <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+    
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent px-4 pb-20">
+        <div class="container mx-auto max-w-4xl">
+
+            <div class="text-center mb-16 relative">
+                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-6 relative z-10">
+                    {region.name} 유흥 처음 방문 완벽 가이드
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto relative z-10">{region.name} 초보 고객을 위한 시작 가이드입니다. 중심 상권 기준 동선/예약 팁과 주대 18만원 이상·TC 10만원 이상 기준을 안내합니다.</p>
+            </div>
+
+            {/* Steps Container */}
+            <div class="relative border-l-2 border-slate-800 ml-4 md:ml-10 space-y-16">
+
+                {/* Step 1 */}
+                <div class="relative pl-8 md:pl-12" id="step1">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full bg-cyan-500 border-4 border-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-900/80">
+                        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="text-cyan-400 tracking-wider">Step 01.</span> 예약 및 문의
+                        </h2>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="bg-slate-800/80 p-5 rounded-xl text-cyan-400 shadow-lg">
+                                <Phone size={32} />
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-300 leading-relaxed mb-6 text-lg">
+                                    가장 중요한 단계입니다. 무작정 찾아가기(워킹) 보다는 전화를 하세요.
+                                    "오늘 2명 가려는데 견적 얼마인가요?" 라고 솔직하게 물어보는 게 좋습니다.
+                                </p>
+                                <div class="bg-slate-950 p-6 rounded-xl border border-slate-700 text-sm md:text-base shadow-inner">
+                                    <p class="text-slate-500 mb-2 font-bold uppercase tracking-wider text-xs">💡 실전 멘트</p>
+                                    <p class="text-white italic">"서우실장님 계신가요? 인터넷 보고 연락드렸는데요. 오늘 10시쯤 3명 갈 건데 하이퍼블릭 룸 있나요?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Step 2 */}
+                <div class="relative pl-8 md:pl-12" id="step2">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full bg-cyan-500 border-4 border-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-900/80">
+                        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="text-cyan-400 tracking-wider">Step 02.</span> 입장 및 초이스
+                        </h2>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                             <div class="bg-slate-800/80 p-5 rounded-xl text-cyan-400 shadow-lg">
+                                <Users size={32} />
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-300 leading-relaxed mb-6 text-lg">
+                                    룸에 안내받으면 매니저들이 들어옵니다. 내 스타일인 친구를 고르세요.
+                                    너무 고민되면 담당 실장에게 "청순한 스타일 추천해주세요"라고 도움을 요청하세요.
+                                </p>
+                                <ul class="space-y-3 text-slate-400">
+                                    <li class="flex items-center gap-3 bg-slate-800/30 p-3 rounded-lg"><CheckCircle size={18} class="text-cyan-500 flex-shrink-0" /> 마음에 들면 번호를 부르거나 손을 드세요.</li>
+                                    <li class="flex items-center gap-3 bg-slate-800/30 p-3 rounded-lg"><CheckCircle size={18} class="text-cyan-500 flex-shrink-0" /> 마음에 드는 아가씨가 없다면 "다음 조 볼게"라고 하세요.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Step 3 */}
+                <div class="relative pl-8 md:pl-12" id="step3">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full bg-cyan-500 border-4 border-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-900/80">
+                        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="text-cyan-400 tracking-wider">Step 03.</span> 즐기기 (Table Time)
+                        </h2>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                             <div class="bg-slate-800/80 p-5 rounded-xl text-cyan-400 shadow-lg">
+                                <GlassWater size={32} />
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-300 leading-relaxed mb-6 text-lg">
+                                    파트너가 옆에 앉으면 가볍게 인사하고 술을 한 잔 권하세요.
+                                    <br />매너 있는 손님이 대우받습니다. 기본적인 스킨십은 자연스럽게 가능하지만, 무리한 요구는 분위기를 망칩니다.
+                                </p>
+                                <div class="bg-amber-900/20 p-4 rounded-xl border border-amber-600/30 text-amber-200 text-sm flex gap-3 items-center">
+                                    <span class="text-2xl">⚠️</span>
+                                    <span><strong>주의:</strong> 담당 실장 몰래 '2차' 등을 제안하는 것은 금물입니다. 문제 발생 시 책임지지 않습니다.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Step 4 */}
+                <div class="relative pl-8 md:pl-12" id="step4">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 rounded-full bg-cyan-500 border-4 border-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-900/80">
+                        <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="text-cyan-400 tracking-wider">Step 04.</span> 계산 및 마무리
+                        </h2>
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                             <div class="bg-slate-800/80 p-5 rounded-xl text-cyan-400 shadow-lg">
+                                <Wallet size={32} />
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-slate-300 leading-relaxed mb-4 text-lg">
+                                    시간이 끝나가면 웨이터나 실장이 알려줍니다. {region.name} 상권 기준에 맞춰 연장할지 마무리할지 결정하세요.
+                                    계산서는 꼼꼼히 확인하시고, 술 취해서 지갑이나 휴대폰을 두고 가지 않도록 챙기세요.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-20 text-center">
+                <h2 class="text-2xl font-bold text-white mb-8">이제 실전입니다!</h2>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-white text-slate-900 hover:bg-cyan-50 font-bold py-5 px-16 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto text-xl animate-pulse group">
+                    <Phone fill="currentColor" size={24} class="group-hover:rotate-12 transition-transform" /> 
+                    <span>서우실장에게 전화하기</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</PageLayout>

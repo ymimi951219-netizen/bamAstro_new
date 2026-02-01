@@ -1,0 +1,68 @@
+---
+import type { RegionConfig } from '../../types/region';
+import { Crown, Phone, GlassWater, ChevronDown, Star } from 'lucide-astro';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+---
+
+<section class="relative h-screen flex items-center justify-center bg-transparent overflow-hidden perspective-container">
+  <!-- Dynamic Background -->
+  <div class="absolute inset-0 bg-transparent">
+    <div class="absolute top-[10%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-purple-600/10 blur-[100px] animate-float"></div>
+    <div class="absolute bottom-[10%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-fuchsia-900/20 blur-[100px] animate-float-delayed"></div>
+    <div class="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[60vw] h-[30vw] rounded-full bg-violet-900/10 blur-[120px] animate-pulse-slow"></div>
+    
+    <!-- Grid Pattern Overlay -->
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/20"></div>
+  </div>
+
+  <div class="relative z-10 container mx-auto px-4 text-center mt-10">
+    <div class="animate-fade-in-up">
+      <!-- Premium Badge -->
+      <div class="inline-flex items-center gap-2 border border-purple-500/30 bg-purple-950/30 backdrop-blur-md px-6 py-2 rounded-full mb-8 hover:bg-purple-900/40 transition-colors animate-float">
+        <Crown class="w-4 h-4 text-purple-400" />
+        <span class="text-purple-200 text-xs font-bold tracking-[0.2em] uppercase">{region.name} No.1 프리미엄 선택</span>
+        <Star class="w-3 h-3 text-purple-400" />
+      </div>
+
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight drop-shadow-2xl">
+        <span class="block text-white mb-2">{region.name} 유흥의 밤을</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-200 via-purple-400 to-violet-600">가장 완벽하게</span>
+      </h1>
+      
+      <p class="text-slate-300 text-lg md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed text-shadow-glow">
+        {region.seo.description}
+        <br />
+        <span class="text-purple-400/80 mt-2 block text-base md:text-lg">프리미엄 프라이빗 라운지 & 비즈니스 클럽</span>
+      </p>
+      
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <a href={`tel:${region.phone}`} class="group relative px-10 py-5 btn-primary font-bold rounded-2xl transition-all hover:scale-105 shadow-[0_0_40px_rgba(168,85,247,0.3)] overflow-hidden flex items-center justify-center gap-3 min-w-[220px]">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+          <Phone class="w-6 h-6 group-hover:animate-wiggle relative z-10" />
+          <span class="relative z-10 text-lg">VIP 빠른 예약</span>
+        </a>
+        <a href={`/${region.venueTypes[0]?.slug || ''}`} class="group px-10 py-5 bg-white/5 backdrop-blur-md text-white font-bold rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all hover:-translate-y-1 flex items-center justify-center gap-3 min-w-[220px]">
+          <GlassWater class="w-6 h-6 text-slate-400 group-hover:text-purple-400 transition-colors" />
+          <span class="group-hover:text-purple-100 transition-colors text-lg">라운지 투어</span>
+        </a>
+      </div>
+
+      <!-- Pricing Info -->
+      <div class="mt-12 text-sm text-slate-500 animate-fade-in delay-500">
+        <p>최저 주대 {region.pricing.minRoomCharge.toLocaleString()}원 부터 · T/C {region.pricing.minTC.toLocaleString()}원 부터</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Down Indicator -->
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-500 cursor-pointer hover:text-purple-400 transition-colors">
+    <ChevronDown class="w-10 h-10" />
+  </div>
+</section>

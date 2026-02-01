@@ -1,0 +1,75 @@
+---
+import { PageLayout } from '@bamastro/ui';
+import { region } from '@/config/region';
+
+const seoProps = {
+  title: `${region.name} 유흥 예약 24시간 상담 | 서우실장 NO.1`,
+  description: `${region.name} 서우실장 24시간 예약 상담 전문가. 빠른 응대, 최고의 가격, VIP 대우 보장. 전화 ${region.phoneFormatted} 또는 카카오톡 ${region.kakaoId}으로 지금 문의하세요.`,
+  keywords: [`${region.name} 예약`, `${region.name} 예약 상담`, `${region.name} VIP 예약`, `${region.name} 24시간 상담`, `${region.name} 문의`],
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+  <div class="py-20 max-w-4xl mx-auto text-center">
+    <div class="animate-fade-in-up">
+      <h1 class="text-4xl font-bold text-white mb-2">연락처</h1>
+      <p class="text-slate-400 text-lg mb-12">365일 24시간 언제든 편하게 문의주세요.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6 animate-fade-in-up delay-100">
+      <!-- Phone Card -->
+      <a href={`tel:${region.phone}`} class="glass-card p-8 group flex flex-col items-center justify-center">
+        <div class="w-16 h-16 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">전화 문의</h3>
+        <p class="text-2xl font-bold text-gradient mb-2">{region.phoneFormatted}</p>
+        <span class="text-xs text-slate-500">터치 시 바로 연결</span>
+      </a>
+
+      <!-- Kakao Card -->
+      <a href={region.kakaoLink} target="_blank" class="glass-card p-8 group flex flex-col items-center justify-center border-yellow-500/10 hover:border-yellow-500/30 hover:shadow-yellow-500/10">
+        <div class="w-16 h-16 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3C6.48 3 2 6.48 2 10.76c0 2.79 1.86 5.28 4.73 6.75-.24.87-1.7 5.86-1.76 6.2 0 0-.04.28.18.36.17.06.36 0 .58-.29 3.65-2.45 5.29-3.79 6.27-4.48 9.53 1.22 11.74-5.91 9.74-8.54C20.61 6.55 16.63 3 12 3z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">카카오톡</h3>
+        <p class="text-2xl font-bold text-white mb-2">{region.kakaoId}</p>
+        <span class="text-xs text-slate-500">실시간 채팅 상담</span>
+      </a>
+
+      <!-- Telegram Card -->
+      <a href={region.telegramLink} target="_blank" class="glass-card p-8 group flex flex-col items-center justify-center border-sky-500/10 hover:border-sky-500/30 hover:shadow-sky-500/10">
+        <div class="w-16 h-16 rounded-full bg-sky-500/20 flex items-center justify-center text-sky-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">텔레그램</h3>
+        <p class="text-2xl font-bold text-white mb-2">{region.telegramId}</p>
+        <span class="text-xs text-slate-500">해외에서도 상담 가능</span>
+      </a>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="mt-12 glass p-8 rounded-2xl animate-fade-in-up delay-200">
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-bold text-white">서우실장</h2>
+        <p class="text-slate-400 text-sm">프리미엄 VIP 예약 담당</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-8">
+        <div>
+          <span class="block text-slate-500 text-sm mb-1">이메일</span>
+          <a href={`mailto:${region.email}`} class="text-lg font-medium text-white hover:text-indigo-400 transition">{region.email}</a>
+        </div>
+        <div>
+          <span class="block text-slate-500 text-sm mb-1">위치</span>
+          <span class="text-lg font-medium text-white">{region.address.city} {region.address.street}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</PageLayout>

@@ -1,0 +1,35 @@
+---
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+const paths = Astro.url.pathname.split('/').filter(Boolean);
+const domain = `https://${region.domain}`;
+
+const items = [
+  {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": domain
+  },
+  ...paths.map((path, index) => ({
+    "@type": "ListItem",
+    "position": index + 2,
+    "name": decodeURIComponent(path),
+    "item": `${domain}/${paths.slice(0, index + 1).join('/')}`
+  }))
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

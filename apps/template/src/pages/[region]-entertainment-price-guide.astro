@@ -1,0 +1,133 @@
+---
+import { PageLayout, LocalBusinessSchema, VenueCard } from '@bamastro/ui';
+import { region } from '@/config/region';
+import { DollarSign, CheckCircle, AlertTriangle, Phone } from 'lucide-astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { region: region.id } },
+  ];
+}
+
+const { region: regionId } = Astro.params;
+
+const seoProps = {
+  title: `${region.name} 유흥 가격표 2026 | 업종별 주대·TC 완벽 정리`,
+  description: `${region.name} 유흥 가격 완벽 가이드 - 하이퍼블릭·가라오케·룸살롱·셔츠룸 주대·TC 비교. 투명한 가격 정보, 바가지 걱정 NO. 지금 상담하세요.`,
+  keywords: [`${region.name} 유흥 가격`, `${region.name} 주대`, `${region.name} TC 가격`, `${region.name} 하이퍼블릭 가격`, `${region.name} 가라오케 가격`],
+};
+---
+
+<PageLayout {...seoProps} region={region}>
+    <LocalBusinessSchema region={region} />
+    
+    <div class="pt-24 md:pt-32 min-h-screen bg-transparent px-4 pb-20">
+        <div class="container mx-auto max-w-5xl">
+
+            {/* Header */}
+            <div class="text-center mb-16 relative">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-green-500/10 rounded-full blur-2xl"></div>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-green-500 mb-6 relative z-10">
+                    2026 {region.name} 유흥 가격 가이드
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed max-w-3xl mx-auto relative z-10">{region.name} 상권 기준 주대/TC 기준을 한눈에 정리했습니다.<br />중심 업소 기준으로 안내하며 상세 견적은 문의 부탁드립니다.</p>
+            </div>
+
+            {/* Comparison Table */}
+            <div class="bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden mb-16 shadow-xl backdrop-blur-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-800/80 text-white border-b border-slate-700">
+                                <th class="py-5 px-6 font-bold text-lg w-[20%]">구분</th>
+                                <th class="py-5 px-6 font-bold text-lg w-[20%]">기본 주대 (SET)</th>
+                                <th class="py-5 px-6 font-bold text-lg w-[20%]">매니저 봉사료 (T/C)</th>
+                                <th class="py-5 px-6 font-bold text-lg">특징 & 가성비</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300 divide-y divide-slate-800/50">
+                            {region.venueTypes.map((venue) => (
+                                <tr class="hover:bg-slate-800/30 transition-colors">
+                                    <td class={`py-5 px-6 font-bold ${
+                                        venue.id === 'highpublic' ? 'text-amber-400' :
+                                        venue.id === 'shirtsroom' ? 'text-blue-400' :
+                                        venue.id === 'karaoke' ? 'text-purple-400' :
+                                        venue.id === 'roomsalon' ? 'text-amber-600' :
+                                        venue.id === 'hostbar' ? 'text-rose-500' : 'text-slate-200'
+                                    }`}>
+                                        <a href={`/${venue.id === 'highpublic' ? region.id + '-highpublic-guide' : venue.slug}`} class="hover:underline flex items-center gap-2">
+                                            {venue.name}
+                                        </a>
+                                    </td>
+                                    <td class="py-5 px-6">주대 18만원 이상</td>
+                                    <td class="py-5 px-6">TC 10만원 이상</td>
+                                    <td class="py-5 px-6 text-sm leading-relaxed">{venue.description || '상세 내용은 가이드 페이지를 확인하세요.'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-4 bg-slate-800/30 text-xs text-slate-500 text-center border-t border-slate-800/50">
+                    * 주대 18만원 이상, TC 10만원 이상 기준이며 업소/시간/인원에 따라 변동됩니다. {region.name} 상세 견적은 전화 문의 바랍니다.
+                </div>
+            </div>
+
+            {/* Hidden Costs Explainer */}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+                <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 hover:border-green-500/20 transition-colors">
+                    <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <DollarSign class="text-green-500" /> 계산서 보는 법
+                    </h2>
+                    <ul class="space-y-6 text-slate-300">
+                        <li class="flex gap-4">
+                            <CheckCircle class="text-green-500 flex-shrink-0 mt-1" size={20} />
+                            <div>
+                                <strong class="text-white block mb-1 text-lg">기본 주대 (Liquor Price)</strong>
+                                <p class="text-slate-400 text-sm">{region.name} 기준 안내는 기본 주류 1병과 안주 포함 구성으로 시작하며, 추가 병은 별도입니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <CheckCircle class="text-green-500 flex-shrink-0 mt-1" size={20} />
+                            <div>
+                                <strong class="text-white block mb-1 text-lg">T/C (Table Charge)</strong>
+                                <p class="text-slate-400 text-sm">매니저(아가씨/선수)의 봉사료입니다. 보통 시간 단위(60분~90분)로 계산되거나, 묶음(통)으로 계산됩니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <CheckCircle class="text-green-500 flex-shrink-0 mt-1" size={20} />
+                            <div>
+                                <strong class="text-white block mb-1 text-lg">W/T (Waiter Tip)</strong>
+                                <p class="text-slate-400 text-sm">룸 서빙을 담당하는 웨이터의 봉사료입니다. 보통 룸당 별도 안내됩니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-amber-900/10 p-8 rounded-2xl border border-amber-500/20">
+                    <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <AlertTriangle class="text-amber-500" /> 바가지요금 주의보
+                    </h2>
+                    <p class="text-slate-300 mb-6 leading-relaxed text-lg">
+                        {region.name} 상권에서도 일부 비양심적인 영업진들이 손님이 술에 취한 틈을 타 <strong>'술병 늘리기'</strong>를 하거나, 계산서에 안 먹은 안주를 몰래 넣는 경우가 있습니다.
+                    </p>
+                    <p class="text-slate-300 mb-8 leading-relaxed">
+                        서우실장은 <strong>'정찰제 가격표'</strong>를 미리 보여드리고 시작하며, 계산 시 드신 내역을 투명하게 확인시켜 드립니다.
+                    </p>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-amber-500/30 text-amber-200 font-bold text-center italic">
+                        "저렴하다고 무조건 좋은 게 아닙니다. 믿을 수 있는 사람을 찾으세요."
+                    </div>
+                </div>
+            </div>
+
+            {/* CTA */}
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-white mb-8">내 예산에 딱 맞는 곳이 궁금하다면?</h2>
+                <button onclick={`window.location.href = 'tel:${region.phone}'`} class="bg-green-600 hover:bg-green-700 text-white font-bold py-5 px-12 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-3 mx-auto text-lg group">
+                    <Phone fill="currentColor" size={24} class="group-hover:animate-bounce" /> 
+                    <span class="tracking-wide">30초 만에 견적 받기</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</PageLayout>

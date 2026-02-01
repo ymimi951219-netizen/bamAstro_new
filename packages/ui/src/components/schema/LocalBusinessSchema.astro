@@ -1,0 +1,51 @@
+---
+import type { RegionConfig } from '../../types/region';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "EntertainmentBusiness",
+  "name": `${region.name} 유흥 가이드 서우실장`,
+  "image": `https://${region.domain}/og-home.jpg`,
+  "telephone": region.phone,
+  "url": `https://${region.domain}/`,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": region.address.street,
+    "addressLocality": region.address.cityEn,
+    "addressRegion": region.address.regionEn,
+    "addressCountry": "KR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": region.geo.lat,
+    "longitude": region.geo.lng
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": region.businessHours.open,
+      "closes": "23:59"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": region.businessHours.close
+    }
+  ],
+  "priceRange": "$$",
+  "areaServed": region.nearbyStations.map(station => ({
+    "@type": "Place",
+    "name": station
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
