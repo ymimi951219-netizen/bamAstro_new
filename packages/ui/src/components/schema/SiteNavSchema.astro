@@ -1,13 +1,17 @@
 ---
+import type { RegionConfig } from '../../types/region';
+
 interface Props {
-  items: { name: string; url: string }[];
+  items?: { name: string; url: string }[];
+  region?: RegionConfig;
 }
-const { items } = Astro.props;
+const { items, region } = Astro.props;
+const navItems = items || (region ? region.venueTypes.map(v => ({ name: v.name, url: `/${v.slug}` })) : []);
 const schema = {
   "@context": "https://schema.org",
   "@type": "SiteNavigationElement",
   name: "Main Navigation",
-  hasPart: items.map(item => ({
+  hasPart: navItems.map(item => ({
     "@type": "WebPage",
     name: item.name,
     url: item.url,
