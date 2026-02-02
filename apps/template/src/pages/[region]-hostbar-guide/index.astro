@@ -17,14 +17,14 @@ if (!venueType) {
 }
 
 const seoProps = {
-  title: `${region.name} 호빠(호스트바) 완벽 가이드 | 여성 전용 프라이빗 라운지`,
-  description: `${region.name} 호빠(호스트바) 완벽 가이드. 여성 고객 전용 프라이빗 라운지. ${region.nearbyStations.slice(0,2).join('·')} 중심 무한 초이스, 감성적 교감. 풀타임, 예약 상세 안내.`,
+  title: `${region.name} 호빠 가이드 | 여성 전용 프라이빗 라운지 완벽 정리`,
+  description: `${region.name} 호빠(호스트바) 완벽 가이드. 여성 전용 프라이빗 라운지. ${region.nearbyStations.slice(0,2).join('·')} 중심, 무한 초이스, 감성 교감. 예약·풀타임·가격 상세 안내. 지금 상담하기!`,
   keywords: [
     `${region.name} 호빠`,
-    `${region.name} 호스트바`,
-    `${region.name} 호빠 예약`,
-    `${region.name} 여성 전용 라운지`,
-    `${region.name} 호빠 초이스`
+    `호스트바 가이드`,
+    `호빠 예약`,
+    `여성 전용 라운지`,
+    `호빠 초이스 시스템`
   ],
 };
 
@@ -49,7 +49,7 @@ const venues = [
     {
         id: 'hb-2',
         name: `${region.name} 로맨틱 호빠`,
-        type: 'Flower Boys',
+        type: '꽃미남 호스트',
         location: `${region.name} 중심상권`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.name} 감각적인 호빠. 도시형 분위기와 포토존.`,
@@ -120,8 +120,14 @@ const sections = [
                 </h2>
                 <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
                     <!-- Snippet-optimized definition (40-60 words) -->
+                    <div class="bg-slate-800/40 border-l-4 border-rose-500 p-4 rounded mb-6">
+                        <p class="text-white font-semibold mb-2">정의</p>
+                        <p>
+                            <strong>{region.name} 호빠는 여성 전용 프라이빗 라운지로, 다양한 스타일의 선수(호스트)들과 감정적 교감을 나누는 공간입니다.</strong> 강남 수준의 퀄리티를 유지하면서도 합리적인 주대로 운영되며, 무한 초이스를 통해 고객의 이상형을 찾을 때까지 최선을 다합니다.
+                        </p>
+                    </div>
                     <p>
-                        <strong>{region.name} 호빠는 오직 여성 고객을 위한 프라이빗 유흥 공간으로, 다양한 스타일의 선수들과 감정적인 교감을 나누는 라운지입니다.</strong> 강남 수준의 퀄리티를 유지하면서도 합리적인 주대로 운영되며, 무한 초이스를 통해 고객의 이상형을 찾을 때까지 최선을 다합니다.
+                        {region.name} 호빠는 오직 여성 고객을 위한 프라이빗 유흥 공간으로, 다양한 스타일의 선수들과 감정적인 교감을 나누는 라운지입니다. 강남 수준의 퀄리티를 유지하면서도 합리적인 주대로 운영되며, 무한 초이스를 통해 고객의 이상형을 찾을 때까지 최선을 다합니다.
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-center">
@@ -164,58 +170,141 @@ const sections = [
                 </div>
             </div>
 
-            <!-- 3. System -->
+            <!-- 3. System - Pricing & Choice Guide -->
             <div id="system" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-rose-500/20 transition-colors animate-fade-in-up delay-300">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                     <div class="w-1.5 h-8 bg-rose-500 rounded-full"></div>
                     3. 이용 시스템 및 초이스 가이드
                 </h2>
                 <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
-                    <h4 class="text-xl font-bold text-white mb-4">A. 초이스 (Choice)</h4>
-                    <p class="mb-4">
-                        룸에 입장하시면 담당 실장이 5~10조의 선수들을 차례로 보여드립니다.
-                        마음에 드는 선수가 있다면 주저말고 <strong>"초이스"</strong> 해주세요.
-                        <br />만약 마음에 드는 선수가 없다면 <strong>"패스"</strong> 하셔도 전혀 무방합니다. 고객님의 이상형을 찾을 때까지 최선을 다해 보여드립니다.
-                    </p>
+                    <h4 class="text-xl font-bold text-white mb-4">A. 초이스 (Choice) 프로세스</h4>
+                    <ol class="list-decimal pl-6 space-y-2 text-slate-300 marker:text-rose-500 mb-6">
+                        <li>룸 입장 후 담당 실장이 5~10명의 선수들을 차례로 소개합니다.</li>
+                        <li>마음에 드는 선수가 있으면 <strong>"초이스"</strong> 해주세요. 없으면 <strong>"패스"</strong> 해도 됩니다.</li>
+                        <li>이상형을 찾을 때까지 계속 보여드립니다. (무한 초이스 가능)</li>
+                        <li>선택한 선수와 함께 시간을 보내게 됩니다.</li>
+                    </ol>
 
-                    <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 타임(Time) & 연장</h4>
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 타임(Time) 및 가격 체계</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-left border-collapse mt-3">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-rose-400">
+                                    <th class="py-3 px-4">타입</th>
+                                    <th class="py-3 px-4">설명</th>
+                                    <th class="py-3 px-4">기준 가격</th>
+                                    <th class="py-3 px-4">추천 용도</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                                    <td class="py-3 px-4 font-bold text-white">기본 타임</td>
+                                    <td class="py-3 px-4">1시간~1시간 30분 (선수와 함께)</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">주대 18만원+</td>
+                                    <td class="py-3 px-4 text-xs">처음 방문</td>
+                                </tr>
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition bg-slate-800/20">
+                                    <td class="py-3 px-4 font-bold text-white">연장</td>
+                                    <td class="py-3 px-4">타임 종료 후 추가 시간 (1시간 단위)</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">시간당 8-12만원</td>
+                                    <td class="py-3 px-4 text-xs">더 즐기고 싶을 때</td>
+                                </tr>
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                                    <td class="py-3 px-4 font-bold text-white">풀타임 (Full-T)</td>
+                                    <td class="py-3 px-4">오늘 하루 선택한 선수와 함께 (마감까지)</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">별도 문의</td>
+                                    <td class="py-3 px-4 text-xs">오래 함께하기</td>
+                                </tr>
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+                                    <td class="py-3 px-4 font-bold text-white">TC (Total Charge)</td>
+                                    <td class="py-3 px-4">선수 서빙 및 서비스 비용 (선택사항)</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">10만원+</td>
+                                    <td class="py-3 px-4 text-xs">VIP 서비스</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">C. 타임 종료 및 연장</h4>
                     <ul class="list-disc pl-5 space-y-2 marker:text-rose-500">
-                        <li>기본 타임은 <strong>1시간 ~ 1시간 30분</strong> 기준입니다. (업소별 상이)</li>
-                        <li>타임 종료 10분 전, 연장 여부를 여쭤봅니다. 즐거우셨다면 연장하여 계속 즐기시면 됩니다.</li>
-                        <li><strong>풀티(Full-T)</strong>: 오늘 하루 이 선수를 지정하여 마감 때까지 함께 노는 시스템입니다. (별도 문의)</li>
+                        <li><strong>타임 확인</strong>: 타임 종료 10분 전, 담당 실장이 연장 여부를 여쭤봅니다.</li>
+                        <li><strong>연장 결정</strong>: 즐거우셨다면 언제든지 연장 가능합니다. 결정은 100% 본인의 선택입니다.</li>
+                        <li><strong>유연한 이용</strong>: 별도 위약금이나 추가 비용 없이 가는 것도 가능합니다.</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- 4. FAQ -->
-            <div id="faq" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 animate-fade-in-up delay-300">
-                <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <Gift class="text-rose-500" /> 특별한 날을 위한 팁
-                    </h3>
-                    <ul class="space-y-4 text-slate-300 font-light">
-                        <li class="flex gap-3">
-                            <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
-                            <span><strong>생일 파티</strong>: 미리 예약하시면 룸 데코레이션 및 축하 공연 이벤트를 준비해 드립니다. 인생샷을 남겨보세요.</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
-                            <span><strong>스트레스 해소</strong>: 조용히 대화만 나누고 싶은 날, 미친듯이 춤추고 놀고 싶은 날. 예약 시 '오늘의 기분'을 말씀해 주시면 딱 맞는 선수를 추천해 드립니다.</span>
-                        </li>
-                    </ul>
+            <!-- 4. FAQ - Enhanced with Snippet Optimization -->
+            <div id="faq" class="mb-20 animate-fade-in-up delay-300">
+                <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-rose-500 rounded-full"></div>
+                    4. 이용 꿀팁 및 FAQ
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
+                        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                            <Gift class="text-rose-500" /> 특별한 날을 위한 팁
+                        </h3>
+                        <ul class="space-y-4 text-slate-300 font-light">
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>생일 파티</strong>: 미리 예약하시면 룸 데코레이션 및 축하 공연 이벤트를 준비해 드립니다. 인생샷을 남겨보세요.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>스트레스 해소</strong>: 조용히 대화만 나누고 싶은 날, 미친듯이 춤추고 놀고 싶은 날. 예약 시 '오늘의 기분'을 말씀해 주시면 딱 맞는 선수를 추천해 드립니다.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>단체 여행</strong>: 친구들과 함께 방문할 때, 인원수를 미리 알려주면 대형 룸과 충분한 선수를 준비합니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-rose-900/10 p-8 rounded-2xl border border-rose-500/20">
+                        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                            <HelpCircle class="text-rose-500" /> 자주 묻는 질문
+                        </h3>
+                        <div class="space-y-6">
+                            {faqList.map((faq, idx) => (
+                                <div class="pb-4 border-b border-slate-700/50 last:border-b-0">
+                                    <p class="font-bold text-rose-400 mb-2 text-sm">Q{idx + 1}. {faq.question}</p>
+                                    <p class="text-slate-300 text-sm leading-relaxed">A. {faq.answer}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bg-rose-900/10 p-8 rounded-2xl border border-rose-500/20">
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <HelpCircle class="text-rose-500" /> 자주 묻는 질문 (FAQ)
-                    </h3>
-                    <div class="space-y-6">
-                        {faqList.map((faq) => (
-                            <div>
-                                <p class="font-bold text-rose-400 mb-1">Q. {faq.question}</p>
-                                <p class="text-slate-300 text-sm">A. {faq.answer}</p>
-                            </div>
-                        ))}
+                <!-- Additional FAQ Schema Content - Snippet Candidates -->
+                <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                    <h3 class="text-xl font-bold text-white mb-6">호빠 초보자가 자주 묻는 질문들</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">초이스할 때 뭐라고 말해야 하나요?</p>
+                            <p class="text-slate-300 text-sm">간단합니다. 마음에 드는 선수가 나오면 "이 분으로 초이스할게요"라고 말씀하면 됩니다. 아무런 거리낌 없이 편하게 해주셔도 괜찮습니다. 실장들이 이미 다 알고 있습니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">처음 방문하는 손님도 환영하나요?</p>
+                            <p class="text-slate-300 text-sm">물론입니다. {region.name} 호빠들은 처음 방문하시는 손님들을 매우 환영합니다. 예약 시 "처음 방문"이라고 말씀해 주시면 더욱 친절하게 안내해 드립니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">혼자 가도 괜찮나요?</p>
+                            <p class="text-slate-300 text-sm">네, 괜찮습니다. 실제로 많은 여성 고객분들이 혼자 방문하십니다. 오히려 1:1로 더 깊고 의미 있는 시간을 만들 수 있어서, 많은 단골 손님들이 혼자 방문을 선호합니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">왁싱이나 화장은 필수인가요?</p>
+                            <p class="text-slate-300 text-sm">아닙니다. 자연스러운 모습이 더욱 좋습니다. 너무 부담 갖지 마시고 편한 옷차림으로 오셔도 됩니다. 호스트들은 고객님의 진심 있는 모습을 가장 소중히 여깁니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">연장 안 하면 미안하지 않나요?</p>
+                            <p class="text-slate-300 text-sm">전혀 미안해하실 필요 없습니다. 모든 결정은 100% 고객님의 의지이며, 호스트들도 잘 알고 있습니다. 편하신 대로 결정하세요.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">비용은 정말 공시된 가격인가요?</p>
+                            <p class="text-slate-300 text-sm">네, {region.name} 호빠들은 투명한 정찰제로 운영됩니다. 숨겨진 추가 비용은 없으니 안심하셔도 됩니다. 혹시 의문사항 있으면 예약 시 바로 물어보세요.</p>
+                        </div>
                     </div>
                 </div>
             </div>

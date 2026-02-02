@@ -146,9 +146,7 @@ export const region: RegionConfig = {
             '분당 란제리룸',
             '분당 노래빠',
             '분당 보도노래방',
-            '분당 노래방보도',
-            '분당 착석바',
-            '분당 착석빠'
+            '분당 착석바'
         ],
         description: '분당 유흥 가이드 | 서현역 로데오거리·야탑역 먹자골목 중심 하이퍼블릭·가라오케·셔츠룸 예약. 판교·서현 직장인 맞춤 코스 안내.',
         naverVerification: 'YOUR_NAVER_VERIFICATION_CODE',  // 네이버 웹마스터 도구에서 발급받은 코드로 교체
@@ -367,16 +365,6 @@ export const region: RegionConfig = {
             keywords: ['분당 보도노래방', '서현 보도노래방', '분당 보도노래방 가격', '분당 보도노래방 후기'],
         },
         {
-            id: 'noraebang-bodo',
-            name: '노래방보도',
-            slug: 'bundang-noraebang-bodo-guide',
-            subtitle: '노래방 보도',
-            description: '노래방에서 즐기는 보도 서비스 시스템',
-            image: '/images/venues/noraebang-bodo_main.webp',
-            minPrice: 80000,
-            keywords: ['분당 노래방보도', '분당 노래방 보도', '서현 노래방보도', '분당 노래방보도 가격'],
-        },
-        {
             id: 'chaksukbar',
             name: '착석바',
             slug: 'bundang-chaksukbar-guide',
@@ -385,16 +373,6 @@ export const region: RegionConfig = {
             image: '/images/venues/chaksukbar_main.webp',
             minPrice: 100000,
             keywords: ['분당 착석바', '서현 착석바', '분당 착석바 가격', '분당 착석바 추천'],
-        },
-        {
-            id: 'chaksukppa',
-            name: '착석빠',
-            slug: 'bundang-chaksukppa-guide',
-            subtitle: '착석 바',
-            description: '착석빠 스타일의 캐주얼 라운지 바',
-            image: '/images/venues/chaksukppa_main.webp',
-            minPrice: 100000,
-            keywords: ['분당 착석빠', '서현 착석빠', '분당 착석빠 가격', '분당 착석빠 후기'],
         },
     ],
 

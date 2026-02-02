@@ -37,3 +37,7 @@ export { default as WebSiteSchema } from './src/components/schema/WebSiteSchema.
 export { default as DefinedTermSchema } from './src/components/schema/DefinedTermSchema.astro';
 export { default as PlaceSchema } from './src/components/schema/PlaceSchema.astro';
 export { default as SiteNavSchema } from './src/components/schema/SiteNavSchema.astro';
+export { default as CollectionPageSchema } from './src/components/schema/CollectionPageSchema.astro';
+export { default as AggregateOfferSchema } from './src/components/schema/AggregateOfferSchema.astro';
+export { default as VenueSchema } from './src/components/schema/VenueSchema.astro';
+export { default as InternalLinksSchema } from './src/components/schema/InternalLinksSchema.astro';

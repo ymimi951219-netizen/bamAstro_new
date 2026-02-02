@@ -4,14 +4,14 @@ import { region } from '@/config/region';
 import { getBlogPosts } from '@/lib/supabase';
 
 const seoProps = {
-  title: `${region.name} 유흥 정보 가이드 | ${region.nearbyStations.slice(0,2).join('·')} 하이퍼블릭·가라오케 예약`,
-  description: `${region.name} 유흥 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 하이퍼블릭, 가라오케, 룸살롱 추천. 가격·예약·팁·초보자 가이드 포함. 24시간 무료 상담.`,
+  title: `${region.name} 유흥 가이드 | ${region.nearbyStations.slice(0,2).join('·')} 추천 TOP 6 업체`,
+  description: `${region.name} 유흥 완벽 가이드. 하이퍼블릭·가라오케·룸살롱 추천 TOP 6. ${region.nearbyStations.slice(0,2).join('·')} 중심, 가격표·예약 팁·초보자 필독. 24시간 무료 상담!`,
   keywords: [
     `${region.name} 유흥`,
-    `${region.name} 하이퍼블릭 가이드`,
-    `${region.name} 가라오케 예약`,
     `${region.name} 유흥 추천`,
-    `${region.nearbyStations[0]} 유흥`
+    `${region.nearbyStations[0]} 유흥`,
+    `${region.name} 가라오케 예약`,
+    `${region.name} 하이퍼블릭 가이드`
   ],
 };
 
@@ -27,6 +27,183 @@ const blogPosts = await getBlogPosts();
   <FeaturesSection region={region} />
   <GallerySection region={region} />
   <IntroSection region={region} />
+
+  <!-- SEO-Optimized Main Content Section -->
+  <section class="py-16 bg-transparent">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="bg-slate-900/30 p-8 md:p-12 rounded-2xl border border-slate-800/50 backdrop-blur-sm mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">{region.name} 유흥 가이드 - 2026년 완벽 정리</h2>
+
+        <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed space-y-5">
+          <p class="text-lg">
+            <strong>{region.name} 유흥</strong>을 찾고 계신가요? 이 가이드는 {region.nearbyStations[0]}, {region.nearbyStations[1]}, {region.nearbyStations[2]} 등
+            주요 역세권을 중심으로 형성된 {region.name}의 모든 유흥 업소 정보를 담고 있습니다.
+            <strong>가라오케, 하이퍼블릭, 셔츠룸, 기모노룸, 룸살롱, 호스트바</strong> 6가지 업종의 가격, 시스템, 예약 방법까지
+            10년 경력 전문가가 직접 검증한 신뢰할 수 있는 정보를 제공합니다.
+          </p>
+
+          <div class="bg-slate-800/50 border-l-4 border-red-500 p-5 rounded my-6">
+            <p class="text-white font-semibold mb-3">🏆 왜 {region.name} 유흥인가?</p>
+            <ul class="space-y-2 text-sm">
+              <li><strong>① 최고의 가성비:</strong> 강남 수준의 퀄리티를 20% 저렴한 가격에 경험할 수 있습니다.</li>
+              <li><strong>② 뛰어난 접근성:</strong> 신분당선으로 강남역에서 15분, 분당선으로 서울 각지에서 편리하게 접근 가능합니다.</li>
+              <li><strong>③ 검증된 업소:</strong> 판교 테크노밸리 임직원, 외국인 바이어들이 실제로 이용하는 프리미엄 업소들이 밀집되어 있습니다.</li>
+              <li><strong>④ 다양한 선택지:</strong> 15만원대 가성비 코스부터 50만원대 VIP 프리미엄까지 예산과 목적에 맞는 다양한 옵션이 있습니다.</li>
+            </ul>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mt-8 mb-4">{region.name} 유흥 업종별 특징 한눈에 보기</h3>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">🎤 가라오케 (노래방)</h4>
+              <p class="text-sm mb-3">프리미엄 음향 시설과 넓은 룸에서 즐기는 파티형 노래방. 회식, 생일파티, 단체 모임에 최적화되어 있습니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 15-25만원 / TC 10만원~</div>
+                <div>• 추천: 5-10명 단체, 신나는 분위기 선호</div>
+                <div>• 특징: 최신 음향, 대형 룸, 주류+안주 포함</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">🍸 하이퍼블릭 (프라이빗 펍)</h4>
+              <p class="text-sm mb-3">프라이빗 룸에서 매직미러 초이스 시스템으로 매니저를 선택하는 모던 라운지입니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 18-25만원 / TC 10-15만원</div>
+                <div>• 추천: 2-4명 소규모, 1인 방문 가능</div>
+                <div>• 특징: 초이스 시스템, 80-90분 타임</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">👔 셔츠룸</h4>
+              <p class="text-sm mb-3">캐주얼한 복장의 매니저들과 편안한 분위기에서 즐기는 중급 업소입니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 20-28만원 / TC 12-18만원</div>
+                <div>• 추천: 3-6명, 부담없는 비즈니스 접대</div>
+                <div>• 특징: 셔츠 복장, 밝은 조명, 편안한 대화</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">👘 기모노룸 (레깅스룸)</h4>
+              <p class="text-sm mb-3">기모노 스타일 의상의 매니저들이 제공하는 준고급 서비스 업소입니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 22-32만원 / TC 15-20만원</div>
+                <div>• 추천: 중요한 비즈니스 접대</div>
+                <div>• 특징: 고급 인테리어, 우아한 분위기</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">💎 룸살롱</h4>
+              <p class="text-sm mb-3">{region.name} 최고급 업소로, VIP 수준의 서비스와 시설을 자랑합니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 30-50만원+ / TC 20-30만원</div>
+                <div>• 추천: 중요한 VIP 접대, 특별한 날</div>
+                <div>• 특징: 최고급 매니저, 호텔급 서비스</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/40 p-5 rounded-xl border border-slate-700/50">
+              <h4 class="text-lg font-bold text-red-400 mb-2">🎩 호스트바</h4>
+              <p class="text-sm mb-3">여성 고객을 위한 남성 호스트 바로, 편안한 대화와 서비스를 제공합니다.</p>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div>• 가격: 주대 15-25만원 / TC 10-15만원</div>
+                <div>• 추천: 여성 단독 또는 여성 단체</div>
+                <div>• 특징: 남성 호스트, 대화 중심</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mt-8 mb-4">{region.name} 역세권별 유흥 분포</h3>
+
+          <div class="space-y-4">
+            <div class="bg-gradient-to-r from-red-900/20 to-transparent p-5 rounded-xl border border-red-500/20">
+              <h4 class="text-lg font-bold text-white mb-2">🚇 {region.nearbyStations[0]} 유흥가</h4>
+              <p class="text-sm text-slate-300 mb-2">
+                {region.name}의 중심 상권으로, 가장 많은 업소가 밀집되어 있습니다. 하이퍼블릭, 가라오케, 기모노룸이 고르게 분포되어 있으며,
+                역에서 도보 5-10분 거리에 프리미엄 업소들이 위치해 있습니다.
+              </p>
+              <div class="text-xs text-slate-400">
+                추천 업종: 하이퍼블릭 (20곳+), 가라오케 (15곳+), 기모노룸 (10곳+)
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-900/20 to-transparent p-5 rounded-xl border border-purple-500/20">
+              <h4 class="text-lg font-bold text-white mb-2">🚇 {region.nearbyStations[1]} 유흥가</h4>
+              <p class="text-sm text-slate-300 mb-2">
+                신규 상권으로 최신 인테리어의 모던한 업소들이 많습니다. 특히 가라오케와 셔츠룸이 강세를 보이며,
+                20-30대 젊은 층에게 인기가 높습니다.
+              </p>
+              <div class="text-xs text-slate-400">
+                추천 업종: 가라오케 (12곳+), 셔츠룸 (8곳+), 하이퍼블릭 (6곳+)
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-900/20 to-transparent p-5 rounded-xl border border-blue-500/20">
+              <h4 class="text-lg font-bold text-white mb-2">🚇 {region.nearbyStations[2]} 유흥가</h4>
+              <p class="text-sm text-slate-300 mb-2">
+                판교 테크노밸리와 가까워 비즈니스 접대용 고급 업소가 많습니다. 룸살롱과 기모노룸 비중이 높으며,
+                외국인 바이어 접대에도 자주 이용됩니다.
+              </p>
+              <div class="text-xs text-slate-400">
+                추천 업종: 룸살롱 (5곳+), 기모노룸 (8곳+), 하이퍼블릭 (10곳+)
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-900/20 border border-amber-500/30 p-5 rounded-xl mt-8">
+            <h4 class="text-lg font-bold text-amber-400 mb-3">💡 서우실장 전문가 팁</h4>
+            <div class="space-y-3 text-sm">
+              <p><strong>• 예약 필수:</strong> {region.name}은 주말(금·토) 저녁 시간대에 예약 없이 방문하면 1-2시간 대기하는 경우가 많습니다.
+              최소 당일 오후에는 예약하시는 것을 권장합니다.</p>
+
+              <p><strong>• 가성비 시간대:</strong> 평일 저녁 6-8시 오픈 시간대에는 조기 입장 할인(10-15%)을 제공하는 업소가 많습니다.
+              또한 매니저 선택폭도 넓어 추천드립니다.</p>
+
+              <p><strong>• 픽업 서비스:</strong> 대부분의 업소가 {region.nearbyStations.slice(0,3).join(', ')} 등에서 무료 픽업 서비스를 제공합니다.
+              예약 시 픽업 위치를 미리 말씀해 주세요.</p>
+
+              <p><strong>• 1인 방문:</strong> {region.name}은 도심 비즈니스 방문객이 많아 1인 방문도 전혀 부담 없습니다.
+              특히 하이퍼블릭은 1:1 시작 후 추가 인원 요청이 가능합니다.</p>
+            </div>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mt-8 mb-4">자주 묻는 질문 (FAQ)</h3>
+
+          <div class="space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-lg">
+              <p class="font-bold text-red-400 mb-2">Q. {region.name} 유흥 평균 비용은 얼마인가요?</p>
+              <p class="text-sm text-slate-300">A. 1인 기준 주대 + TC 포함하여 평균 25-35만원입니다. 가라오케는 20-30만원,
+              하이퍼블릭/셔츠룸은 25-35만원, 룸살롱은 40-60만원 정도 예상하시면 됩니다. 인원이 많을수록 1인당 비용은 낮아집니다.</p>
+            </div>
+
+            <div class="bg-slate-800/40 p-4 rounded-lg">
+              <p class="font-bold text-red-400 mb-2">Q. 초보자인데 어떤 업종이 좋을까요?</p>
+              <p class="text-sm text-slate-300">A. 처음이시라면 <strong>하이퍼블릭</strong>을 추천드립니다.
+              초이스 시스템이 명확하고, 가격도 합리적이며, 1-2인 소규모 방문이 가능합니다.
+              단체 모임이라면 <strong>가라오케</strong>가 부담 없고 재미있습니다.</p>
+            </div>
+
+            <div class="bg-slate-800/40 p-4 rounded-lg">
+              <p class="font-bold text-red-400 mb-2">Q. 서우실장을 통해 예약하면 뭐가 좋나요?</p>
+              <p class="text-sm text-slate-300">A. ① 제휴 업소 특별 할인 (평균 10-15% 할인), ② 업소 직접 방문 없이 전화 한 통으로 예약 완료,
+              ③ 내상 방지 (고객 취향에 맞는 업소 추천), ④ 픽업 우선 배차, ⑤ 불만족 시 환불 또는 타 업소 재안내 등의 혜택이 있습니다.</p>
+            </div>
+
+            <div class="bg-slate-800/40 p-4 rounded-lg">
+              <p class="font-bold text-red-400 mb-2">Q. {region.name} vs 강남, 어디가 더 좋나요?</p>
+              <p class="text-sm text-slate-300">A. <strong>강남</strong>은 최고급 퀄리티와 가장 많은 선택지가 장점이지만 가격이 비쌉니다.
+              <strong>{region.name}</strong>은 강남 대비 80-85% 수준의 퀄리티를 65-70% 가격에 즐길 수 있어 가성비가 뛰어납니다.
+              서울 강남권에서 신분당선으로 15-20분이면 도착할 수 있어 접근성도 좋습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <AnalysisSection regionName={region.name} regionId={region.id} stations={region.nearbyStations} landmarks={region.landmarks} />
   <HotEventSection />
   <BlogSection posts={blogPosts} />
@@ -36,7 +213,7 @@ const blogPosts = await getBlogPosts();
     <div class="container mx-auto px-4 max-w-6xl">
       <div class="text-center mb-10">
         <h2 class="text-3xl font-bold text-white mb-3">{region.name} 유흥 가이드 모음</h2>
-        <p class="text-slate-400">목적에 맞는 가이드를 선택하세요</p>
+        <p class="text-slate-400">목적에 맞는 상세 가이드를 선택하세요</p>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <a href={`/${region.id}-entertainment-hub`} class="bg-slate-900/50 border border-slate-800/50 p-5 rounded-xl hover:border-purple-500/30 transition-all group text-center">

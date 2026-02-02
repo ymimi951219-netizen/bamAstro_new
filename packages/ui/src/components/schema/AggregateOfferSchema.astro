@@ -1,0 +1,29 @@
+---
+/**
+ * AggregateOfferSchema Component
+ * Implements AggregateOffer schema for pricing tables
+ * Shows price range in search results for better CTR
+ */
+
+interface Props {
+  priceCurrency: string; // e.g., "KRW"
+  lowestPrice: number;
+  highestPrice: number;
+  offerCount?: number;
+  availability?: string; // e.g., "InStock", "OutOfStock"
+}
+
+const { priceCurrency, lowestPrice, highestPrice, offerCount, availability } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AggregateOffer",
+  "priceCurrency": priceCurrency,
+  "lowPrice": lowestPrice.toString(),
+  "highPrice": highestPrice.toString(),
+  ...(offerCount && { "offerCount": offerCount }),
+  ...(availability && { "availability": `https://schema.org/${availability}` })
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

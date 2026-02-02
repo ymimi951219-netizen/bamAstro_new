@@ -16,14 +16,14 @@ const content = getVenueContent(venueId)!;
 const venueName = venueType.name;
 
 const seoProps = {
-  title: `${region.name} 하이쩜오 완벽 가이드 | 하이 0.5 프리미엄 가격·시스템·추천`,
-  description: `${region.name} 하이쩜오 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 하이 0.5 프리미엄, 가격, 예약, 이용 팁 상세 안내.`,
+  title: `분당 하이쩜오 가이드 | 하이 0.5 프리미엄`,
+  description: `분당 하이쩜오(하이 0.5) 완벽 가이드. 프리미엄 서비스, 품격 있는 분위기, 엘리트 파트너. 예약 정보.`,
   keywords: [
-    `${region.name} 하이쩜오`,
-    `${region.name} 하이쩜오 가격`,
-    `${region.name} 하이쩜오 추천`,
-    `${region.name} 하이쩜오 후기`,
-    `${region.name} 하이 0.5`
+    `분당 하이쩜오`,
+    `분당 하이쩜오 가격`,
+    `분당 하이쩜오 추천`,
+    `분당 하이쩜오 후기`,
+    `분당 하이 0.5`
   ],
 };
 
@@ -51,7 +51,7 @@ const venues = [
   {
     id: 'hj-2',
     name: `${region.nearbyStations[1]} 하이쩜오`,
-    type: 'Premium Hi Lounge',
+    type: '프리미엄 하이 라운지',
     location: `${region.nearbyStations[1]} 인근`,
     price: '기본 18만원~, 프리미엄 세트 45만원~',
     desc: `${region.nearbyStations[1]} 중심 프리미엄 하이쩜오. 세련된 인테리어와 최상의 서비스.`,
@@ -108,17 +108,17 @@ const sections = [
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Target class="w-6 h-6 text-cyan-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Hi 0.5 System</span>
+                            <span class="block text-white font-bold mb-1">하이 0.5 시스템</span>
                             <span class="text-xs text-slate-400">하이 0.5 프리미엄</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Zap class="w-6 h-6 text-cyan-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Premium Service</span>
+                            <span class="block text-white font-bold mb-1">프리미엄 서비스</span>
                             <span class="text-xs text-slate-400">품격 있는 서비스</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Users class="w-6 h-6 text-cyan-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Elite Partner</span>
+                            <span class="block text-white font-bold mb-1">엘리트 파트너</span>
                             <span class="text-xs text-slate-400">우수한 파트너</span>
                         </div>
                     </div>

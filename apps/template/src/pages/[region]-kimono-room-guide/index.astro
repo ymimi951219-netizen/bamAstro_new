@@ -17,14 +17,14 @@ if (!venueType) {
 }
 
 const seoProps = {
-  title: `${region.name} 기모노룸(일본 테마) 완벽 가이드 | 이색 프리미엄 라운지`,
-  description: `${region.name} 기모노룸(일본 테마 라운지) 완벽 가이드. 일본풍 이색 테마 라운지. ${region.nearbyStations.slice(0,2).join('·')} 중심 포토존, 특별한 분위기, 프리미엄 서비스 상세 안내.`,
+  title: `분당 기모노룸 가이드 | 일본 테마 프리미엄`,
+  description: `분당 기모노룸 완벽 가이드. 이색적인 일본풍 테마 라운지, 포토존, 프리미엄 서비스 상세 안내. 예약 및 가격 정보.`,
   keywords: [
-    `${region.name} 기모노룸`,
-    `${region.name} 일본 테마 라운지`,
-    `${region.name} 기모노룸 예약`,
-    `${region.name} 테마 라운지`,
-    `${region.name} 이색 프리미엄`
+    `분당 기모노룸`,
+    `분당 일본 테마 라운지`,
+    `분당 기모노룸 예약`,
+    `분당 테마 라운지`,
+    `분당 이색 프리미엄`
   ],
 };
 
@@ -32,7 +32,7 @@ const venues = [
     {
         id: 'km-1',
         name: `${region.name} 프리미엄 기모노룸`,
-        type: 'Kimono Costume',
+        type: '기모노 코스튬',
         location: `${region.name} 인근`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.name} 테마형 기모노룸. 일본풍 무드와 포토 포인트.`,
@@ -42,7 +42,7 @@ const venues = [
     {
         id: 'km-2',
         name: `${region.name} 퓨전 기모노룸`,
-        type: 'Modern Fusion',
+        type: '모던 퓨전',
         location: `${region.name} 중심상권`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.name} 모던 기모노룸. 고급스러운 무드와 세련된 연출.`,
@@ -97,7 +97,7 @@ const usageSteps = [
             <!-- Section Title -->
             <div class="text-center mb-16 relative">
                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"></div>
-                <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">Exotic Atmosphere</span>
+                <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">이색적인 분위기</span>
                 <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-red-300 relative z-10 animate-fade-in-up delay-100 drop-shadow-sm">{region.name} 기모노룸(일본 테마) 완벽 가이드</h1>
                 <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent mx-auto mt-6"></div>
             </div>

@@ -1,0 +1,32 @@
+---
+/**
+ * InternalLinksSchema Component
+ * Implements SiteNavigationElement schema for important internal links
+ * Helps Google understand site structure and distributes page authority
+ */
+
+interface InternalLink {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  links: InternalLink[];
+}
+
+const { links } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  "name": "Site Navigation",
+  "hasPart": links.map((link, index) => ({
+    "@type": "WebPage",
+    "position": index + 1,
+    "name": link.name,
+    "url": link.url
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

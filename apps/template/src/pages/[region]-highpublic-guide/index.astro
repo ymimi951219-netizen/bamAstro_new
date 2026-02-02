@@ -1,5 +1,5 @@
 ---
-import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices } from '@bamastro/ui';
+import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices, ArticleSchema, CollectionPageSchema, AggregateOfferSchema } from '@bamastro/ui';
 import { region } from '@/config/region';
 import { Sparkles, DollarSign, Users, Star, HelpCircle, Phone, CheckCircle, ChevronRight, MapPin } from 'lucide-astro';
 
@@ -17,14 +17,14 @@ if (!venueType) {
 }
 
 const seoProps = {
-  title: `${region.name} 프라이빗 펍(하이퍼블릭) 완벽 가이드 | 가격·예약·시스템`,
-  description: `${region.name} 하이퍼블릭(프라이빗 펍) 최신 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 추천 업소, 초이스 시스템, 가격, 예약 방법 상세 안내. 1인 방문 OK, 무료 픽업.`,
+  title: `${region.name} 하이퍼블릭 가이드 | 프라이빗 펍 초보자 필독`,
+  description: `${region.name} 하이퍼블릭(프라이빗 펍) 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 추천 업소, 초이스 시스템, 주대 18만 가격, 예약 팁. 1인 방문 가능. 무료 상담!`,
   keywords: [
     `${region.name} 하이퍼블릭`,
-    `${region.name} 프라이빗 펍`,
-    `${region.name} 하이퍼블릭 예약`,
-    `${region.name} 하이퍼블릭 가격`,
-    `${region.name} 하이퍼블릭 초보자 가이드`
+    `프라이빗 펍`,
+    `하이퍼블릭 예약`,
+    `초이스 시스템`,
+    `하이퍼블릭 가격`
   ],
 };
 
@@ -32,7 +32,7 @@ const venues = [
     {
         id: 'hp-1',
         name: `${region.name} 하이퍼블릭 프리미엄`,
-        type: 'Premium High-End',
+        type: '프리미엄 하이엔드',
         location: `${region.nearbyStations[0]} 인근`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.name} 중심의 도시형 하이퍼블릭. 도심 비즈니스 방문객의 조용한 접대/술자리에 맞춘 프라이빗 라운지.`,
@@ -42,7 +42,7 @@ const venues = [
     {
         id: 'hp-2',
         name: `${region.name} 하이퍼블릭 라운지`,
-        type: 'Mega Size',
+        type: '메가 사이즈',
         location: `${region.nearbyStations[1]} 인근`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.nearbyStations[1]} 인근 대형 구성. 중심 상권 분위기와 파티형 세팅으로 단체 모임에 적합.`,
@@ -86,6 +86,35 @@ const usageSteps = [
 <PageLayout {...seoProps} region={region}>
     <LocalBusinessSchema region={region} />
     <BreadcrumbSchema region={region} />
+    <ArticleSchema
+        title={seoProps.title}
+        description={seoProps.description}
+        datePublished="2024-02-01"
+        dateModified={new Date().toISOString().split('T')[0]}
+        author="서우실장"
+        url={`https://${region.domain}/${region.id}-highpublic-guide`}
+        image={`https://${region.domain}/og-highpublic.jpg`}
+        keywords={seoProps.keywords}
+    />
+    <CollectionPageSchema
+        name={`${region.name} 하이퍼블릭 가이드 - 프라이빗 펍 초이스 시스템 완벽 설명`}
+        description={seoProps.description}
+        url={`https://${region.domain}/${region.id}-highpublic-guide`}
+        image={`https://${region.domain}/og-highpublic.jpg`}
+        items={[
+            { name: "하이퍼블릭 정의", description: "프라이빗 펍 문화와 초이스 시스템의 이해", url: `https://${region.domain}/${region.id}-highpublic-guide#definition`, image: `https://${region.domain}/images/venues/highpublic_1.webp` },
+            { name: "추천 업소 TOP 2", description: `${region.name} 프리미엄 하이퍼블릭`, url: `https://${region.domain}/${region.id}-highpublic-guide#recommendation` },
+            { name: "이용 시스템 및 가격", description: "초이스 시스템, 타임, 가격 가이드", url: `https://${region.domain}/${region.id}-highpublic-guide#system` },
+            { name: "이용 팁 및 FAQ", description: "초보자 필독 팁과 자주 묻는 질문", url: `https://${region.domain}/${region.id}-highpublic-guide#faq` }
+        ]}
+    />
+    <AggregateOfferSchema
+        priceCurrency="KRW"
+        lowestPrice={180000}
+        highestPrice={250000}
+        offerCount={2}
+        availability="InStock"
+    />
     <HowToSchema
         name={`${region.name} 하이퍼블릭 이용 방법`}
         description="5단계로 완료하는 하이퍼블릭 이용 가이드. 예약부터 타임 진행까지 완벽 안내."
@@ -116,7 +145,7 @@ const usageSteps = [
 
             <!-- 1. Definition - Featured Snippet Optimized -->
             <div id="definition" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-red-500/20 transition-colors animate-fade-in-up delay-300">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
                     <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
                     1. {region.name} 하이퍼블릭이란?
                 </h2>

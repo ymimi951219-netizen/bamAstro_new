@@ -11,7 +11,7 @@ const { region } = Astro.props;
 // We will use the venueTypes from region config
 const venues = region.venueTypes.map(v => ({
     ...v,
-    sub: v.subtitle || 'Premium',
+    sub: v.subtitle || '프리미엄',
     img: v.image || '/images/venues/karaoke_main.webp',
     desc: v.description
 }));
@@ -87,7 +87,7 @@ const venues = region.venueTypes.map(v => ({
                 <button 
                     class="carousel-dot w-2 h-2 rounded-full bg-slate-700 hover:bg-red-500 transition-colors"
                     data-index={idx}
-                    aria-label={`Go to slide ${idx + 1}`}
+                    aria-label={`슬라이드 ${idx + 1}로 이동`}
                 ></button>
             ))}
         </div>
@@ -101,6 +101,8 @@ const venues = region.venueTypes.map(v => ({
     .scrollbar-hide {
         -ms-overflow-style: none;
         scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
     }
 </style>
 
@@ -124,6 +126,38 @@ const venues = region.venueTypes.map(v => ({
              carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
         });
 
-        // Optional: Active state for dots logic could go here, but IntersectionObserver is better
+        // Touch drag swipe
+        let isDown = false;
+        let startX: number;
+        let scrollLeft: number;
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDown = true;
+            carousel.style.cursor = 'grabbing';
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = carousel.scrollLeft;
+        });
+        carousel.addEventListener('mouseleave', () => { isDown = false; carousel.style.cursor = ''; });
+        carousel.addEventListener('mouseup', () => { isDown = false; carousel.style.cursor = ''; });
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            carousel.scrollLeft = scrollLeft - (x - startX) * 1.5;
+        });
+
+        // Active dot indicator
+        const dots = document.querySelectorAll('.carousel-dot');
+        const updateDots = () => {
+            const scrollPos = carousel.scrollLeft;
+            const cardWidth = carousel.querySelector('.snap-center')?.clientWidth || 350;
+            const activeIdx = Math.round(scrollPos / (cardWidth + 24));
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-red-500', i === activeIdx);
+                dot.classList.toggle('bg-slate-700', i !== activeIdx);
+            });
+        };
+        carousel.addEventListener('scroll', updateDots);
+        updateDots();
     }
 </script>

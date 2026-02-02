@@ -1,0 +1,43 @@
+---
+/**
+ * CollectionPageSchema Component
+ * Implements CollectionPage schema for guide hub pages
+ * Helps Google understand page structure and rank for informational queries
+ */
+
+interface CollectionItem {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+}
+
+interface Props {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+  items: CollectionItem[];
+}
+
+const { name, description, url, image, items } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": name,
+  "description": description,
+  "url": url,
+  ...(image && { "image": image }),
+  "hasPart": items.map((item, index) => ({
+    "@type": "Article",
+    "position": index + 1,
+    "name": item.name,
+    "description": item.description,
+    "url": item.url,
+    ...(item.image && { "image": item.image })
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

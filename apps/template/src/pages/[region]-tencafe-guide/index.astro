@@ -16,14 +16,14 @@ const content = getVenueContent(venueId)!;
 const venueName = venueType.name;
 
 const seoProps = {
-  title: `${region.name} 텐카페 완벽 가이드 | 카페형 라운지 가격·시스템·추천`,
-  description: `${region.name} 텐카페 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 카페형 라운지, 편안한 분위기, 가격, 예약, 이용 팁 상세 안내.`,
+  title: `분당 텐카페 가이드 | 편안한 카페형 라운지`,
+  description: `분당 텐카페 완벽 가이드. 카페 분위기, 편안한 공간, 부담 없는 가격. 1차 모임 최적. 예약 정보.`,
   keywords: [
-    `${region.name} 텐카페`,
-    `${region.name} 텐카페 가격`,
-    `${region.name} 텐카페 추천`,
-    `${region.name} 카페형 라운지`,
-    `${region.name} 텐카페 후기`
+    `분당 텐카페`,
+    `분당 텐카페 가격`,
+    `분당 텐카페 추천`,
+    `분당 카페형 라운지`,
+    `분당 텐카페 후기`
   ],
 };
 
@@ -41,7 +41,7 @@ const venues = [
   {
     id: 'tc-1',
     name: `${region.name} 프리미엄 텐카페`,
-    type: 'Cafe Lounge Style',
+    type: '카페 라운지 스타일',
     location: `${region.nearbyStations[0]} 인근`,
     price: '기본 12만원~, 카페 세트 35만원~',
     desc: `${region.nearbyStations[0]}에서 가까운 카페형 라운지. 편안한 분위기에서 여유로운 대화 가능.`,
@@ -51,7 +51,7 @@ const venues = [
   {
     id: 'tc-2',
     name: `${region.nearbyStations[1]} 텐카페`,
-    type: 'Relaxing Lounge',
+    type: '릴렉싱 라운지',
     location: `${region.nearbyStations[1]} 인근`,
     price: '기본 12만원~, 음료 세트 30만원~',
     desc: `${region.nearbyStations[1]} 중심 힐링 공간. 부담 없는 분위기에서 편안하게 즐기기 좋음.`,
@@ -108,18 +108,18 @@ const sections = [
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Coffee class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Cafe Atmosphere</span>
-                            <span class="text-xs text-slate-400">카페형 편안한 분위기</span>
+                            <span class="block text-white font-bold mb-1">카페 분위기</span>
+                            <span class="text-xs text-slate-400">Cafe Atmosphere</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Heart class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Relaxing Space</span>
-                            <span class="text-xs text-slate-400">힐링 공간</span>
+                            <span class="block text-white font-bold mb-1">편안한 공간</span>
+                            <span class="text-xs text-slate-400">Relaxing Space</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Users class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Easy Access</span>
-                            <span class="text-xs text-slate-400">부담 없는 입장</span>
+                            <span class="block text-white font-bold mb-1">쉬운 접근성</span>
+                            <span class="text-xs text-slate-400">Easy Access</span>
                         </div>
                     </div>
                 </div>

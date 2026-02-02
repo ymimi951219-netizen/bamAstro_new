@@ -16,14 +16,14 @@ const content = getVenueContent(venueId)!;
 const venueName = venueType.name;
 
 const seoProps = {
-  title: `${region.name} 텐프로 완벽 가이드 | 10% 프리미엄 가격·시스템·추천`,
-  description: `${region.name} 텐프로 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 10% 프리미엄 시스템, 가격, 예약, 이용 팁 상세 안내.`,
+  title: `분당 텐프로 가이드 | 10% 프리미엄 서비스`,
+  description: `분당 텐프로(10% 프리미엄) 완벽 가이드. 합리적 가격, 우수한 파트너, 세련된 분위기. 예약 및 가격 정보.`,
   keywords: [
-    `${region.name} 텐프로`,
-    `${region.name} 텐프로 가격`,
-    `${region.name} 텐프로 추천`,
-    `${region.name} 텐프로 후기`,
-    `${region.name} 10% 프리미엄`
+    `분당 텐프로`,
+    `분당 텐프로 가격`,
+    `분당 텐프로 추천`,
+    `분당 텐프로 후기`,
+    `분당 10% 프리미엄`
   ],
 };
 
@@ -41,7 +41,7 @@ const venues = [
   {
     id: 'tp-1',
     name: `${region.name} 프리미엄 텐프로`,
-    type: '10% Premium System',
+    type: '10% 프리미엄 시스템',
     location: `${region.nearbyStations[0]} 인근`,
     price: '기본 15만원~, 10% 파트너 지명 8만원',
     desc: `${region.nearbyStations[0]}에서 접근성 좋은 10% 프리미엄 시스템. 합리적인 가격에 고품질 서비스 제공.`,
@@ -51,7 +51,7 @@ const venues = [
   {
     id: 'tp-2',
     name: `${region.nearbyStations[1]} 텐프로`,
-    type: 'Premium Select',
+    type: '프리미엄 셀렉트',
     location: `${region.nearbyStations[1]} 인근`,
     price: '기본 15만원~, 프리미엄 세트 40만원~',
     desc: `${region.nearbyStations[1]} 중심 엄선된 파트너와 세련된 분위기. 가성비 최고 선택.`,
@@ -108,18 +108,18 @@ const sections = [
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Award class="w-6 h-6 text-blue-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">10% Select Partner</span>
-                            <span class="text-xs text-slate-400">상위 10% 파트너 선별</span>
+                            <span class="block text-white font-bold mb-1">10% 셀렉트 파트너</span>
+                            <span class="text-xs text-slate-400">10% Select Partner</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <TrendingUp class="w-6 h-6 text-blue-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Best Value</span>
-                            <span class="text-xs text-slate-400">합리적인 가격대</span>
+                            <span class="block text-white font-bold mb-1">최고의 가성비</span>
+                            <span class="text-xs text-slate-400">Best Value</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Users class="w-6 h-6 text-blue-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Quality Service</span>
-                            <span class="text-xs text-slate-400">우수한 서비스</span>
+                            <span class="block text-white font-bold mb-1">퀄리티 서비스</span>
+                            <span class="text-xs text-slate-400">Quality Service</span>
                         </div>
                     </div>
                 </div>

@@ -16,14 +16,14 @@ const content = getVenueContent(venueId)!;
 const venueName = venueType.name;
 
 const seoProps = {
-  title: `${region.name} 쩜오 완벽 가이드 | 0.5 라운지 가격·시스템·추천`,
-  description: `${region.name} 쩜오 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 0.5 라운지, 합리적 가격, 예약, 이용 팁 상세 안내.`,
+  title: `분당 쩜오 가이드 | 합리적 0.5 라운지`,
+  description: `분당 쩜오(0.5) 완벽 가이드. 합리적 가격, 편안한 분위기, 친구 모임 최적. 예약 및 가격 정보.`,
   keywords: [
-    `${region.name} 쩜오`,
-    `${region.name} 쩜오 가격`,
-    `${region.name} 쩜오 추천`,
-    `${region.name} 0.5 라운지`,
-    `${region.name} 쩜오 후기`
+    `분당 쩜오`,
+    `분당 쩜오 가격`,
+    `분당 쩜오 추천`,
+    `분당 0.5 라운지`,
+    `분당 쩜오 후기`
   ],
 };
 
@@ -51,7 +51,7 @@ const venues = [
   {
     id: 'jj-2',
     name: `${region.nearbyStations[1]} 쩜오`,
-    type: 'Standard Lounge',
+    type: '스탠다드 라운지',
     location: `${region.nearbyStations[1]} 인근`,
     price: '기본 14만원~, 세트 메뉴 38만원~',
     desc: `${region.nearbyStations[1]} 중심 쩜오 라운지. 부담 없는 가격에 즐거운 시간.`,
@@ -108,17 +108,17 @@ const sections = [
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Circle class="w-6 h-6 text-indigo-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">0.5 System</span>
+                            <span class="block text-white font-bold mb-1">0.5 시스템</span>
                             <span class="text-xs text-slate-400">쩜오 시스템</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Dot class="w-6 h-6 text-indigo-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Affordable Price</span>
+                            <span class="block text-white font-bold mb-1">합리적인 가격</span>
                             <span class="text-xs text-slate-400">합리적인 가격</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Users class="w-6 h-6 text-indigo-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Comfortable Vibe</span>
+                            <span class="block text-white font-bold mb-1">편안한 분위기</span>
                             <span class="text-xs text-slate-400">편안한 분위기</span>
                         </div>
                     </div>

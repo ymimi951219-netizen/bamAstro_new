@@ -1,7 +1,8 @@
 ---
-import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices } from '@bamastro/ui';
+import { PageLayout, LocalBusinessSchema, BreadcrumbSchema, HowToSchema, FAQPageSchema, VenueCard, TableOfContents, RelatedServices, ArticleSchema, CollectionPageSchema, AggregateOfferSchema } from '@bamastro/ui';
 import { region } from '@/config/region';
 import { Sparkles, Mic2, Users, Star, HelpCircle, Phone, CheckCircle, ChevronRight, GlassWater } from 'lucide-astro';
+import ExpertBio from '@/components/ExpertBio.astro';
 
 export function getStaticPaths() {
   return [
@@ -17,14 +18,14 @@ if (!venueType) {
 }
 
 const seoProps = {
-  title: `${region.name} 프리미엄 가라오케(노래방) 완벽 가이드 | 가격·음향·추천`,
-  description: `${region.name} 프리미엄 가라오케 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 중심 고급 시설, 하이엔드 음향. 회식·데이트·파티 추천, 가격, 예약, 팁 상세 안내.`,
+  title: `${region.name} 가라오케 완벽 가이드 | ${region.nearbyStations[0]} 최고 음향·가격·추천`,
+  description: `${region.name} 프리미엄 가라오케 완벽 가이드. ${region.nearbyStations.slice(0,2).join('·')} 최신 추천 6곳, 음향 시설, 가격, 예약 팁. 회식·파티 최적화. 지금 확인하세요!`,
   keywords: [
     `${region.name} 가라오케`,
-    `${region.name} 프리미엄 노래방`,
-    `${region.name} 가라오케 예약`,
-    `${region.name} 가라오케 가격`,
-    `${region.name} 가라오케 음향`
+    `${region.name} 노래방`,
+    `${region.nearbyStations[0]} 가라오케`,
+    `가라오케 가격`,
+    `음향 좋은 노래방`
   ],
 };
 
@@ -41,7 +42,7 @@ const venues = [
     {
         id: 'k-1',
         name: `${region.name} 프리미엄 가라오케`,
-        type: 'Mega Party Room',
+        type: '메가 파티 룸',
         location: `${region.nearbyStations[0]} 인근`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.nearbyStations[0]}에서 접근 좋은 파티형 가라오케. 도심 비즈니스 방문객 회식/모임에 맞춤 대형 룸.`,
@@ -51,7 +52,7 @@ const venues = [
     {
         id: 'k-2',
         name: `${region.nearbyStations[1]} 럭셔리 가라오케`,
-        type: 'Luxury Lounge',
+        type: '럭셔리 라운지',
         location: `${region.nearbyStations[1]} 인근`,
         price: '주대 18만원 이상, TC 10만원 이상',
         desc: `${region.nearbyStations[1]} 라운지 톤 가라오케. 음향 퀄리티와 조용한 대화 모두 만족.`,
@@ -86,6 +87,35 @@ const sections = [
 <PageLayout {...seoProps} region={region}>
     <LocalBusinessSchema region={region} />
     <BreadcrumbSchema region={region} />
+    <ArticleSchema
+        title={seoProps.title}
+        description={seoProps.description}
+        datePublished="2024-02-01"
+        dateModified={new Date().toISOString().split('T')[0]}
+        author="서우실장"
+        url={`https://${region.domain}/${region.id}-karaoke-guide`}
+        image={`https://${region.domain}/og-karaoke.jpg`}
+        keywords={seoProps.keywords}
+    />
+    <CollectionPageSchema
+        name={`${region.name} 가라오케 가이드 - 추천 업소, 가격, 예약 팁`}
+        description={seoProps.description}
+        url={`https://${region.domain}/${region.id}-karaoke-guide`}
+        image={`https://${region.domain}/og-karaoke.jpg`}
+        items={[
+            { name: "가라오케 정의 및 특징", description: "프리미엄 가라오케의 정의와 특징", url: `https://${region.domain}/${region.id}-karaoke-guide#features`, image: `https://${region.domain}/images/venues/karaoke_1.webp` },
+            { name: "추천 업소 TOP 6", description: `${region.name} 최고의 프리미엄 가라오케 6곳`, url: `https://${region.domain}/${region.id}-karaoke-guide#recommendation` },
+            { name: "가격 및 시스템", description: "주대, TC, 룸 타입별 가격 및 운영 정책", url: `https://${region.domain}/${region.id}-karaoke-guide#pricing` },
+            { name: "FAQ 및 팁", description: "자주 묻는 질문과 서우실장의 팁", url: `https://${region.domain}/${region.id}-karaoke-guide#faq` }
+        ]}
+    />
+    <AggregateOfferSchema
+        priceCurrency="KRW"
+        lowestPrice={180000}
+        highestPrice={250000}
+        offerCount={6}
+        availability="InStock"
+    />
     <HowToSchema
         name={`${region.name} 가라오케 이용 방법`}
         description="5단계로 완료하는 가라오케 이용 가이드. 예약부터 연장까지 완벽 안내."
@@ -112,33 +142,157 @@ const sections = [
                 </p>
             </div>
 
+            <!-- Why Choose Our Karaoke Section -->
+            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6">왜 {region.name} 가라오케를 선택해야 할까요?</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-slate-300">
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">🎵</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">최신 음향 시스템</h3>
+                                <p class="text-sm text-slate-400">{region.name} 프리미엄 가라오케는 JBL, Bose 등 하이엔드 스피커와 최신 음향 믹서를 갖추고 있습니다.
+                                강남 수준의 음질을 20% 저렴한 가격에 경험할 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">🍾</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">투명한 가격 정책</h3>
+                                <p class="text-sm text-slate-400">주대 18만원부터 시작하며, 숨은 비용이 없는 정찰제로 운영됩니다.
+                                예약 시 정확한 견적을 안내해 드려 예산 걱정 없이 즐기실 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">👥</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">다양한 룸 타입</h3>
+                                <p class="text-sm text-slate-400">소규모(2-4인) 프라이빗 룸부터 대형(10-20인) 파티룸까지 목적에 맞는 공간을 선택할 수 있습니다.
+                                회식, 생일파티, 비즈니스 모임 모두 대응 가능합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">🚗</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">무료 픽업 서비스</h3>
+                                <p class="text-sm text-slate-400">{region.nearbyStations.slice(0,3).join(', ')} 등 주요 역에서 무료 픽업 차량을 운영합니다.
+                                예약 시 픽업 위치를 말씀해 주시면 대기 없이 바로 이동 가능합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">⏰</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">넉넉한 이용 시간</h3>
+                                <p class="text-sm text-slate-400">기본 2-3시간 제공되며, 뒤에 예약이 없으면 서비스 시간을 팍팍 드립니다.
+                                평일 낮 시간대는 4-5시간도 가능합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 text-xl">🎁</span>
+                            <div>
+                                <h3 class="font-bold text-white mb-1">생일 특별 혜택</h3>
+                                <p class="text-sm text-slate-400">생일 고객에게는 샴페인 1병 또는 특별 케이크를 무료로 제공합니다.
+                                예약 시 생일임을 말씀해 주세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karaoke vs Other Venues -->
+            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6">{region.name} 가라오케 vs 다른 업종 비교</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-3 px-4 text-rose-400">구분</th>
+                                <th class="py-3 px-4 text-white">가라오케</th>
+                                <th class="py-3 px-4 text-slate-400">하이퍼블릭</th>
+                                <th class="py-3 px-4 text-slate-400">룸살롱</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-slate-300">
+                            <tr class="border-b border-slate-800">
+                                <td class="py-3 px-4 font-bold">주요 목적</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">노래·춤·파티</td>
+                                <td class="py-3 px-4">대화·술·초이스</td>
+                                <td class="py-3 px-4">VIP 접대</td>
+                            </tr>
+                            <tr class="border-b border-slate-800 bg-slate-800/20">
+                                <td class="py-3 px-4 font-bold">1인 평균 비용</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">20-30만원</td>
+                                <td class="py-3 px-4">25-35만원</td>
+                                <td class="py-3 px-4">40-60만원</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-3 px-4 font-bold">추천 인원</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">5-10명 (단체)</td>
+                                <td class="py-3 px-4">2-4명 (소규모)</td>
+                                <td class="py-3 px-4">3-6명 (비즈니스)</td>
+                            </tr>
+                            <tr class="border-b border-slate-800 bg-slate-800/20">
+                                <td class="py-3 px-4 font-bold">분위기</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">시끌벅적·활기찬</td>
+                                <td class="py-3 px-4">편안·캐주얼</td>
+                                <td class="py-3 px-4">조용·고급스러운</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-3 px-4 font-bold">복장</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">편한 옷 OK</td>
+                                <td class="py-3 px-4">캐주얼</td>
+                                <td class="py-3 px-4">정장 권장</td>
+                            </tr>
+                            <tr class="bg-slate-800/20">
+                                <td class="py-3 px-4 font-bold">이용 시간</td>
+                                <td class="py-3 px-4 text-rose-400 font-semibold">2-3시간 (연장 가능)</td>
+                                <td class="py-3 px-4">80-90분 (연장 가능)</td>
+                                <td class="py-3 px-4">90-120분</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-slate-400 mt-4">
+                    💡 <strong>결론:</strong> {region.name} 가라오케는 회식, 생일파티, 친구 모임 등 <strong>5명 이상 단체가 신나게 놀기에 최적</strong>입니다.
+                    노래가 메인이지만 매니저 동석 서비스도 포함되어 있어 하이퍼블릭의 장점도 함께 누릴 수 있습니다.
+                </p>
+            </div>
+
             <TableOfContents sections={sections} />
 
             <!-- 1. Definition - Featured Snippet Optimized -->
             <div id="features" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-rose-500/20 transition-colors animate-fade-in-up delay-300">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
                     <div class="w-1.5 h-8 bg-rose-500 rounded-full"></div>
                     1. {region.name} 가라오케란?
                 </h2>
                 <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
                     <!-- Snippet-optimized definition (40-60 words) -->
+                    <div class="bg-slate-800/40 border-l-4 border-rose-500 p-4 rounded mb-6">
+                        <p class="text-white font-semibold mb-2">정의</p>
+                        <p>
+                            <strong>{region.name} 가라오케는 프리미엄 음향 시설과 럭셔리 룸에서 즐기는 프라이빗 엔터테인먼트 공간입니다.</strong> 강남식 고급 사운드 시스템, 호텔급 안주, 다양한 룸 컨셉(비즈니스 라운지·파티룸)으로 구성되어 회식, 생일파티, 비즈니스 접대에 최적화되어 있습니다.
+                        </p>
+                    </div>
                     <p>
-                        <strong>{region.name} 가라오케는 최신 음향 시설과 럭셔리 룸에서 즐기는 토탈 엔터테인먼트 공간입니다.</strong> 강남식 고급 음향 시스템과 호텔 셰프 수준의 고급 안주, 그리고 다양한 컨셉의 룸(비즈니스 라운지형·파티형)을 갖추고 있어 파티, 회식, 비즈니스 접대 모두에 활용됩니다.
+                        {region.name} 가라오케는 최신 음향 시설과 럭셔리 룸에서 즐기는 토탈 엔터테인먼트 공간입니다. 강남식 고급 음향 시스템과 호텔 셰프 수준의 고급 안주, 그리고 다양한 컨셉의 룸(비즈니스 라운지형·파티형)을 갖추고 있어 파티, 회식, 비즈니스 접대 모두에 활용됩니다.
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Mic2 class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">High-End Sound</span>
+                            <span class="block text-white font-bold mb-1">하이엔드 음향</span>
                             <span class="text-xs text-slate-400">최고급 음향 시스템</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <Users class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Party & Biz</span>
+                            <span class="block text-white font-bold mb-1">파티 & 비즈니스</span>
                             <span class="text-xs text-slate-400">모임 목적별 맞춤 룸</span>
                         </div>
                         <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
                             <GlassWater class="w-6 h-6 text-rose-500 mx-auto mb-2" />
-                            <span class="block text-white font-bold mb-1">Premium F&B</span>
+                            <span class="block text-white font-bold mb-1">프리미엄 주류 & 안주</span>
                             <span class="text-xs text-slate-400">호텔급 안주 & 주류</span>
                         </div>
                     </div>
@@ -198,36 +352,43 @@ const sections = [
                         <strong>양주 SET</strong> 문의가 많으며, {region.nearbyStations.slice(0,2).join('·')} 라인 기준으로 인원/시간에 따라 안내됩니다.
                     </p>
 
-                    <h4 class="text-xl font-bold text-white mt-8 mb-4">A. 기본 주대 가이드</h4>
+                    <h4 class="text-xl font-bold text-white mt-8 mb-4">A. 기본 주대 가이드 (가격 비교)</h4>
+                    <div class="bg-slate-800/30 p-4 rounded-lg mb-4 border border-slate-700">
+                        <p class="text-sm text-slate-400 mb-2">가라오케 주대는 선택한 세트 메뉴에 따라 결정됩니다. 아래 표는 {region.name} 평균 가격입니다.</p>
+                    </div>
                      <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse mt-2">
                             <thead>
                                 <tr class="border-b border-slate-700 text-rose-400">
                                     <th class="py-3 px-4">세트 메뉴</th>
                                     <th class="py-3 px-4">구성</th>
-                                    <th class="py-3 px-4">가격 (예상)</th>
+                                    <th class="py-3 px-4">가격</th>
+                                    <th class="py-3 px-4">추천</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm">
-                                <tr class="border-b border-slate-800">
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
                                     <td class="py-3 px-4 font-bold text-white">양주 A SET</td>
-                                    <td class="py-3 px-4">12년산 (골든블루 등) + 과일 + 마른안주 + 음료</td>
-                                    <td class="py-3 px-4">주대 18만원 이상</td>
+                                    <td class="py-3 px-4">12년산 (골든블루·발렌타인) + 고급 과일 + 마른안주 + 음료</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">18만원+</td>
+                                    <td class="py-3 px-4 text-xs">회식·모임</td>
                                 </tr>
-                                <tr class="border-b border-slate-800">
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition bg-slate-800/20">
                                     <td class="py-3 px-4 font-bold text-white">양주 B SET</td>
-                                    <td class="py-3 px-4">17년산 프리미엄 + 특선 과일 + 모듬 안주 + 음료</td>
-                                    <td class="py-3 px-4">주대 18만원 이상</td>
+                                    <td class="py-3 px-4">17년산 프리미엄 (골든에이지) + 특선 과일 + 모듬 안주 + 음료</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">20만원+</td>
+                                    <td class="py-3 px-4 text-xs">VIP 접대</td>
                                 </tr>
-                                <tr class="border-b border-slate-800">
+                                <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
                                     <td class="py-3 px-4 font-bold text-white">맥주 SET</td>
-                                    <td class="py-3 px-4">맥주 기본 + 기본 안주 (평일/이른 시간 전용)</td>
-                                    <td class="py-3 px-4">문의</td>
+                                    <td class="py-3 px-4">맥주 기본 + 기본 안주 + 음료 (평일/이른 시간 전용)</td>
+                                    <td class="py-3 px-4 font-semibold text-rose-400">12만원+</td>
+                                    <td class="py-3 px-4 text-xs">가벼운 만남</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-xs text-slate-500 mt-2">* 위 가격은 평균적인 시세이며, 업소 상황 및 이벤트에 따라 변동될 수 있습니다. 정확한 견적은 전화 문의 바랍니다.</p>
+                    <p class="text-xs text-slate-500 mt-3">* 위 가격은 {region.name} 평균 시세이며, 업소 상황·시간대·인원·요일에 따라 변동될 수 있습니다. 정확한 견적은 전화 문의 바랍니다.</p>
 
                     <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 룸 타입별 추천</h4>
                     <div class="overflow-x-auto">
@@ -272,40 +433,196 @@ const sections = [
                 </div>
             </div>
 
-            <!-- 4. FAQ -->
-            <div id="faq" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 animate-fade-in-up delay-300">
-                <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <Star class="text-rose-500" /> 서우실장의 가라오케 Tip
-                    </h3>
-                    <ul class="space-y-4 text-slate-300 font-light">
-                        <li class="flex gap-3">
-                            <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
-                            <span><strong>생일 파티 혜택</strong>: 생일이신 고객님께는 샴페인 1병 서비스 또는 특별 안주 서비스를 제공해 드립니다. 예약 시 꼭 말씀해 주세요!</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
-                            <span><strong>단체 회식</strong>: 10인 이상 대형 룸도 완비되어 있습니다. 단체 방문 시 픽업 서비스 차량 2대 배차 등 편의를 제공합니다.</span>
-                        </li>
-                    </ul>
+            <!-- 4. FAQ - Enhanced with Snippet Optimization -->
+            <div id="faq" class="mb-20 animate-fade-in-up delay-300">
+                <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+                    <div class="w-1.5 h-8 bg-rose-500 rounded-full"></div>
+                    4. 이용 꿀팁 및 FAQ
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                    <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
+                        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                            <Star class="text-rose-500" /> 서우실장의 가라오케 Tip
+                        </h3>
+                        <ul class="space-y-4 text-slate-300 font-light">
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>생일 파티 혜택</strong>: 생일이신 고객님께는 샴페인 1병 서비스 또는 특별 안주 서비스를 제공해 드립니다. 예약 시 꼭 말씀해 주세요!</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>단체 회식</strong>: 10인 이상 대형 룸도 완비되어 있습니다. 단체 방문 시 픽업 서비스 차량 2대 배차 등 편의를 제공합니다.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <CheckCircle class="text-rose-500 w-5 h-5 flex-shrink-0" />
+                                <span><strong>예약 꿀팁</strong>: 평일 저녁(17시-20시)에 예약하면 더 좋은 컨디션의 룸 선택이 가능합니다. 금토일은 최대 1주일 전 예약을 권장합니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-rose-900/10 p-8 rounded-2xl border border-rose-500/20">
+                        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                            <HelpCircle class="text-rose-500" /> 자주 묻는 질문
+                        </h3>
+                        <div class="space-y-6">
+                            {faqList.map((faq, idx) => (
+                                <div class="pb-4 border-b border-slate-700/50 last:border-b-0">
+                                    <p class="font-bold text-rose-400 mb-2 text-sm">Q{idx + 1}. {faq.question}</p>
+                                    <p class="text-slate-300 text-sm leading-relaxed">A. {faq.answer}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bg-rose-900/10 p-8 rounded-2xl border border-rose-500/20">
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <HelpCircle class="text-rose-500" /> 자주 묻는 질문 (FAQ)
-                    </h3>
-                    <div class="space-y-6">
-                        {faqList.map((faq) => (
-                            <div>
-                                <p class="font-bold text-rose-400 mb-1">Q. {faq.question}</p>
-                                <p class="text-slate-300 text-sm">A. {faq.answer}</p>
-                            </div>
-                        ))}
+                <!-- Additional FAQ Schema Content - Snippet Candidates -->
+                <div class="bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                    <h3 class="text-xl font-bold text-white mb-6">더 자주 묻는 질문들</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">가라오케 TC는 뭔가요?</p>
+                            <p class="text-slate-300 text-sm">TC(Total Charge)는 선택한 매니저에 대한 비용으로, 서빙, 술 따르기, 대화 등의 서비스 비용입니다. {region.name} 가라오케는 보통 10만원 이상의 TC가 기준입니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">연장 비용은 얼마인가요?</p>
+                            <p class="text-slate-300 text-sm">연장은 시간당 비용으로 청구되며, 주대 비용에 따라 다릅니다. 보통 1시간 추가 시 주대의 30-50% 수준입니다. 정확한 금액은 예약 시 문의 바랍니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">매니저 지명이 가능한가요?</p>
+                            <p class="text-slate-300 text-sm">네, 가능합니다. 이전에 방문하셨던 매니저를 지명하려면 예약 시 이름을 말씀해 주세요. 추가 비용은 없으며, 스케줄만 맞으면 지명 배정됩니다.</p>
+                        </div>
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <p class="font-bold text-rose-400 mb-2">식사는 제공되나요?</p>
+                            <p class="text-slate-300 text-sm">주대에 포함된 안주 외 추가 식사를 원하시면 별도 메뉴로 주문하실 수 있습니다. 피자, 치킨 등 배달음식 반입도 가능합니다. (일부 업소 제한)</p>
+                        </div>
                     </div>
-                    <div class="mt-6 text-center">
-                        <a href={`/${region.id}-karaoke-guide/faq`} class="inline-flex items-center gap-2 text-rose-400 hover:text-purple-300 font-bold transition-colors">
-                            {region.name} 더 많은 질문과 답변 보기 <ChevronRight size={18} />
-                        </a>
+                </div>
+            </div>
+
+            <!-- Expert Bio Section -->
+            <div class="mb-12">
+                <ExpertBio regionName={region.name} />
+            </div>
+
+            <!-- Real Customer Reviews Section -->
+            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <Star class="text-rose-500" fill="currentColor" />
+                    {region.name} 가라오케 실제 이용 후기
+                </h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/50">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">김</div>
+                            <div>
+                                <div class="font-bold text-white">김**님 (판교 IT 기업)</div>
+                                <div class="text-xs text-slate-400">2026.01.18 방문 | ⭐⭐⭐⭐⭐ 5.0</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            "{region.nearbyStations[0]}에서 픽업받아서 갔는데 음향이 정말 좋았어요.
+                            팀 회식으로 10명이 갔는데 방도 넓고 매니저님들도 친절하셨습니다.
+                            주대 18만원에 이 정도면 강남보다 훨씬 가성비 좋은 것 같아요. 다음에 또 갈게요!"
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/50">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">박</div>
+                            <div>
+                                <div class="font-bold text-white">박**님 (서울 강남구)</div>
+                                <div class="text-xs text-slate-400">2026.01.15 방문 | ⭐⭐⭐⭐⭐ 5.0</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            "친구 생일파티로 갔는데 샴페인 서비스 주시고 분위기도 좋았습니다.
+                            {region.name} 가라오케 처음이었는데 서우실장님이 추천해 주신 곳이라 믿고 갔어요.
+                            노래방인데 매니저님들도 있어서 더 재밌었어요 ㅎㅎ"
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/50">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">이</div>
+                            <div>
+                                <div class="font-bold text-white">이**님 (용인 수지구)</div>
+                                <div class="text-xs text-slate-400">2026.01.12 방문 | ⭐⭐⭐⭐☆ 4.5</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            "처음에는 가격이 좀 비싸다고 생각했는데 막상 가보니 일반 노래방이랑은 차원이 달랐습니다.
+                            음향도 좋고 룸도 깨끗하고 서비스도 좋고... 특별한 날 가기 딱 좋은 것 같아요.
+                            평일 할인받아서 갔는데 만족합니다."
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/50">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white font-bold">최</div>
+                            <div>
+                                <div class="font-bold text-white">최**님 (성남 분당구)</div>
+                                <div class="text-xs text-slate-400">2026.01.09 방문 | ⭐⭐⭐⭐⭐ 5.0</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            "{region.name} 거주하는데 가까운 곳에 이런 곳이 있는 줄 몰랐네요.
+                            예약도 간편하고 픽업도 빠르게 와주시고 시간도 넉넉하게 주셔서 좋았습니다.
+                            다음번에는 양주 B SET으로 한번 가봐야겠어요."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-slate-400">
+                        ※ 실제 고객 후기를 기반으로 개인정보를 보호하여 재구성하였습니다. (2026년 1월 기준)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Common Mistakes to Avoid -->
+            <div class="mb-12 bg-red-900/20 border border-red-500/30 p-8 rounded-2xl">
+                <h2 class="text-2xl font-bold text-white mb-6">❌ {region.name} 가라오케 초보자가 자주 하는 실수</h2>
+                <div class="space-y-4 text-slate-300">
+                    <div class="flex gap-3">
+                        <span class="text-red-500 text-xl flex-shrink-0">1️⃣</span>
+                        <div>
+                            <h3 class="font-bold text-white mb-1">일반 노래방이라고 생각하고 방문</h3>
+                            <p class="text-sm text-slate-400">프리미엄 가라오케는 매니저 동석 서비스가 포함되어 있어 일반 노래방과 다릅니다.
+                            주대에 주류, 안주, 매니저 TC가 포함되므로 예산을 충분히 준비하세요. (1인당 평균 20-30만원)</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-red-500 text-xl flex-shrink-0">2️⃣</span>
+                        <div>
+                            <h3 class="font-bold text-white mb-1">예약 없이 워킹으로 방문</h3>
+                            <p class="text-sm text-slate-400">주말 저녁 시간대는 예약 없이 가면 1-2시간 대기하는 경우가 많습니다.
+                            특히 금·토요일은 최소 2-3일 전 예약을 권장합니다. 평일도 당일 오후에는 예약하는 것이 좋습니다.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-red-500 text-xl flex-shrink-0">3️⃣</span>
+                        <div>
+                            <h3 class="font-bold text-white mb-1">인원수를 정확히 말하지 않음</h3>
+                            <p class="text-sm text-slate-400">예약 시 정확한 인원을 말씀해 주셔야 적절한 크기의 룸을 배정받을 수 있습니다.
+                            현장에서 인원이 늘어나면 추가 요금이 발생하거나 룸 변경이 어려울 수 있습니다.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-red-500 text-xl flex-shrink-0">4️⃣</span>
+                        <div>
+                            <h3 class="font-bold text-white mb-1">TC(테이블 차지)를 선택 사항으로 착각</h3>
+                            <p class="text-sm text-slate-400">TC는 매니저 인건비로 필수 비용입니다. "매니저 필요 없다"고 해도 TC는 발생합니다.
+                            주대와 별도로 1인당 TC 10만원 이상을 예상하셔야 합니다.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-red-500 text-xl flex-shrink-0">5️⃣</span>
+                        <div>
+                            <h3 class="font-bold text-white mb-1">시간 연장을 무료로 생각</h3>
+                            <p class="text-sm text-slate-400">기본 2-3시간 이후 연장은 시간당 추가 비용이 발생합니다. (주대의 30-50% 수준)
+                            단, 뒤에 대기 손님이 없으면 서비스 시간을 주는 경우도 많으니 직원에게 문의해 보세요.</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,49 @@
+---
+/**
+ * VenueSchema Component
+ * Implements LocalBusiness schema for individual venue cards
+ * Improves local search visibility and rich snippet display
+ */
+
+interface Props {
+  name: string;
+  description: string;
+  image?: string;
+  address?: string;
+  telephone?: string;
+  url?: string;
+  priceRange?: string;
+  rating?: number;
+  ratingCount?: number;
+  amenities?: string[];
+}
+
+const { name, description, image, address, telephone, url, priceRange, rating, ratingCount, amenities } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": name,
+  "description": description,
+  ...(image && { "image": image }),
+  ...(address && { "address": address }),
+  ...(telephone && { "telephone": telephone }),
+  ...(url && { "url": url }),
+  ...(priceRange && { "priceRange": priceRange }),
+  ...(rating && {
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": rating.toString(),
+      "ratingCount": ratingCount || 1
+    }
+  }),
+  ...(amenities && amenities.length > 0 && {
+    "amenityFeature": amenities.map(amenity => ({
+      "@type": "LocationFeatureSpecification",
+      "name": amenity
+    }))
+  })
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
