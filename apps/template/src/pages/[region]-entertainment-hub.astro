@@ -36,9 +36,9 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
     <div class="container mx-auto px-4 pb-12 max-w-6xl">
       <!-- Hero Section -->
       <div class="text-center mb-16 relative">
-        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Complete Guide 2026</span>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm mb-6">
-          {region.name} 유흥 완벽 가이드
+        <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Complete Guide 2026</span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-sm mb-6">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-600">{region.name} 유흥 완벽 가이드</span>
         </h1>
         <p class="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto mb-4">
           가라오케부터 룸살롱까지, {region.name} 지역 모든 유흥 업종의 완벽한 가이드를 제공합니다.
@@ -46,7 +46,7 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
         <p class="text-slate-400 text-base max-w-2xl mx-auto">
           가격 비교, 이용 방법, 에티켓, 후기까지 한 곳에서 모두 확인하세요.
         </p>
-        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+        <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent mx-auto mt-6"></div>
       </div>
 
       <!-- Intro Section -->
@@ -54,19 +54,19 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
         <h2 class="text-2xl font-bold text-white mb-4">왜 이 가이드를 봐야 할까요?</h2>
         <div class="grid md:grid-cols-2 gap-6 text-slate-300">
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">✓ 모든 정보를 한 곳에</h3>
+            <h3 class="text-lg font-semibold text-red-400 mb-2">✓ 모든 정보를 한 곳에</h3>
             <p class="text-sm text-slate-400">6가지 주요 업종(가라오케, 하이퍼블릭, 셔츠룸, 기모노룸, 룸살롱, 호빠)의 가격, 시스템, 후기를 한눈에 비교할 수 있습니다.</p>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">✓ 역세권별 특화 정보</h3>
+            <h3 class="text-lg font-semibold text-red-400 mb-2">✓ 역세권별 특화 정보</h3>
             <p class="text-sm text-slate-400">{region.nearbyStations.join(', ')} 등 주요 역 주변 유흥가 정보와 분위기를 상세히 안내합니다.</p>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">✓ 실전 가이드</h3>
+            <h3 class="text-lg font-semibold text-red-400 mb-2">✓ 실전 가이드</h3>
             <p class="text-sm text-slate-400">초보자도 쉽게 따라할 수 있는 예약 방법, 이용 절차, 에티켓 가이드를 제공합니다.</p>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">✓ 실시간 후기</h3>
+            <h3 class="text-lg font-semibold text-red-400 mb-2">✓ 실시간 후기</h3>
             <p class="text-sm text-slate-400">실제 이용자들의 생생한 후기와 평점으로 신뢰할 수 있는 정보를 얻으세요.</p>
           </div>
         </div>
@@ -77,13 +77,13 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
         <h2 class="text-3xl font-bold text-white mb-8 text-center">업종별 가이드</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {region.venueTypes.map((venue) => (
-            <a href={`/${venue.slug}`} class="bg-slate-900/30 rounded-2xl border border-slate-800/50 overflow-hidden hover:border-purple-500/30 transition-all group">
+            <a href={`/${venue.slug}`} class="bg-slate-900/30 rounded-2xl border border-slate-800/50 overflow-hidden hover:border-red-500/30 transition-all group">
               <div class="relative h-48 overflow-hidden">
-                <img src={venue.image} alt={venue.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <img src={venue.image} alt={venue.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
                 <div class="absolute bottom-4 left-4 right-4">
                   <h3 class="text-2xl font-bold text-white mb-1">{venue.name}</h3>
-                  <p class="text-sm text-purple-400">{venue.subtitle}</p>
+                  <p class="text-sm text-red-400 font-medium">{venue.subtitle}</p>
                 </div>
               </div>
               <div class="p-5">
@@ -113,21 +113,21 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
 
       <!-- Quick Links Section -->
       <div class="grid md:grid-cols-3 gap-6 mb-16">
-        <a href={`/${region.id}-comparison-hub`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-amber-500/30 transition-colors group">
-          <div class="text-3xl mb-3">⚖️</div>
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">업종 비교</h3>
+        <a href={`/${region.id}-comparison-hub`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group hover:-translate-y-1 duration-300">
+          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">⚖️</div>
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">업종 비교</h3>
           <p class="text-sm text-slate-400">어떤 업종이 나에게 맞을까? 가격, 분위기, 시스템을 비교해보세요.</p>
         </a>
 
-        <a href={`/${region.id}-entertainment-price-guide`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-amber-500/30 transition-colors group">
-          <div class="text-3xl mb-3">💰</div>
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">가격 총정리</h3>
+        <a href={`/${region.id}-entertainment-price-guide`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group hover:-translate-y-1 duration-300">
+          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">💰</div>
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">가격 총정리</h3>
           <p class="text-sm text-slate-400">모든 업종의 가격을 한눈에 비교하고 예산에 맞는 선택을 하세요.</p>
         </a>
 
-        <a href={`/${region.id}-review-hub`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-amber-500/30 transition-colors group">
-          <div class="text-3xl mb-3">⭐</div>
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">후기 모음</h3>
+        <a href={`/${region.id}-review-hub`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group hover:-translate-y-1 duration-300">
+          <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">⭐</div>
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">후기 모음</h3>
           <p class="text-sm text-slate-400">실제 이용자들의 솔직한 후기와 평가를 확인하세요.</p>
         </a>
       </div>
@@ -138,8 +138,8 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
           <h2 class="text-3xl font-bold text-white mb-8 text-center">역세권별 가이드</h2>
           <div class="grid md:grid-cols-2 gap-6">
             {region.stationDetails.map((station) => (
-              <a href={`/station/${station.slug}`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-purple-500/30 transition-colors group">
-                <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">{station.name}</h3>
+              <a href={`/station/${station.slug}`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group">
+                <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors">{station.name}</h3>
                 <p class="text-sm text-slate-400 mb-4">{station.description}</p>
                 <div class="flex flex-wrap gap-2 mb-3">
                   {station.landmarks.map((landmark) => (
@@ -148,7 +148,7 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
                 </div>
                 <div class="flex gap-2">
                   {station.venueHighlights.slice(0, 3).map((v) => (
-                    <span class="text-xs bg-purple-900/30 text-purple-400 px-2 py-1 rounded border border-purple-500/20">
+                    <span class="text-xs bg-red-900/20 text-red-400 px-2 py-1 rounded border border-red-500/20">
                       {region.venueTypes.find(vt => vt.id === v)?.name}
                     </span>
                   ))}
@@ -161,13 +161,13 @@ const relatedLinks = getRelatedLinks({ pageType: 'hub', subpageType: 'entertainm
 
       <!-- Other Resources -->
       <div class="grid md:grid-cols-2 gap-6 mb-12">
-        <a href="/guide/" class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-purple-500/30 transition-colors">
-          <h3 class="text-xl font-bold text-white mb-2">📖 상황별 가이드</h3>
+        <a href="/guide/" class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group">
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">📖 상황별 가이드</h3>
           <p class="text-sm text-slate-400">점심·저녁·심야, 커플·회식·생일 등 상황에 맞는 맞춤 가이드를 확인하세요.</p>
         </a>
 
-        <a href="/glossary/" class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-purple-500/30 transition-colors">
-          <h3 class="text-xl font-bold text-white mb-2">📚 유흥 용어사전</h3>
+        <a href="/glossary/" class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-colors group">
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">📚 유흥 용어사전</h3>
           <p class="text-sm text-slate-400">주대, TC, 초이스 등 유흥 용어를 쉽게 이해하고 자신감 있게 이용하세요.</p>
         </a>
       </div>

@@ -97,9 +97,9 @@ const usageSteps = [
         <div class="container mx-auto px-4 pb-12 max-w-6xl">
             <!-- Section Title -->
             <div class="text-center mb-16 relative">
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
-                <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">선택과 이해</span>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 relative z-10 animate-fade-in-up delay-100 drop-shadow-sm">{region.name} 프라이빗 펍(하이퍼블릭) 완벽 가이드</h1>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"></div>
+                <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 animate-fade-in-up block">선택과 이해</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-600 relative z-10 animate-fade-in-up delay-100 drop-shadow-sm">{region.name} 프라이빗 펍(하이퍼블릭) 완벽 가이드</h1>
                 <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
             </div>
 
@@ -115,9 +115,9 @@ const usageSteps = [
             <TableOfContents sections={sections} />
 
             <!-- 1. Definition - Featured Snippet Optimized -->
-            <div id="definition" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors animate-fade-in-up delay-300">
+            <div id="definition" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-red-500/20 transition-colors animate-fade-in-up delay-300">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
                     1. {region.name} 하이퍼블릭이란?
                 </h2>
                 <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
@@ -127,15 +127,15 @@ const usageSteps = [
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-center">
-                            <Sparkles class="mx-auto text-amber-500 mb-2" />
+                            <Sparkles class="mx-auto text-red-500 mb-2" />
                             <div class="font-bold text-white">다양한 스타일</div>
                         </div>
                         <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-center">
-                            <DollarSign class="mx-auto text-amber-500 mb-2" />
+                            <DollarSign class="mx-auto text-red-500 mb-2" />
                             <div class="font-bold text-white">투명한 가격 구조</div>
                         </div>
                         <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-center">
-                            <Users class="mx-auto text-amber-500 mb-2" />
+                            <Users class="mx-auto text-red-500 mb-2" />
                             <div class="font-bold text-white">취향 기반 선택</div>
                         </div>
                     </div>
@@ -143,9 +143,9 @@ const usageSteps = [
             </div>
 
             <!-- 1-1. 하이퍼블릭 이용 흐름 - Step Snippet -->
-            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors">
+            <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-red-500/20 transition-colors">
                 <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                    <div class="w-1.5 h-6 bg-amber-500 rounded-full"></div>
+                    <div class="w-1.5 h-6 bg-red-500 rounded-full"></div>
                     하이퍼블릭 이용 흐름 (5단계)
                 </h3>
                 <ol class="list-decimal pl-6 space-y-3 text-slate-300">
@@ -160,21 +160,21 @@ const usageSteps = [
             <!-- 2. Recommendations -->
             <div id="recommendation" class="mb-24 animate-fade-in-up delay-300">
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
                     <h2 class="text-3xl font-bold text-white">2. {region.name} 하이퍼블릭 추천 TOP 2</h2>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    {venues.map(venue => <VenueCard venue={venue} color="amber" />)}
+                    {venues.map(venue => <VenueCard venue={venue} color="red" />)}
                 </div>
                 
                 <!-- Gallery -->
                 <div class="mt-16">
                     <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-                        <Sparkles class="text-amber-500" /> {region.name} 하이퍼블릭 갤러리
+                        <Sparkles class="text-red-500" /> {region.name} 하이퍼블릭 갤러리
                     </h3>
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         {[1, 2, 3, 4].map((i) => (
-                            <div class="aspect-[3/4] rounded-2xl overflow-hidden border border-slate-800 hover:border-amber-500/50 transition-all duration-300 group">
+                            <div class="aspect-[3/4] rounded-2xl overflow-hidden border border-slate-800 hover:border-red-500/50 transition-all duration-300 group">
                                 <img src={`/images/venues/highpublic_${i}.webp`} alt={`${region.name} 프라이빗 펍 하이퍼블릭 프리미엄 라운지 인테리어 ${i}`} loading="lazy" width="300" height="400"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                             </div>
@@ -184,9 +184,9 @@ const usageSteps = [
             </div>
 
             <!-- 3. System -->
-            <div id="system" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-amber-500/20 transition-colors animate-fade-in-up delay-300">
+            <div id="system" class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm hover:border-red-500/20 transition-colors animate-fade-in-up delay-300">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <div class="w-1.5 h-8 bg-amber-500 rounded-full"></div>
+                    <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
                     3. 이용 시스템 및 가이드
                 </h2>
                 <div class="text-slate-300 leading-relaxed text-lg font-light space-y-4">
@@ -195,14 +195,14 @@ const usageSteps = [
                     </p>
 
                     <h4 class="text-xl font-bold text-white mt-8 mb-4">A. 초이스 시스템 (Choice)</h4>
-                    <ul class="list-disc pl-5 space-y-2 marker:text-amber-500">
+                    <ul class="list-disc pl-5 space-y-2 marker:text-red-500">
                         <li><strong>매직미러 초이스</strong>: 룸 안에서 유리를 통해 밖의 매니저들을 보며 초이스하는 시스템이 대세입니다. 매니저들은 고객을 볼 수 없어, 고객님은 더욱 편안하게 이상형을 고르실 수 있습니다.</li>
                         <li><strong>조별 초이스</strong>: 5~10명씩 조를 이루어 룸으로 입장하여 인사를 드립니다. 마음에 드는 매니저가 있다면 그 자리에서 바로 앉히시면 됩니다.</li>
                         <li><strong>무한 초이스</strong>: 마음에 드는 매니저가 있을 때까지, 횟수 제한 없이 초이스를 보여드립니다.</li>
                     </ul>
 
                     <h4 class="text-xl font-bold text-white mt-8 mb-4">B. 타임 및 로테이션</h4>
-                    <ul class="list-disc pl-5 space-y-2 marker:text-amber-500">
+                    <ul class="list-disc pl-5 space-y-2 marker:text-red-500">
                         <li>기본 타임은 <strong>80분 ~ 90분</strong> 기준입니다.</li>
                         <li>연장(T/C) 시 1시간 단위로 추가됩니다.</li>
                         <li>하이퍼블릭은 <strong>고정(묶음)</strong>이 가능하여, 파트너가 중간에 방을 옮기지 않고 끝까지 고객님만 케어하도록 할 수 있습니다. (예약 시 문의 필수)</li>
@@ -212,7 +212,7 @@ const usageSteps = [
                      <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse mt-2">
                             <thead>
-                                <tr class="border-b border-slate-700 text-amber-500">
+                                <tr class="border-b border-slate-700 text-red-500">
                                     <th class="py-3 px-4">항목</th>
                                     <th class="py-3 px-4">내용</th>
                                     <th class="py-3 px-4">비고</th>
@@ -245,29 +245,29 @@ const usageSteps = [
             <div id="faq" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 animate-fade-in-up delay-300">
                 <div class="bg-slate-900/50 p-8 rounded-2xl border border-slate-800">
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <Star class="text-amber-500" /> 서우실장의 이용 꿀팁
+                        <Star class="text-red-500" /> 서우실장의 이용 꿀팁
                     </h3>
-                    <ol class="list-decimal pl-5 space-y-4 text-slate-300 marker:text-amber-500 font-light">
+                    <ol class="list-decimal pl-5 space-y-4 text-slate-300 marker:text-red-500 font-light">
                         <li><strong class="text-white">피크타임 피하기</strong>: 밤 10시~12시는 가장 붐비는 시간입니다. 8~9시 일찍 오시거나, 1시 이후 늦은 시간에 오시면 훨씬 좋은 수질의 매니저들을 여유롭게 보실 수 있습니다.</li>
                         <li><strong class="text-white">예약은 필수</strong>: 워킹(예약 없이 방문) 방문 시 대기 시간이 길어지거나, 좋은 방을 배정받기 어렵습니다. 출발 전 전화 한 통으로 룸과 매니저 현황을 체크하세요.</li>
                         <li><strong class="text-white">취향 확실히 말하기</strong>: "알아서 해주세요" 보다는 "청순한 스타일", "대화가 잘 통하는 스타일", "술 잘 마시는 스타일" 등 구체적으로 말씀해 주시면 내상 확률이 0%가 됩니다.</li>
                     </ol>
                 </div>
 
-                <div class="bg-amber-900/10 p-8 rounded-2xl border border-amber-500/20">
+                <div class="bg-red-900/10 p-8 rounded-2xl border border-red-500/20">
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                        <HelpCircle class="text-amber-500" /> 자주 묻는 질문 (FAQ)
+                        <HelpCircle class="text-red-500" /> 자주 묻는 질문 (FAQ)
                     </h3>
                     <div class="space-y-6">
                         {faqList.map((faq) => (
                             <div>
-                                <p class="font-bold text-amber-400 mb-1">Q. {faq.question}</p>
+                                <p class="font-bold text-red-500 mb-1">Q. {faq.question}</p>
                                 <p class="text-slate-300 text-sm">A. {faq.answer}</p>
                             </div>
                         ))}
                     </div>
                     <div class="mt-6 text-center">
-                        <a href={`/${region.id}-highpublic-guide/faq`} class="inline-flex items-center gap-2 text-amber-500 hover:text-amber-400 font-bold transition-colors">
+                        <a href={`/${region.id}-highpublic-guide/faq`} class="inline-flex items-center gap-2 text-red-500 hover:text-red-500 font-bold transition-colors">
                             {region.name} 더 많은 질문과 답변 보기 <ChevronRight size={18} />
                         </a>
                     </div>
@@ -275,7 +275,7 @@ const usageSteps = [
             </div>
 
             <!-- CTA -->
-            <div class="bg-gradient-to-r from-amber-600 to-amber-700 rounded-3xl p-10 text-center relative overflow-hidden shadow-2xl animate-fade-in-up delay-300">
+            <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-3xl p-10 text-center relative overflow-hidden shadow-2xl animate-fade-in-up delay-300">
                 <div class="absolute inset-0 bg-opacity-20"></div>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6 relative z-10">오늘 밤, {region.name}에서 최고의 주인공이 되어보세요</h2>
                 <p class="text-amber-100 mb-8 max-w-2xl mx-auto relative z-10">

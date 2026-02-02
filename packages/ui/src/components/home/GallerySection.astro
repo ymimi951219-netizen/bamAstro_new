@@ -1,44 +1,64 @@
 ---
-const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import type { RegionConfig } from '../../types/region';
+import { Camera, MapPin, ArrowUpRight } from 'lucide-astro';
+
+interface Props {
+  region: RegionConfig;
+}
+
+const { region } = Astro.props;
+
+// Mock data with varying aspect ratios for Masonry effect
+const galleryImages = [
+  { id: 1, type: 'room', title: 'VVIP Royal Suite', height: 'h-80', image: 'room1.jpg' },
+  { id: 2, type: 'ambiance', title: 'Main Lounge Bar', height: 'h-64', image: 'lounge.jpg' },
+  { id: 3, type: 'detail', title: 'Premium Whisky Collection', height: 'h-96', image: 'whisky.jpg' },
+  { id: 4, type: 'room', title: 'Party Room Large', height: 'h-72', image: 'room2.jpg' },
+  { id: 5, type: 'exterior', title: 'Entrance', height: 'h-64', image: 'entrance.jpg' },
+  { id: 6, type: 'room', title: 'Private Karaoke', height: 'h-80', image: 'karaoke.jpg' },
+];
 ---
 
-<section class="py-24 bg-transparent overflow-hidden">
-  <div class="container mx-auto px-4 mb-16 text-center">
-    <span class="text-purple-500 font-bold tracking-[0.3em] uppercase mb-4 block animate-pulse">프리미엄 파트너 라인업</span>
-    <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-tight break-keep">
-      다양한 스타일의 <br class="md:hidden" />
-      <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-200 via-purple-400 to-violet-600">매력적인 파트너</span> 상시 대기
-    </h2>
-    <p class="mt-6 text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed break-keep">
-      최고 수준의 네트워크를 바탕으로 다양한 스타일의 파트너를 보유하고 있습니다.<br class="hidden md:block" />
-      고객님의 취향과 성향을 세심하게 파악하여
-      <strong class="text-white">최적의 파트너십을 경험하실 수 있도록</strong> 맞춤형 매칭을 제공합니다.
-    </p>
-    <div class="w-24 h-1 bg-purple-500 mx-auto mt-10"></div>
-  </div>
-
-  <div class="relative flex overflow-hidden">
-    <div class="flex animate-infinite-scroll whitespace-nowrap group hover:[animation-play-state:paused]" style="animation: scroll 40s linear infinite;">
-      {[...images, ...images].map((num) => (
-        <div class="inline-block px-4">
-          <div class="w-[300px] h-[450px] md:w-[400px] md:h-[600px] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative group/card bg-slate-900/20 backdrop-blur-sm">
-             <img src={`/images/partners/partner_${num}.webp`} alt={`프리미엄 파트너 프로필 ${num} - 다양한 스타일의 매력적인 파트너`} loading="lazy" class="w-full h-full object-cover" />
-
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover/card:opacity-40 transition-opacity"></div>
-            <div class="absolute bottom-6 left-8">
-              <span class="text-purple-500 font-bold tracking-widest text-sm uppercase">프리미엄 선택</span>
-              <div class="w-8 h-0.5 bg-purple-500 mt-2 group-hover/card:w-16 transition-all duration-500"></div>
-            </div>
-          </div>
+<section class="py-24 bg-slate-950 relative overflow-hidden">
+    <div class="container mx-auto px-4 mb-16 flex flex-col md:flex-row items-end justify-between gap-6 relative z-10">
+        <div>
+            <span class="text-red-500 font-bold tracking-widest uppercase mb-2 block">Inside Look</span>
+            <h2 class="text-4xl md:text-6xl font-black text-white">
+                THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600">GALLERY</span>
+            </h2>
         </div>
-      ))}
+        <div class="flex gap-2">
+            <button class="px-6 py-2 rounded-full border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium">All</button>
+            <button class="px-6 py-2 rounded-full border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium">Rooms</button>
+            <button class="px-6 py-2 rounded-full border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium">Lounge</button>
+        </div>
     </div>
-  </div>
-  
-  <style>
-    @keyframes scroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-  </style>
+
+    <!-- Masonry Layout using CSS Columns -->
+    <div class="container mx-auto px-4">
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            {galleryImages.map((item) => (
+                <div class={`break-inside-avoid relative group rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer ${item.height}`}>
+                    <!-- Image Placeholder (using gradient for now as images might not exist) -->
+                    <div class={`absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 group-hover:scale-110 transition-transform duration-700`}></div>
+                    
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
+
+                    <!-- Hover Content -->
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="text-red-400 text-xs font-bold uppercase tracking-wider mb-1 block">{item.type}</span>
+                                <h3 class="text-xl font-bold text-white">{item.title}</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+                                <ArrowUpRight class="w-5 h-5" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
 </section>

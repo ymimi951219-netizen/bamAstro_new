@@ -46,12 +46,12 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
     <div class="container mx-auto px-4 pb-12 max-w-6xl">
       <!-- Title -->
       <div class="text-center mb-16 relative">
-        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Comparison Guide</span>
-        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
-          {region.name} 업종 비교 가이드
+        <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">Comparison Guide</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-sm">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-600">{region.name} 업종 비교 가이드</span>
         </h1>
         <p class="text-slate-400 mt-4 text-lg">어디가 나에게 맞을까? 완벽한 선택을 위한 비교 분석</p>
-        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+        <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent mx-auto mt-6"></div>
       </div>
 
       <!-- Intro -->
@@ -59,15 +59,15 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
         <h2 class="text-2xl font-bold text-white mb-4">왜 비교가 필요할까요?</h2>
         <div class="grid md:grid-cols-3 gap-6 text-slate-300">
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">💰 예산 최적화</h3>
+            <h3 class="text-lg font-semibold text-red-500 mb-2">💰 예산 최적화</h3>
             <p class="text-sm text-slate-400">같은 예산으로 어떤 업종을 선택하면 더 만족스러운 경험을 할 수 있을지 알 수 있습니다.</p>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">🎯 목적에 맞는 선택</h3>
+            <h3 class="text-lg font-semibold text-red-500 mb-2">🎯 목적에 맞는 선택</h3>
             <p class="text-sm text-slate-400">회식, 데이트, 비즈니스 등 목적에 따라 가장 적합한 업종이 다릅니다.</p>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-purple-400 mb-2">⚡ 시행착오 방지</h3>
+            <h3 class="text-lg font-semibold text-red-500 mb-2">⚡ 시행착오 방지</h3>
             <p class="text-sm text-slate-400">각 업종의 차이를 미리 알고 가면 실망할 확률이 크게 줄어듭니다.</p>
           </div>
         </div>
@@ -78,17 +78,17 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
         <h2 class="text-3xl font-bold text-white mb-8 text-center">주요 비교 가이드</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {comparisons.map((comparison) => (
-            <a href={`/compare/${comparison.slug}`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-purple-500/30 transition-all group">
+            <a href={`/compare/${comparison.slug}`} class="bg-slate-900/30 p-6 rounded-2xl border border-slate-800/50 hover:border-red-500/30 transition-all group">
               <div class="flex items-center justify-between mb-4">
                 <div class="flex-1">
-                  <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                  <h3 class="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
                     {comparison.venue1Name}
                   </h3>
                   <p class="text-xs text-slate-500">{region.venueTypes.find(v => v.id === comparison.venue1Id)?.subtitle}</p>
                 </div>
-                <div class="text-2xl text-amber-400 px-4">VS</div>
+                <div class="text-2xl text-red-600 px-4 font-black">VS</div>
                 <div class="flex-1 text-right">
-                  <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                  <h3 class="text-xl font-bold text-white group-hover:text-red-400 transition-colors">
                     {comparison.venue2Name}
                   </h3>
                   <p class="text-xs text-slate-500">{region.venueTypes.find(v => v.id === comparison.venue2Id)?.subtitle}</p>
@@ -112,7 +112,7 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
                 </div>
               </div>
 
-              <div class="mt-4 text-sm text-purple-400 group-hover:translate-x-1 transition-transform">
+              <div class="mt-4 text-sm text-red-400 group-hover:translate-x-1 transition-transform">
                 자세한 비교 보기 →
               </div>
             </a>
@@ -137,12 +137,12 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
               {region.venueTypes.map((venue, index) => (
                 <tr class={`${index % 2 === 0 ? 'bg-slate-900/20' : 'bg-transparent'} hover:bg-slate-800/30 transition-colors`}>
                   <td class="p-4 border-b border-slate-800/50">
-                    <a href={`/${venue.slug}`} class="text-purple-400 hover:text-purple-300 font-semibold">
+                    <a href={`/${venue.slug}`} class="text-white hover:text-red-400 font-bold tracking-tight">
                       {venue.name}
                     </a>
                   </td>
                   <td class="p-4 border-b border-slate-800/50">
-                    <span class="text-amber-400 font-bold">{venue.minPrice.toLocaleString()}원~</span>
+                    <span class="text-red-400 font-bold">{venue.minPrice.toLocaleString()}원~</span>
                   </td>
                   <td class="p-4 border-b border-slate-800/50">
                     <span class="text-slate-300 text-sm">{venue.description}</span>
@@ -158,47 +158,47 @@ const relatedLinks = getRelatedLinks({ pageType: 'comparison-hub' }, region);
       </div>
 
       <!-- Decision Helper -->
-      <div class="bg-gradient-to-r from-purple-900/20 to-amber-900/20 p-8 rounded-2xl border border-purple-500/20 mb-12">
+      <div class="bg-gradient-to-r from-red-900/20 to-slate-900/40 p-8 rounded-2xl border border-red-500/20 mb-12">
         <h2 class="text-2xl font-bold text-white mb-6 text-center">어떤 업종을 선택해야 할까요?</h2>
         <div class="grid md:grid-cols-2 gap-6">
           <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">상황별 추천</h3>
+            <h3 class="text-lg font-bold text-red-500 mb-4">상황별 추천</h3>
             <div class="space-y-3 text-sm text-slate-300">
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>회식/단체:</strong> 가라오케, 하이퍼블릭</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>비즈니스:</strong> 룸살롱, 기모노룸</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>캐주얼:</strong> 셔츠룸, 가라오케</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>여성 모임:</strong> 호빠</div>
               </div>
             </div>
           </div>
           <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">예산별 추천</h3>
+            <h3 class="text-lg font-bold text-red-500 mb-4">예산별 추천</h3>
             <div class="space-y-3 text-sm text-slate-300">
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>15만원대:</strong> 가라오케, 호빠</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>16~18만원대:</strong> 셔츠룸, 하이퍼블릭</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>20만원대:</strong> 기모노룸</div>
               </div>
               <div class="flex gap-2">
-                <span class="text-purple-400">•</span>
+                <span class="text-red-400">•</span>
                 <div><strong>25만원+:</strong> 룸살롱</div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 ---
 import type { RegionConfig } from '../../types/region';
-import { ArrowRight } from 'lucide-astro';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-astro';
 
 interface Props {
   region: RegionConfig;
@@ -11,155 +11,119 @@ const { region } = Astro.props;
 // We will use the venueTypes from region config
 const venues = region.venueTypes.map(v => ({
     ...v,
-    // Ensure we have properties needed for the card, fallback to config values
     sub: v.subtitle || 'Premium',
-    img: v.image || '/images/venues/karaoke_main.webp', // Default fallback
+    img: v.image || '/images/venues/karaoke_main.webp',
     desc: v.description
 }));
 ---
 
-<section class="py-24 container mx-auto px-4 relative z-10">
+<section class="py-24 container mx-auto px-4 relative z-10 overflow-hidden">
     <div class="text-center mb-16 relative">
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
-        <span class="text-purple-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">{region.name} 유흥 핫플레이스</span>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"></div>
+        <span class="text-red-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">{region.name} 유흥 핫플레이스</span>
         <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 relative z-10">제휴 업소 안내</h2>
-        <div class="w-1 h-12 bg-gradient-to-b from-purple-500 to-transparent mx-auto mt-6"></div>
+        <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent mx-auto mt-6"></div>
     </div>
 
-    <!-- Desktop: Horizontal Accordion, Mobile: Vertical Grid -->
-    <div class="flex flex-col lg:flex-row h-[1200px] lg:h-[600px] gap-4" id="venue-accordion">
-        {venues.map((venue, idx) => (
-            <a
-                href={`/${venue.slug}`}
-                class="venue-card relative rounded-[2rem] overflow-hidden cursor-pointer transition-all duration-500 ease-in-out group flex-1 flex flex-col justify-end"
-                data-index={idx}
-            >
-                {/* Background Image */}
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={`background-image: url('${venue.img || '/images/pattern.svg'}')`}
-                    role="img"
-                    aria-label={`${region.name} ${venue.name} 이미지`}>
-                </div>
+    <div class="relative group/carousel">
+        <!-- Navigation Buttons -->
+        <button id="carousel-prev" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-20 bg-slate-900/80 border border-slate-700 text-white p-3 rounded-full hover:bg-red-600 hover:border-red-500 transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg backdrop-blur-sm">
+            <ChevronLeft size={24} />
+        </button>
+        <button id="carousel-next" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-20 bg-slate-900/80 border border-slate-700 text-white p-3 rounded-full hover:bg-red-600 hover:border-red-500 transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg backdrop-blur-sm">
+            <ChevronRight size={24} />
+        </button>
 
-                {/* Overlay */}
-                <div class="venue-overlay absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent transition-opacity duration-300 opacity-70 group-hover:opacity-80">
-                </div>
-
-                {/* Content */}
-                <div class="relative z-10 p-8 transform transition-transform duration-500">
-                    <div class="venue-sub flex items-center gap-3 mb-2 transition-all duration-300 opacity-100 lg:opacity-0 lg:translate-y-4">
-                        <div class="w-10 h-0.5 bg-purple-500"></div>
-                        <span class="text-purple-500 font-bold uppercase tracking-wider text-sm">{venue.sub}</span>
+        <!-- Carousel Container -->
+        <div id="venue-carousel" class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 scrollbar-hide scroll-smooth">
+            {venues.map((venue) => (
+                <div class="snap-center shrink-0 w-[85vw] md:w-[45vw] lg:w-[350px] relative group h-[500px] rounded-[2rem] overflow-hidden border border-slate-800 bg-slate-900/50">
+                    <!-- Image -->
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                        style={`background-image: url('${venue.img || '/images/pattern.svg'}')`}>
                     </div>
+                    
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent opacity-90 transition-opacity duration-300"></div>
 
-                    <h3 class="venue-title font-bold text-white transition-all duration-300 text-2xl lg:mb-0 mb-4 lg:rotate-[-90deg] lg:origin-bottom-left lg:absolute lg:bottom-12 lg:left-8 lg:w-[300px] lg:text-3xl">
-                        {venue.name}
-                    </h3>
+                    <!-- Content -->
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="transform transition-transform duration-300 translate-y-4 group-hover:translate-y-0">
+                            <!-- Tag -->
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                    {venue.sub}
+                                </span>
+                            </div>
 
-                    <div class="venue-details overflow-hidden transition-all duration-500 max-h-[100px] lg:max-h-0 lg:opacity-0 opacity-100">
-                        <p class="text-slate-300 text-lg mb-6 leading-relaxed max-w-md">
-                            {venue.desc}
-                        </p>
-                        <span class="inline-flex items-center gap-2 text-white border border-white/30 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-slate-950 transition-colors">
-                            자세히 보기
-                        </span>
+                            <!-- Title -->
+                            <h3 class="text-3xl font-bold text-white mb-3 leading-tight">{venue.name}</h3>
+                            
+                            <!-- Description (Visible on Hover/Focus) -->
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-slate-300 text-sm mb-6 leading-relaxed line-clamp-3">
+                                    {venue.desc}
+                                </p>
+                                <a href={`/${venue.slug}`} class="inline-flex items-center gap-2 text-white font-bold hover:text-red-400 transition-colors">
+                                    자세히 보기 <ArrowRight size={16} />
+                                </a>
+                            </div>
+
+                            <!-- Mobile Fallback (Always visible description on small screens? No, keep clean. Maybe just button) -->
+                            <div class="lg:hidden mt-2">
+                                <a href={`/${venue.slug}`} class="text-sm text-slate-300 flex items-center gap-1">
+                                    터치하여 자세히 보기 <ArrowRight size={14} />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </a>
-        ))}
+            ))}
+        </div>
+        
+        <!-- Pagination Dots -->
+        <div class="flex justify-center gap-2 mt-4">
+            {venues.map((_, idx) => (
+                <button 
+                    class="carousel-dot w-2 h-2 rounded-full bg-slate-700 hover:bg-red-500 transition-colors"
+                    data-index={idx}
+                    aria-label={`Go to slide ${idx + 1}`}
+                ></button>
+            ))}
+        </div>
     </div>
 </section>
 
+<style>
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
+
 <script>
-    // Lazy initialization with IntersectionObserver for INP improvement
-    const accordion = document.getElementById('venue-accordion');
-    let venueInitialized = false;
+    const carousel = document.getElementById('venue-carousel');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+    
+    if (carousel && prevBtn && nextBtn) {
+        // Scroll amount: card width + gap
+        const getScrollAmount = () => {
+             const card = carousel.querySelector('.snap-center');
+             return card ? card.clientWidth + 24 : 350;
+        };
 
-    function initVenueAccordion() {
-        if (venueInitialized) return;
-        venueInitialized = true;
-
-        const cards = document.querySelectorAll('.venue-card');
-
-        // Set first card active by default on desktop init
-        if (cards.length > 0 && window.innerWidth >= 1024) {
-            setActive(cards[0]);
-        }
-
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                if (window.innerWidth >= 1024) {
-                    setActive(card);
-                }
-            }, { passive: true });
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
         });
 
-        function setActive(activeCard: Element) {
-            cards.forEach(card => {
-                const isTarget = card === activeCard;
+        nextBtn.addEventListener('click', () => {
+             carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        });
 
-                // Flex grow
-                if (isTarget) {
-                    card.classList.remove('lg:flex-[1]');
-                    card.classList.add('lg:flex-[3]');
-                } else {
-                    card.classList.remove('lg:flex-[3]');
-                    card.classList.add('lg:flex-[1]');
-                }
-
-                // Subtitle animation
-                const sub = card.querySelector('.venue-sub');
-                if (isTarget) {
-                     sub?.classList.remove('lg:opacity-0', 'lg:translate-y-4');
-                     sub?.classList.add('opacity-100', 'translate-y-0');
-                } else {
-                     sub?.classList.add('lg:opacity-0', 'lg:translate-y-4');
-                }
-
-                // Title animation
-                const title = card.querySelector('.venue-title');
-                if (isTarget) {
-                    title?.classList.remove('lg:rotate-[-90deg]', 'lg:origin-bottom-left', 'lg:absolute', 'lg:bottom-12', 'lg:left-8', 'lg:w-[300px]', 'lg:text-3xl');
-                    title?.classList.add('text-4xl', 'mb-4');
-                } else {
-                    title?.classList.add('lg:rotate-[-90deg]', 'lg:origin-bottom-left', 'lg:absolute', 'lg:bottom-12', 'lg:left-8', 'lg:w-[300px]', 'lg:text-3xl');
-                    title?.classList.remove('text-4xl', 'mb-4');
-                }
-
-                // Details animation
-                const details = card.querySelector('.venue-details');
-                if (isTarget) {
-                    details?.classList.remove('lg:max-h-0', 'lg:opacity-0');
-                    details?.classList.add('max-h-[200px]', 'opacity-100');
-                } else {
-                    details?.classList.add('lg:max-h-0', 'lg:opacity-0');
-                }
-
-                // Overlay opacity
-                const overlay = card.querySelector('.venue-overlay');
-                if (isTarget) {
-                    overlay?.classList.remove('opacity-70');
-                    overlay?.classList.add('opacity-90');
-                } else {
-                    overlay?.classList.add('opacity-70');
-                    overlay?.classList.remove('opacity-90');
-                }
-            });
-        }
-    }
-
-    // Use IntersectionObserver to delay initialization
-    if (accordion && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                initVenueAccordion();
-                observer.disconnect();
-            }
-        }, { rootMargin: '200px' });
-
-        observer.observe(accordion);
-    } else if (accordion) {
-        // Fallback for older browsers
-        initVenueAccordion();
+        // Optional: Active state for dots logic could go here, but IntersectionObserver is better
     }
 </script>

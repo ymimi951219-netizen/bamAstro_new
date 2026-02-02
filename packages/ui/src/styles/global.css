@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply bg-slate-950 text-slate-50 antialiased selection:bg-purple-500/30 selection:text-purple-200;
+        @apply bg-slate-950 text-slate-50 antialiased selection:bg-red-500/30 selection:text-red-200;
     }
 
     h1,
@@ -19,21 +19,21 @@
 
 @layer components {
     .glass {
-        @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-xl;
+        @apply bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-xl;
     }
 
     .glass-card {
-        @apply glass rounded-2xl transition-all duration-500 hover:border-purple-500/50 hover:-translate-y-2 relative overflow-hidden;
+        @apply glass rounded-2xl transition-all duration-500 hover:border-red-500/50 hover:-translate-y-2 relative overflow-hidden;
     }
 
     .glass-card:hover {
-        box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+        box-shadow: 0 0 30px rgba(220, 38, 38, 0.2);
     }
 
     /* Shine effect on hover for glass cards */
     .glass-card::after {
         content: '';
-        @apply absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 translate-x-[-100%] transition-transform duration-700 ease-in-out;
+        @apply absolute inset-0 bg-gradient-to-tr from-white/0 via-red-200/5 to-white/0 translate-x-[-100%] transition-transform duration-700 ease-in-out;
     }
 
     .glass-card:hover::after {
@@ -41,7 +41,7 @@
     }
 
     .text-gradient {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-200 via-purple-400 to-fuchsia-500;
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-red-200 via-red-500 to-rose-600;
     }
 
     .text-gradient-silver {
@@ -49,13 +49,13 @@
     }
 
     .btn-primary {
-        @apply relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-300 rounded-xl overflow-hidden shadow-lg shadow-purple-900/20 hover:shadow-purple-500/40 hover:-translate-y-0.5;
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c026d3 100%);
+        @apply relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-300 rounded-xl overflow-hidden shadow-lg shadow-red-900/20 hover:shadow-red-500/40 hover:-translate-y-0.5;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
     }
 
     .btn-primary::before {
         content: '';
-        @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] transition-transform duration-500;
+        @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-100%] transition-transform duration-500;
     }
 
     .btn-primary:hover::before {
@@ -63,7 +63,7 @@
     }
 
     .btn-secondary {
-        @apply relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-300 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-purple-500/50 hover:text-purple-400 backdrop-blur-sm;
+        @apply relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-300 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-red-500/50 hover:text-red-400 backdrop-blur-sm;
     }
 }
 
@@ -223,6 +223,7 @@
 
 /* Accessibility: Respect user's reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+
     .animate-float,
     .animate-float-delayed,
     .animate-pulse-slow,
@@ -248,6 +249,7 @@
 
 /* Touch Target Optimization: Ensure minimum 48px touch targets */
 @media (pointer: coarse) {
+
     button,
     a,
     [role="button"] {

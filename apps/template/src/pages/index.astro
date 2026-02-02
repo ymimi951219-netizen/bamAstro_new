@@ -24,8 +24,8 @@ const blogPosts = await getBlogPosts();
   <OrganizationSchema region={region} />
 
   <HeroSection region={region} />
-  <FeaturesSection />
-  <GallerySection />
+  <FeaturesSection region={region} />
+  <GallerySection region={region} />
   <IntroSection region={region} />
   <AnalysisSection regionName={region.name} regionId={region.id} stations={region.nearbyStations} landmarks={region.landmarks} />
   <HotEventSection />

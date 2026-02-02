@@ -53,7 +53,7 @@ const props = Astro.props;
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#7c3aed" />
+    <meta name="theme-color" content="#dc2626" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -90,13 +90,13 @@ const props = Astro.props;
     </style>
     <slot name="head" />
   </head>
-  <body class="bg-slate-950 text-slate-50 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
+  <body class="bg-slate-950 text-slate-50 min-h-screen selection:bg-red-500/30 selection:text-red-200">
     <!-- Background Gradients & Patterns - Optimized for performance -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none background-container">
       <!-- Dynamic Orbs - Reduced blur for better performance (120px -> 60px) -->
-      <div class="background-orb absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/30 blur-[60px] animate-float will-change-transform"></div>
-      <div class="background-orb absolute top-[20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-fuchsia-600/20 blur-[50px] animate-float-delayed will-change-transform"></div>
-      <div class="background-orb absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] rounded-full bg-violet-600/20 blur-[50px] animate-pulse-slow will-change-transform"></div>
+      <div class="background-orb absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-red-600/20 blur-[60px] animate-float will-change-transform"></div>
+      <div class="background-orb absolute top-[20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-rose-600/10 blur-[50px] animate-float-delayed will-change-transform"></div>
+      <div class="background-orb absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] rounded-full bg-orange-600/10 blur-[50px] animate-pulse-slow will-change-transform"></div>
 
       <!-- Grid Pattern -->
       <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05]"></div>

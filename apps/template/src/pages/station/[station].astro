@@ -55,11 +55,11 @@ const seoProps = {
     <div class="container mx-auto px-4 pb-12 max-w-6xl">
       <!-- Title -->
       <div class="text-center mb-16 relative">
-        <span class="text-amber-400 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">역세권 가이드</span>
-        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
-          {region.name} {station.name} 유흥 가이드
+        <span class="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base uppercase mb-3 block">역세권 가이드</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-sm">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-600">{region.name} {station.name} 유흥 가이드</span>
         </h1>
-        <div class="w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent mx-auto mt-6"></div>
+        <div class="w-1 h-12 bg-gradient-to-b from-red-500 to-transparent mx-auto mt-6"></div>
       </div>
 
       <!-- Intro -->
@@ -70,7 +70,7 @@ const seoProps = {
       <!-- Area Description -->
       <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
         <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
           {station.name} 주변 환경
         </h2>
         <p class="text-slate-300 leading-relaxed font-light">{content.areaDescription}</p>
@@ -79,7 +79,7 @@ const seoProps = {
       <!-- Access Info -->
       <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
         <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
           교통·접근성
         </h2>
         <p class="text-slate-300 leading-relaxed font-light">{content.accessInfo}</p>
@@ -88,18 +88,18 @@ const seoProps = {
       <!-- Venue Overview -->
       <div class="mb-12">
         <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
           업종별 안내
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           {content.venueOverview.map((v) => (
-            <div class={`p-6 rounded-xl border ${v.recommended ? 'border-amber-500/30 bg-amber-900/10' : 'border-slate-800/50 bg-slate-900/30'}`}>
+            <div class={`p-6 rounded-xl border ${v.recommended ? 'border-red-500/30 bg-red-900/10' : 'border-slate-800/50 bg-slate-900/30'}`}>
               <div class="flex items-center gap-2 mb-2">
                 <span class="text-white font-bold">{v.venueType}</span>
-                {v.recommended && <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">추천</span>}
+                {v.recommended && <span class="text-xs bg-red-500/20 text-rose-400 px-2 py-0.5 rounded-full">추천</span>}
               </div>
               <p class="text-sm text-slate-400">{v.description}</p>
-              <a href={`/station/${station.slug}/${v.venueType}`} class="text-purple-400 text-sm mt-2 inline-block hover:text-purple-300">상세 보기 &rarr;</a>
+              <a href={`/station/${station.slug}/${v.venueType}`} class="text-rose-400 text-sm mt-2 inline-block hover:text-rose-300">상세 보기 &rarr;</a>
             </div>
           ))}
         </div>
@@ -108,12 +108,12 @@ const seoProps = {
       <!-- Hotspots -->
       <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
         <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
           핫스팟
         </h2>
         <ul class="space-y-2 text-slate-300">
           {content.hotspots.map((h) => (
-            <li class="flex gap-2"><span class="text-amber-400">&#9679;</span> {h}</li>
+            <li class="flex gap-2"><span class="text-red-500">&#9679;</span> {h}</li>
           ))}
         </ul>
       </div>
@@ -121,13 +121,13 @@ const seoProps = {
       <!-- Course Suggestion -->
       <div class="mb-12 bg-slate-900/30 p-8 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
         <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-          <div class="w-1.5 h-8 bg-purple-500 rounded-full"></div>
+          <div class="w-1.5 h-8 bg-red-500 rounded-full"></div>
           추천 코스
         </h2>
         <ol class="space-y-3 text-slate-300">
           {content.courseSuggestion.map((c) => (
             <li class="flex gap-3">
-              <span class="text-purple-400 font-bold whitespace-nowrap">{c.step}</span>
+              <span class="text-rose-400 font-bold whitespace-nowrap">{c.step}</span>
               <span>({c.venue}, {c.duration})</span>
             </li>
           ))}
@@ -136,12 +136,12 @@ const seoProps = {
 
       <!-- FAQ -->
       {content.faqs.length > 0 && (
-        <div class="mb-12 bg-purple-900/10 p-8 rounded-2xl border border-purple-500/20">
+        <div class="mb-12 bg-red-900/10 p-8 rounded-2xl border border-red-500/20">
           <h2 class="text-2xl font-bold text-white mb-6">자주 묻는 질문 (FAQ)</h2>
           <div class="space-y-6">
             {content.faqs.map((faq) => (
               <div>
-                <p class="font-bold text-purple-400 mb-1">Q. {faq.q}</p>
+                <p class="font-bold text-rose-400 mb-1">Q. {faq.q}</p>
                 <p class="text-slate-300 text-sm">A. {faq.a}</p>
               </div>
             ))}
